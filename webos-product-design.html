@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebOS · 产品设计文档</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0e10;
+  --ink2: #3a3a40;
+  --ink3: #7a7a85;
+  --paper: #f7f6f2;
+  --paper2: #eeecea;
+  --paper3: #e3e0dc;
+  --accent: #1a1a2e;
+  --accent2: #c8502a;
+  --rule: #d4d0cb;
+  --code-bg: #1a1a22;
+  --code-fg: #e8e4ff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  padding-bottom: 120px;
+}
+
+/* COVER */
+.cover {
+  background: var(--accent);
+  color: #f0ede8;
+  padding: 100px 60px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(200, 80, 42, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 80%, rgba(100, 100, 200, 0.12) 0%, transparent 50%);
+}
+
+.cover-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 232, 0.4);
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.cover-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.cover-title em {
+  font-style: italic;
+  color: var(--accent2);
+}
+
+.cover-subtitle {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(240, 237, 232, 0.6);
+  margin-top: 20px;
+  position: relative;
+  max-width: 560px;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 48px;
+  margin-top: 64px;
+  position: relative;
+}
+
+.cover-meta-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(240, 237, 232, 0.45);
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 13px;
+  color: rgba(240, 237, 232, 0.75);
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+/* LAYOUT */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* TOC */
+.toc {
+  background: var(--accent);
+  color: #f0ede8;
+  padding: 48px 60px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.toc-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 232, 0.35);
+  margin-bottom: 24px;
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 4px 40px;
+}
+
+.toc-item {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(240, 237, 232, 0.06);
+  text-decoration: none;
+  color: rgba(240, 237, 232, 0.6);
+  font-size: 13px;
+  transition: color 0.15s;
+}
+
+.toc-item:hover { color: rgba(240, 237, 232, 0.95); }
+
+.toc-item .toc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent2);
+  flex-shrink: 0;
+}
+
+/* SECTIONS */
+.section {
+  padding: 72px 0 48px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section:last-child { border-bottom: none; }
+
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 12px;
+}
+
+h2.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+
+h2.section-title em {
+  font-style: italic;
+  color: var(--ink3);
+}
+
+h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 40px 0 16px;
+  letter-spacing: -0.01em;
+}
+
+h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 28px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+p {
+  color: var(--ink2);
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  max-width: 68ch;
+}
+
+p strong { color: var(--ink); font-weight: 600; }
+
+/* CALLOUT */
+.callout {
+  background: var(--paper2);
+  border-left: 3px solid var(--accent2);
+  padding: 20px 24px;
+  border-radius: 0 8px 8px 0;
+  margin: 24px 0;
+}
+
+.callout.blue { border-left-color: #3a70c8; background: rgba(58, 112, 200, 0.06); }
+.callout.green { border-left-color: #2a8c54; background: rgba(42, 140, 84, 0.06); }
+.callout.amber { border-left-color: #c87a1a; background: rgba(200, 122, 26, 0.06); }
+
+.callout p { color: var(--ink2); margin: 0; font-size: 14px; }
+.callout p strong { color: var(--ink); }
+
+/* CODE */
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border-radius: 10px;
+  padding: 24px 28px;
+  overflow-x: auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 20px 0;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+code {
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  background: var(--paper3);
+  color: #b04020;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code { background: transparent; color: var(--code-fg); padding: 0; font-size: 13px; }
+
+.kw { color: #c8a4ff; }
+.str { color: #a4d8a4; }
+.cm { color: #5a6070; font-style: italic; }
+.ty { color: #7ac8f0; }
+.fn { color: #f0c87a; }
+.nu { color: #f0a87a; }
+.at { color: #a8d0f8; }
+
+/* COMPARISON TABLE */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 24px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+
+.compare-table th {
+  background: var(--accent);
+  color: rgba(240, 237, 232, 0.85);
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 500;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.compare-table th:first-child { width: 160px; }
+
+.compare-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink2);
+  vertical-align: middle;
+}
+
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:nth-child(even) td { background: var(--paper2); }
+.compare-table .highlight td { background: rgba(200, 80, 42, 0.05); }
+.compare-table .highlight td:first-child { font-weight: 600; color: var(--accent2); }
+
+.check { color: #2a8c54; font-size: 16px; }
+.cross { color: #c83a3a; font-size: 14px; }
+.partial { color: #c87a1a; font-size: 14px; }
+
+/* ARCH DIAGRAM */
+.arch-box {
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 24px 0;
+}
+
+.arch-layer {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.arch-layer:last-child { border-bottom: none; }
+
+.arch-layer-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.arch-layer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.arch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background: white;
+  border: 1px solid var(--rule);
+  color: var(--ink2);
+}
+
+.arch-pill.accent { background: var(--accent); color: rgba(240,237,232,0.9); border-color: transparent; }
+.arch-pill.orange { background: rgba(200, 80, 42, 0.1); color: var(--accent2); border-color: rgba(200, 80, 42, 0.2); }
+.arch-pill.blue { background: rgba(58, 112, 200, 0.1); color: #2a5aaa; border-color: rgba(58, 112, 200, 0.2); }
+.arch-pill.green { background: rgba(42, 140, 84, 0.1); color: #1a6038; border-color: rgba(42, 140, 84, 0.2); }
+.arch-pill.purple { background: rgba(120, 60, 200, 0.1); color: #6020c0; border-color: rgba(120, 60, 200, 0.2); }
+
+/* FEATURE GRID */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 24px 0;
+}
+
+.feature-card {
+  background: var(--paper);
+  padding: 20px;
+}
+
+.feature-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.feature-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.feature-desc {
+  font-size: 12.5px;
+  color: var(--ink3);
+  line-height: 1.6;
+}
+
+/* PHASE TIMELINE */
+.timeline {
+  margin: 32px 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.phase {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.phase-dot {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(240,237,232,0.8);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  border: 3px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--rule);
+}
+
+.phase-dot.active {
+  background: var(--accent2);
+  box-shadow: 0 0 0 1px rgba(200,80,42,0.3);
+}
+
+.phase-body { padding-top: 10px; }
+
+.phase-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.phase-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent2);
+  margin-bottom: 10px;
+}
+
+.phase-items {
+  list-style: none;
+}
+
+.phase-items li {
+  font-size: 13.5px;
+  color: var(--ink2);
+  padding: 3px 0;
+  padding-left: 16px;
+  position: relative;
+}
+
+.phase-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink3);
+  font-size: 11px;
+}
+
+/* API SPEC */
+.api-block {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.api-block-header {
+  background: var(--paper2);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.api-method {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(58, 112, 200, 0.15);
+  color: #2a5aaa;
+}
+
+.api-method.event { background: rgba(42, 140, 84, 0.15); color: #1a6038; }
+.api-method.emit { background: rgba(200, 80, 42, 0.12); color: #a03a18; }
+
+.api-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.api-block pre { margin: 0; border-radius: 0; border: none; border-top: 1px solid var(--rule); }
+
+/* STICKY NAV */
+.sticky-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(247, 246, 242, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 40px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.nav-brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink3);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0;
+}
+
+.nav-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.12s;
+}
+
+.nav-link:hover { color: var(--ink); background: var(--paper2); }
+
+.main-content {
+  margin-top: 44px;
+}
+
+/* DECISION MATRIX */
+.decision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.decision-card {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--paper);
+}
+
+.decision-card.recommended {
+  border-color: rgba(42, 140, 84, 0.3);
+  background: rgba(42, 140, 84, 0.04);
+}
+
+.decision-card.not-recommended {
+  border-color: rgba(200, 80, 42, 0.2);
+  background: rgba(200, 80, 42, 0.03);
+  opacity: 0.75;
+}
+
+.decision-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.decision-label.green { color: #2a8c54; }
+.decision-label.red { color: var(--accent2); }
+
+.decision-name { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.decision-reason { font-size: 13px; color: var(--ink3); line-height: 1.6; }
+
+/* QUOTE */
+.pull-quote {
+  border-left: 4px solid var(--accent);
+  padding: 16px 24px;
+  margin: 32px 0;
+  background: var(--paper2);
+  border-radius: 0 8px 8px 0;
+}
+
+.pull-quote p {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink);
+  margin: 0;
+  max-width: none;
+}
+
+/* PRINT FIX */
+@media print {
+  .sticky-nav { display: none; }
+  .main-content { margin-top: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sticky-nav">
+  <span class="nav-brand">WebOS · PRD v0.1</span>
+  <div class="nav-links">
+    <a href="#market" class="nav-link">市场</a>
+    <a href="#architecture" class="nav-link">架构</a>
+    <a href="#sdk" class="nav-link">SDK</a>
+    <a href="#dataflow" class="nav-link">数据层</a>
+    <a href="#appstore" class="nav-link">应用商店</a>
+    <a href="#techstack" class="nav-link">技术选型</a>
+    <a href="#roadmap" class="nav-link">路线图</a>
+  </div>
+</nav>
+
+<div class="main-content">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Product Design Document · v0.1 · Draft</div>
+  <div class="cover-title">Web<em>OS</em></div>
+  <div class="cover-subtitle">一个以 macOS 为美学基准的可扩展 Web 桌面操作系统底座</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <strong>类型</strong>
+      开源 · MIT License
+    </div>
+    <div class="cover-meta-item">
+      <strong>目标用户</strong>
+      开发者 · 个人用户
+    </div>
+    <div class="cover-meta-item">
+      <strong>技术方向</strong>
+      TypeScript · React · iframe 沙箱
+    </div>
+    <div class="cover-meta-item">
+      <strong>文档状态</strong>
+      初稿 · 待评审
+    </div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-title">目录</div>
+  <div class="toc-grid">
+    <a href="#market" class="toc-item"><span class="toc-num">01</span> 市场定位与竞品分析</a>
+    <a href="#philosophy" class="toc-item"><span class="toc-num">02</span> 产品哲学</a>
+    <a href="#architecture" class="toc-item"><span class="toc-num">03</span> 系统架构</a>
+    <a href="#kernel" class="toc-item"><span class="toc-num">04</span> 内核模块设计</a>
+    <a href="#sdk" class="toc-item"><span class="toc-num">05</span> App SDK 规范</a>
+    <a href="#dataflow" class="toc-item"><span class="toc-num">06</span> 跨应用数据层</a>
+    <a href="#appstore" class="toc-item"><span class="toc-num">07</span> 应用商店</a>
+    <a href="#techstack" class="toc-item"><span class="toc-num">08</span> 技术选型</a>
+    <a href="#roadmap" class="toc-item"><span class="toc-num">09</span> 路线图</a>
+    <a href="#risks" class="toc-item"><span class="toc-num">10</span> 风险与对策</a>
+  </div>
+</div>
+
+<!-- SECTION 01: MARKET -->
+<div id="market" class="section">
+  <div class="container">
+    <div class="section-eyebrow">01 — 市场定位</div>
+    <h2 class="section-title">竞品分析<br><em>与差异化机会</em></h2>
+
+    <p>Web Desktop OS 并不是空白市场，但现有产品都在关键维度上存在明显短板。理解这些短板，就是你的机会窗口。</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>macOS 风格</th>
+          <th>框架无关 App</th>
+          <th>跨 App 数据层</th>
+          <th>应用商店</th>
+          <th>活跃维护</th>
+          <th>自托管</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Puter</strong><br><span style="font-size:11px;color:#888">heyputer/puter</span></td>
+          <td><span class="cross">✗</span> Windows 风</td>
+          <td><span class="partial">△</span> 弱</td>
+          <td><span class="partial">△</span> 文件系统</td>
+          <td><span class="partial">△</span> alpha</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>OS.js</strong><br><span style="font-size:11px;color:#888">os-js/OS.js</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span> 强耦合</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span> 停滞</td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>ProzillaOS</strong><br><span style="font-size:11px;color:#888">prozilla-os</span></td>
+          <td><span class="cross">✗</span> Ubuntu 风</td>
+          <td><span class="cross">✗</span> React 强耦</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">△</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>macos-web</strong><br><span style="font-size:11px;color:#888">Svelte 仿 macOS</span></td>
+          <td><span class="check">✓</span> UI 相似</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">△</span></td>
+        </tr>
+        <tr class="highlight">
+          <td><strong>WebOS（你）</strong><br><span style="font-size:11px;color:#888">目标</span></td>
+          <td><span class="check">✓</span> 核心定位</td>
+          <td><span class="check">✓</span> iframe 沙箱</td>
+          <td><span class="check">✓</span> 结构化</td>
+          <td><span class="check">✓</span> 完整</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout blue">
+      <p><strong>核心差异化：</strong>没有任何现有项目同时实现了 ① macOS 级视觉审美 ② 真正框架无关的 App 沙箱（你的 App 可以是 Vue、Svelte、Next.js、甚至纯 HTML） ③ 结构化跨应用数据层。这三者的组合是你的护城河。</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 02: PHILOSOPHY -->
+<div id="philosophy" class="section">
+  <div class="container">
+    <div class="section-eyebrow">02 — 产品哲学</div>
+    <h2 class="section-title">设计<em>原则</em></h2>
+
+    <div class="pull-quote">
+      <p>WebOS 不是一个应用，它是一个让其他应用存在的世界。</p>
+    </div>
+
+    <h3>六条核心原则</h3>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏛</div>
+        <div class="feature-name">底座即平台</div>
+        <div class="feature-desc">内核只提供系统能力，不预设应用形态。博客、记账、天气——都由第三方 App 实现。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-name">沙箱优先</div>
+        <div class="feature-desc">每个 App 运行在独立 iframe 沙箱内，通过受控 postMessage 协议与内核通信，互不污染。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-name">框架无关</div>
+        <div class="feature-desc">App 可以用任何技术栈构建——React、Vue、Svelte、Angular，甚至原生 HTML。SDK 是协议，不是框架。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <div class="feature-name">数据互通</div>
+        <div class="feature-desc">打通应用之间的数据孤岛——记账 App 的分类数据可以被统计 App 直接读取，前提是授权。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-name">macOS 审美</div>
+        <div class="feature-desc">玻璃质感、精确的阴影、流畅的动画——用户不需要知道它是 Web 的。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔌</div>
+        <div class="feature-name">渐进增强</div>
+        <div class="feature-desc">最简 App 只需一个 URL。复杂 App 可以深度接入数据层、通知、快捷键、菜单栏定制。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 03: ARCHITECTURE -->
+<div id="architecture" class="section">
+  <div class="container">
+    <div class="section-eyebrow">03 — 系统架构</div>
+    <h2 class="section-title">分层<em>架构设计</em></h2>
+
+    <p>系统由四层构成：<strong>内核层</strong>提供操作系统基础能力；<strong>Shell 层</strong>是 macOS 风格的 UI 外壳；<strong>Bridge 层</strong>是 App 与内核通信的消息总线；<strong>App 层</strong>是完全沙箱化的第三方应用。</p>
+
+    <div class="arch-box">
+      <div class="arch-layer">
+        <div class="arch-layer-label">APP 层</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill blue">博客 App (Next.js)</span>
+          <span class="arch-pill blue">记账 App (Vue)</span>
+          <span class="arch-pill blue">天气 App (Svelte)</span>
+          <span class="arch-pill blue">笔记 App (纯 HTML)</span>
+          <span class="arch-pill">… 任意 App</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">沙箱层</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill orange">iframe sandbox</span>
+          <span class="arch-pill orange">postMessage 协议</span>
+          <span class="arch-pill orange">权限声明 (manifest.json)</span>
+          <span class="arch-pill orange">origin 白名单</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Bridge 层</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill green">KernelBus (消息总线)</span>
+          <span class="arch-pill green">Permission Guard</span>
+          <span class="arch-pill green">DataStore API</span>
+          <span class="arch-pill green">EventEmitter</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Shell 层</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill purple">WindowManager</span>
+          <span class="arch-pill purple">Dock</span>
+          <span class="arch-pill purple">Menubar</span>
+          <span class="arch-pill purple">Spotlight</span>
+          <span class="arch-pill purple">Wallpaper</span>
+          <span class="arch-pill purple">Notifications</span>
+          <span class="arch-pill purple">ContextMenu</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Kernel 层</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill accent">AppRegistry</span>
+          <span class="arch-pill accent">DataStore (IndexedDB)</span>
+          <span class="arch-pill accent">AuthStore</span>
+          <span class="arch-pill accent">ThemeEngine</span>
+          <span class="arch-pill accent">ShortcutManager</span>
+          <span class="arch-pill accent">FileSystem (VFS)</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>关键设计决策：为什么用 iframe</h3>
+
+    <p>iframe 沙箱是实现框架无关 App 的唯一可靠方式。每个 App 是独立的浏览器上下文，有自己的 JS 运行时、CSS 作用域、localStorage。</p>
+
+    <div class="decision">
+      <div class="decision-card recommended">
+        <div class="decision-label green">✓ 推荐方案</div>
+        <div class="decision-name">iframe + postMessage 协议</div>
+        <div class="decision-reason">完全隔离、框架无关、安全、支持跨域 App；类似 VS Code 插件机制、Figma Widget 机制。成熟可靠。</div>
+      </div>
+      <div class="decision-card not-recommended">
+        <div class="decision-label red">✗ 不推荐</div>
+        <div class="decision-name">Module Federation / 直接 mount DOM</div>
+        <div class="decision-reason">强制 App 使用相同框架版本，CSS 污染无法解决，安全边界模糊，牺牲了框架无关性。</div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <p><strong>参考先例：</strong>VS Code 扩展在独立的 Extension Host 进程中运行，通过 RPC 通信；Figma 的 Plugin 运行在 iframe + sandbox 中；Linear 的 Apps 也是类似机制。这个模式在工业界已被充分验证。</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 04: KERNEL -->
+<div id="kernel" class="section">
+  <div class="container">
+    <div class="section-eyebrow">04 — 内核模块</div>
+    <h2 class="section-title">内核<em>模块设计</em></h2>
+
+    <h3>WindowManager（窗口管理器）</h3>
+    <p>负责所有窗口的生命周期、层级（z-index）、拖拽、缩放、最小化/最大化、窗口快照（Mission Control）。</p>
+
+    <pre><code><span class="cm">// 窗口描述符 — 由 AppRegistry 在打开 App 时创建</span>
+<span class="kw">interface</span> <span class="ty">WindowDescriptor</span> {
+  id: <span class="ty">string</span>
+  appId: <span class="ty">string</span>
+  title: <span class="ty">string</span>
+  url: <span class="ty">string</span>           <span class="cm">// App 的实际 URL，加载到 iframe.src</span>
+  icon: <span class="ty">string</span>          <span class="cm">// SVG / URL</span>
+  rect: <span class="ty">WindowRect</span>
+  state: <span class="ty">'normal' | 'minimized' | 'maximized' | 'fullscreen'</span>
+  focused: <span class="ty">boolean</span>
+  zIndex: <span class="ty">number</span>
+  <span class="cm">// 传给 iframe sandbox 属性的权限集</span>
+  sandboxFlags: <span class="ty">SandboxFlag[]</span>
+}
+
+<span class="kw">interface</span> <span class="ty">WindowRect</span> {
+  x: <span class="ty">number</span>; y: <span class="ty">number</span>
+  width: <span class="ty">number</span>; height: <span class="ty">number</span>
+  minWidth: <span class="ty">number</span>; minHeight: <span class="ty">number</span>
+}</code></pre>
+
+    <h3>AppRegistry（应用注册表）</h3>
+    <p>管理已安装的 App，读取并校验每个 App 的 <code>manifest.json</code>，提供安装/卸载/启动/停止接口。</p>
+
+    <pre><code><span class="cm">// manifest.json — 每个 App 必须提供</span>
+{
+  <span class="str">"id"</span>: <span class="str">"com.yourname.budget"</span>,           <span class="cm">// 反向域名唯一 ID</span>
+  <span class="str">"name"</span>: <span class="str">"记账本"</span>,
+  <span class="str">"version"</span>: <span class="str">"1.2.0"</span>,
+  <span class="str">"entry"</span>: <span class="str">"https://budget.yourapp.dev"</span>,   <span class="cm">// 或相对路径</span>
+  <span class="str">"icon"</span>: <span class="str">"./icon.svg"</span>,
+  <span class="str">"category"</span>: <span class="str">"finance"</span>,
+  <span class="str">"defaultSize"</span>: { <span class="str">"width"</span>: <span class="nu">900</span>, <span class="str">"height"</span>: <span class="nu">600</span> },
+  <span class="str">"minSize"</span>: { <span class="str">"width"</span>: <span class="nu">400</span>, <span class="str">"height"</span>: <span class="nu">300</span> },
+
+  <span class="cm">// 权限声明 — 用户安装时弹窗确认</span>
+  <span class="str">"permissions"</span>: [
+    <span class="str">"datastore.read:com.yourname.budget.*"</span>,
+    <span class="str">"datastore.write:com.yourname.budget.*"</span>,
+    <span class="str">"datastore.read:com.global.categories"</span>,  <span class="cm">// 读全局分类</span>
+    <span class="str">"notifications.send"</span>,
+    <span class="str">"filesystem.read"</span>
+  ],
+
+  <span class="cm">// 注册到 Spotlight 的搜索命令</span>
+  <span class="str">"spotlightActions"</span>: [
+    { <span class="str">"keyword"</span>: <span class="str">"新增收支"</span>, <span class="str">"action"</span>: <span class="str">"open?modal=new-entry"</span> }
+  ],
+
+  <span class="cm">// 菜单栏定义（当本 App 聚焦时显示）</span>
+  <span class="str">"menubar"</span>: {
+    <span class="str">"文件"</span>: [
+      { <span class="str">"label"</span>: <span class="str">"新建记录"</span>, <span class="str">"action"</span>: <span class="str">"new-entry"</span>, <span class="str">"shortcut"</span>: <span class="str">"CmdOrCtrl+N"</span> },
+      { <span class="str">"type"</span>: <span class="str">"separator"</span> },
+      { <span class="str">"label"</span>: <span class="str">"导出 CSV"</span>, <span class="str">"action"</span>: <span class="str">"export-csv"</span> }
+    ]
+  },
+
+  <span class="cm">// 向其他 App 暴露的数据 Schema</span>
+  <span class="str">"exposes"</span>: {
+    <span class="str">"transactions"</span>: {
+      <span class="str">"description"</span>: <span class="str">"用户的所有收支记录"</span>,
+      <span class="str">"schema"</span>: <span class="str">"./schemas/transaction.json"</span>
+    }
+  }
+}</code></pre>
+
+    <h3>DataStore（跨应用数据层）</h3>
+    <p>基于 IndexedDB 的结构化数据存储，是整个系统最具创新性的模块。详见 <a href="#dataflow">§06</a>。</p>
+
+    <h3>ShortcutManager（快捷键管理器）</h3>
+    <p>全局快捷键注册中心。App 通过 manifest 声明自己的快捷键，当 App 聚焦时，ShortcutManager 将键盘事件路由到 App 的 iframe 内。</p>
+
+    <h3>ThemeEngine（主题引擎）</h3>
+    <p>管理系统级 CSS 变量（颜色、圆角、字体、模糊量）。App 可通过 SDK 订阅主题变化，实现 Dark Mode 无缝切换。</p>
+  </div>
+</div>
+
+<!-- SECTION 05: SDK -->
+<div id="sdk" class="section">
+  <div class="container">
+    <div class="section-eyebrow">05 — App SDK</div>
+    <h2 class="section-title">SDK<em>规范</em></h2>
+
+    <p>SDK 本质上是一个轻量级的 <strong>postMessage 封装库</strong>，提供 Promise 化的 API。App 引入 SDK 后，可以像调用本地函数一样调用系统能力。SDK 本身不超过 8KB gzip。</p>
+
+    <div class="callout green">
+      <p><strong>设计理念：</strong>SDK 是协议适配器，不是框架。用 React 的 App 可以用，用 Vue 的也可以用，甚至纯 HTML 脚本引入即可使用。</p>
+    </div>
+
+    <h3>安装与初始化</h3>
+
+    <pre><code><span class="cm">// npm install @webos/sdk</span>
+<span class="kw">import</span> { createApp } <span class="kw">from</span> <span class="str">'@webos/sdk'</span>
+
+<span class="kw">const</span> app = <span class="fn">createApp</span>()
+
+<span class="cm">// 等待内核握手完成后才能调用 API</span>
+<span class="kw">await</span> app.<span class="fn">ready</span>()
+
+<span class="cm">// 或 CDN 引入（框架无关场景）</span>
+<span class="cm">// &lt;script src="https://cdn.webos.dev/sdk.min.js"&gt;&lt;/script&gt;</span>
+<span class="cm">// const app = WebOS.createApp()</span></code></pre>
+
+    <h4>窗口控制</h4>
+
+    <div class="api-block">
+      <div class="api-block-header">
+        <span class="api-method">call</span>
+        <span class="api-name">app.window.setTitle(title)</span>
+      </div>
+      <pre><code>app.window.<span class="fn">setTitle</span>(<span class="str">'记账本 — 2024年6月'</span>)
+
+<span class="cm">// 设置窗口尺寸</span>
+app.window.<span class="fn">resize</span>({ width: <span class="nu">1200</span>, height: <span class="nu">800</span> })
+
+<span class="cm">// 请求全屏</span>
+<span class="kw">await</span> app.window.<span class="fn">requestFullscreen</span>()
+
+<span class="cm">// 创建子窗口（modal 或独立窗口）</span>
+<span class="kw">const</span> childWin = <span class="kw">await</span> app.window.<span class="fn">createChild</span>({
+  url: <span class="str">'/settings'</span>,
+  title: <span class="str">'偏好设置'</span>,
+  modal: <span class="kw">true</span>,
+  size: { width: <span class="nu">560</span>, height: <span class="nu">400</span> }
+})</code></pre>
+    </div>
+
+    <h4>通知</h4>
+
+    <div class="api-block">
+      <div class="api-block-header">
+        <span class="api-method">call</span>
+        <span class="api-name">app.notifications.send(options)</span>
+      </div>
+      <pre><code><span class="kw">await</span> app.notifications.<span class="fn">send</span>({
+  title: <span class="str">'月度账单已生成'</span>,
+  body: <span class="str">'2024年6月支出 ¥3,240，点击查看明细'</span>,
+  icon: <span class="str">'./icon.svg'</span>,
+  onClick: () => app.window.<span class="fn">focus</span>()
+})</code></pre>
+    </div>
+
+    <h4>菜单栏响应</h4>
+
+    <div class="api-block">
+      <div class="api-block-header">
+        <span class="api-method event">event</span>
+        <span class="api-name">app.on('menu:action', handler)</span>
+      </div>
+      <pre><code><span class="cm">// 接收来自菜单栏的 action（由 manifest.menubar 定义）</span>
+app.<span class="fn">on</span>(<span class="str">'menu:action'</span>, ({ action }) => {
+  <span class="kw">switch</span> (action) {
+    <span class="kw">case</span> <span class="str">'new-entry'</span>: openNewEntryModal(); <span class="kw">break</span>
+    <span class="kw">case</span> <span class="str">'export-csv'</span>: exportData(); <span class="kw">break</span>
+  }
+})</code></pre>
+    </div>
+
+    <h4>Spotlight 集成</h4>
+
+    <div class="api-block">
+      <div class="api-block-header">
+        <span class="api-method event">event</span>
+        <span class="api-name">app.on('spotlight:action', handler)</span>
+      </div>
+      <pre><code><span class="cm">// 处理来自 Spotlight 搜索的 deep link action</span>
+app.<span class="fn">on</span>(<span class="str">'spotlight:action'</span>, ({ action, params }) => {
+  <span class="kw">if</span> (action === <span class="str">'open?modal=new-entry'</span>) {
+    openNewEntryModal()
+  }
+})</code></pre>
+    </div>
+
+    <h4>主题订阅</h4>
+
+    <div class="api-block">
+      <div class="api-block-header">
+        <span class="api-method event">event</span>
+        <span class="api-name">app.theme.subscribe(handler)</span>
+      </div>
+      <pre><code><span class="cm">// 订阅系统主题变化（浅色/深色/accent 颜色等）</span>
+app.theme.<span class="fn">subscribe</span>(({ mode, tokens }) => {
+  document.documentElement.dataset.theme = mode  <span class="cm">// 'light' | 'dark'</span>
+  <span class="cm">// tokens 包含内核暴露的 CSS 变量值</span>
+})
+
+<span class="cm">// 也可以直接获取当前主题</span>
+<span class="kw">const</span> theme = <span class="kw">await</span> app.theme.<span class="fn">get</span>()</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 06: DATA LAYER -->
+<div id="dataflow" class="section">
+  <div class="container">
+    <div class="section-eyebrow">06 — 跨应用数据层</div>
+    <h2 class="section-title">数据互通<em>设计</em></h2>
+
+    <div class="pull-quote">
+      <p>记账 App 的数据可以被图表 App 直接读取——这才是真正打通数据孤岛的"操作系统"。</p>
+    </div>
+
+    <p>这是整个产品最有价值的差异化特性。DataStore 是一个结构化的、Schema 驱动的、具有权限控制的跨 App 数据总线。</p>
+
+    <h3>命名空间设计</h3>
+
+    <p>所有数据按命名空间组织。格式为 <code>appId:collection</code>，类似 k8s 的资源组织方式。</p>
+
+    <pre><code><span class="cm">// 私有数据 — 只有 com.yourname.budget 自己可写</span>
+<span class="str">"com.yourname.budget:transactions"</span>
+
+<span class="cm">// 全局数据 — 任何有权限的 App 可读写</span>
+<span class="str">"com.global:categories"</span>
+<span class="str">"com.global:contacts"</span>
+<span class="str">"com.global:events"</span></code></pre>
+
+    <h3>DataStore API</h3>
+
+    <div class="api-block">
+      <div class="api-block-header">
+        <span class="api-method">call</span>
+        <span class="api-name">app.data.collection(ns).query(filter)</span>
+      </div>
+      <pre><code><span class="cm">// 查询记录（需要在 manifest 声明 datastore.read 权限）</span>
+<span class="kw">const</span> transactions = <span class="kw">await</span> app.data
+  .<span class="fn">collection</span>(<span class="str">'com.yourname.budget:transactions'</span>)
+  .<span class="fn">query</span>({
+    where: { month: <span class="str">'2024-06'</span>, category: <span class="str">'餐饮'</span> },
+    orderBy: [{ field: <span class="str">'date'</span>, dir: <span class="str">'desc'</span> }],
+    limit: <span class="nu">50</span>
+  })
+
+<span class="cm">// 写入记录</span>
+<span class="kw">await</span> app.data
+  .<span class="fn">collection</span>(<span class="str">'com.yourname.budget:transactions'</span>)
+  .<span class="fn">insert</span>({
+    id: <span class="fn">uuid</span>(),
+    amount: <span class="nu">-128.5</span>,
+    category: <span class="str">'餐饮'</span>,
+    note: <span class="str">'午饭'</span>,
+    date: <span class="str">'2024-06-15'</span>
+  })
+
+<span class="cm">// 实时订阅（类似 Firestore onSnapshot）</span>
+<span class="kw">const</span> unsub = app.data
+  .<span class="fn">collection</span>(<span class="str">'com.yourname.budget:transactions'</span>)
+  .<span class="fn">subscribe</span>(records => {
+    console.<span class="fn">log</span>(<span class="str">'数据更新'</span>, records)
+  })</code></pre>
+    </div>
+
+    <h3>权限流程</h3>
+
+    <div class="arch-box">
+      <div class="arch-layer">
+        <div class="arch-layer-label">安装时</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill orange">读取 manifest.permissions</span>
+          <span class="arch-pill orange">→ 向用户展示权限弹窗</span>
+          <span class="arch-pill orange">→ 用户确认/拒绝</span>
+          <span class="arch-pill orange">→ 权限写入 AuthStore</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">运行时</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill green">App 发起 data.query 请求</span>
+          <span class="arch-pill green">→ KernelBus 拦截</span>
+          <span class="arch-pill green">→ Permission Guard 校验</span>
+          <span class="arch-pill green">→ 通过：返回数据 / 拒绝：抛出 403</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>跨 App 数据流示例</h3>
+
+    <pre><code><span class="cm">// ──── 场景：统计图表 App 读取记账 App 的数据 ────</span>
+
+<span class="cm">// 图表 App 的 manifest.permissions 声明：</span>
+<span class="str">"permissions"</span>: [
+  <span class="str">"datastore.read:com.yourname.budget:transactions"</span>
+]
+
+<span class="cm">// 图表 App 在运行时直接查询记账数据（无需 API 对接）：</span>
+<span class="kw">const</span> data = <span class="kw">await</span> app.data
+  .<span class="fn">collection</span>(<span class="str">'com.yourname.budget:transactions'</span>)
+  .<span class="fn">query</span>({ where: { year: <span class="nu">2024</span> } })
+
+<span class="kw">const</span> byMonth = <span class="fn">groupBy</span>(data, <span class="str">'month'</span>)
+<span class="cm">// → 直接渲染为折线图，无需记账 App 提供任何后端接口</span></code></pre>
+
+    <div class="callout green">
+      <p><strong>这是真正的数据互通：</strong>博客 App 的文章数据可以被 SEO 分析 App 读取；联系人 App 的数据可以被邮件 App 读取；健身记录可以被健康分析 App 读取。数据属于用户，存在 IndexedDB 中，App 只是视图。</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 07: APP STORE -->
+<div id="appstore" class="section">
+  <div class="container">
+    <div class="section-eyebrow">07 — 应用商店</div>
+    <h2 class="section-title">App Store<em>设计</em></h2>
+
+    <p>应用商店本身也是一个 App（id: <code>com.webos.appstore</code>），通过读取一个中央 <strong>Registry JSON</strong> 来展示可用的 App 列表。这个 Registry 可以是 GitHub 仓库中的一个 JSON 文件。</p>
+
+    <h3>App 发布流程</h3>
+
+    <div class="arch-box">
+      <div class="arch-layer">
+        <div class="arch-layer-label">开发者</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill blue">开发 App（任意技术栈）</span>
+          <span class="arch-pill blue">→ 编写 manifest.json</span>
+          <span class="arch-pill blue">→ 部署到任意 URL</span>
+          <span class="arch-pill blue">→ 提交 PR 到 Registry 仓库</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">审核</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill orange">自动校验 manifest schema</span>
+          <span class="arch-pill orange">人工审核（可选）</span>
+          <span class="arch-pill orange">合并 PR → App 上架</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">用户安装</div>
+        <div class="arch-layer-content">
+          <span class="arch-pill green">App Store 展示 App</span>
+          <span class="arch-pill green">→ 用户点击安装</span>
+          <span class="arch-pill green">→ 权限弹窗确认</span>
+          <span class="arch-pill green">→ 写入 AppRegistry</span>
+          <span class="arch-pill green">→ 出现在 Dock / 桌面</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Registry 数据结构</h3>
+
+    <pre><code><span class="cm">// registry/apps.json（托管在 GitHub）</span>
+{
+  <span class="str">"apps"</span>: [
+    {
+      <span class="str">"id"</span>: <span class="str">"com.example.blog"</span>,
+      <span class="str">"name"</span>: <span class="str">"轻博客"</span>,
+      <span class="str">"description"</span>: <span class="str">"Markdown 博客写作与发布"</span>,
+      <span class="str">"author"</span>: <span class="str">"Jane Doe"</span>,
+      <span class="str">"icon"</span>: <span class="str">"https://blog.example.com/icon.svg"</span>,
+      <span class="str">"manifestUrl"</span>: <span class="str">"https://blog.example.com/manifest.json"</span>,
+      <span class="str">"category"</span>: <span class="str">"productivity"</span>,
+      <span class="str">"tags"</span>: [<span class="str">"blog"</span>, <span class="str">"writing"</span>, <span class="str">"markdown"</span>],
+      <span class="str">"screenshots"</span>: [<span class="str">"..."</span>],
+      <span class="str">"featured"</span>: <span class="kw">true</span>
+    }
+  ]
+}</code></pre>
+
+    <h3>私有部署支持</h3>
+    <p>企业或个人可以指定自己的 Registry URL，从而建立<strong>私有应用商店</strong>，不依赖公共 Registry。这对于内部工具场景（类似你之前展示的 元镜OS 那样的企业数据平台）非常有价值。</p>
+  </div>
+</div>
+
+<!-- SECTION 08: TECH STACK -->
+<div id="techstack" class="section">
+  <div class="container">
+    <div class="section-eyebrow">08 — 技术选型</div>
+    <h2 class="section-title">技术<em>选型</em></h2>
+
+    <h3>内核与 Shell（宿主侧）</h3>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th>模块</th><th>选型</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>UI 框架</td>
+          <td><strong>React 18 + TypeScript</strong></td>
+          <td>生态最大，Concurrent Mode 对窗口管理有利，易于招募贡献者</td>
+        </tr>
+        <tr>
+          <td>状态管理</td>
+          <td><strong>Zustand</strong></td>
+          <td>轻量、无样板代码、React 无关（内核逻辑可独立于 React）</td>
+        </tr>
+        <tr>
+          <td>数据持久化</td>
+          <td><strong>Dexie.js (IndexedDB)</strong></td>
+          <td>比原生 IndexedDB API 友好，支持 reactive query，离线优先</td>
+        </tr>
+        <tr>
+          <td>进程间通信</td>
+          <td><strong>自研 KernelBus</strong></td>
+          <td>封装 postMessage，双向 RPC，带 request/response 模型和超时处理</td>
+        </tr>
+        <tr>
+          <td>动画</td>
+          <td><strong>Framer Motion</strong></td>
+          <td>窗口动画、Dock 弹簧效果、过渡动画</td>
+        </tr>
+        <tr>
+          <td>快捷键</td>
+          <td><strong>tinykeys</strong></td>
+          <td>650B，支持 Mac 符号（⌘⌥⇧），处理 iframe 内外的键盘路由</td>
+        </tr>
+        <tr>
+          <td>构建工具</td>
+          <td><strong>Vite + pnpm workspaces</strong></td>
+          <td>Monorepo 结构（kernel、shell、sdk、apps 分包）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>SDK（App 侧）</h3>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th>模块</th><th>选型</th><th>理由</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>核心通信</td>
+          <td><strong>原生 postMessage</strong></td>
+          <td>无依赖，8KB 以内，任何框架可用</td>
+        </tr>
+        <tr>
+          <td>类型定义</td>
+          <td><strong>TypeScript Declaration</strong></td>
+          <td>@webos/sdk 提供完整 .d.ts，自动补全友好</td>
+        </tr>
+        <tr>
+          <td>React 绑定</td>
+          <td><strong>@webos/react（可选）</strong></td>
+          <td>useWindow()、useTheme()、useDataStore() 等 hooks，按需安装</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Monorepo 结构</h3>
+
+    <pre><code>webos/
+├── packages/
+│   ├── kernel/          <span class="cm"># 纯 TS，无 UI 依赖</span>
+│   │   ├── AppRegistry.ts
+│   │   ├── WindowManager.ts
+│   │   ├── DataStore.ts
+│   │   ├── KernelBus.ts
+│   │   └── ShortcutManager.ts
+│   ├── shell/           <span class="cm"># React 组件，依赖 kernel</span>
+│   │   ├── Menubar/
+│   │   ├── Dock/
+│   │   ├── Desktop/
+│   │   ├── Spotlight/
+│   │   ├── WindowFrame/  <span class="cm"># 包裹 iframe 的容器</span>
+│   │   └── Notifications/
+│   ├── sdk/             <span class="cm"># 无框架依赖</span>
+│   │   ├── index.ts
+│   │   └── types.ts
+│   └── sdk-react/       <span class="cm"># React hooks 封装</span>
+├── apps/                <span class="cm"># 官方内置 App</span>
+│   ├── app-store/
+│   ├── finder/
+│   ├── settings/
+│   └── notes/           <span class="cm"># 示例 App</span>
+├── registry/
+│   └── apps.json        <span class="cm"># 公开 App 注册表</span>
+└── docs/                <span class="cm"># 开发者文档</span></code></pre>
+  </div>
+</div>
+
+<!-- SECTION 09: ROADMAP -->
+<div id="roadmap" class="section">
+  <div class="container">
+    <div class="section-eyebrow">09 — 路线图</div>
+    <h2 class="section-title">分阶段<em>路线图</em></h2>
+
+    <div class="timeline">
+      <div class="phase">
+        <div class="phase-dot active">P1</div>
+        <div class="phase-body">
+          <div class="phase-title">核心底座（MVP）</div>
+          <div class="phase-time">0 → 8 周</div>
+          <ul class="phase-items">
+            <li>WindowManager：拖拽、缩放、层级、最小化/最大化、动画</li>
+            <li>iframe 沙箱容器（WindowFrame 组件）</li>
+            <li>KernelBus：postMessage RPC 封装，双向通信</li>
+            <li>AppRegistry：manifest 解析、本地安装/卸载</li>
+            <li>Shell：Menubar（带时钟）、Dock（带 magnification）、桌面图标</li>
+            <li>Spotlight：App 搜索、快速启动</li>
+            <li>右键菜单、通知系统</li>
+            <li>SDK v0.1：window、notifications、menu:action</li>
+            <li>内置示例 App：Settings、Finder（浏览 DataStore）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot">P2</div>
+        <div class="phase-body">
+          <div class="phase-title">数据层 + App Store</div>
+          <div class="phase-time">8 → 16 周</div>
+          <ul class="phase-items">
+            <li>DataStore：IndexedDB + Dexie，命名空间隔离</li>
+            <li>Permission Guard：安装时授权弹窗，运行时鉴权</li>
+            <li>SDK 扩展：data.collection() API，实时订阅</li>
+            <li>App Store App：读取 registry/apps.json，安装/卸载流程</li>
+            <li>虚拟文件系统（VFS）：App 间共享文件</li>
+            <li>ThemeEngine：CSS 变量系统，Dark Mode 支持</li>
+            <li>官方示例 App 2 个（Notes、Timer）用于验证 SDK</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot">P3</div>
+        <div class="phase-body">
+          <div class="phase-title">生态建设</div>
+          <div class="phase-time">16 → 28 周</div>
+          <ul class="phase-items">
+            <li>开发者文档网站（docusaurus）</li>
+            <li>@webos/create-app 脚手架（类似 create-react-app）</li>
+            <li>@webos/sdk-react：useWindow、useTheme、useDataStore hooks</li>
+            <li>Spotlight：支持 App 深度集成（自定义搜索结果）</li>
+            <li>Mission Control（多窗口概览）</li>
+            <li>多账户支持（localStorage 隔离 / 后端存储）</li>
+            <li>公开 Registry 仓库 + GitHub Actions 自动验证</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot">P4</div>
+        <div class="phase-body">
+          <div class="phase-title">高级特性</div>
+          <div class="phase-time">28 周之后</div>
+          <ul class="phase-items">
+            <li>后端可选支持（Supabase / PocketBase 适配器），数据云同步</li>
+            <li>分屏（Split View）</li>
+            <li>App 内 App（嵌套窗口）</li>
+            <li>Web Push 通知（Service Worker）</li>
+            <li>PWA 支持（可安装到桌面）</li>
+            <li>Plugin API（注入菜单栏扩展，类似 Chrome 扩展）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: RISKS -->
+<div id="risks" class="section">
+  <div class="container">
+    <div class="section-eyebrow">10 — 风险与对策</div>
+    <h2 class="section-title">风险<em>识别</em></h2>
+
+    <h3>技术风险</h3>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th>风险</th><th>影响</th><th>对策</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>iframe CSP 限制（部分网站拒绝被 iframe 加载）</td>
+          <td>中</td>
+          <td>App 必须自己部署，不是嵌套外部网站；文档明确说明；提供本地 dev server 模板</td>
+        </tr>
+        <tr>
+          <td>postMessage 性能（高频调用）</td>
+          <td>低</td>
+          <td>数据层用批量读取；实时订阅做 debounce；DataStore 在宿主侧，不需要跨 iframe</td>
+        </tr>
+        <tr>
+          <td>IndexedDB 存储上限（Safari 约 1GB）</td>
+          <td>中</td>
+          <td>DataStore 做存储配额管理；大文件走 VFS + Blob 分片存储</td>
+        </tr>
+        <tr>
+          <td>Safari 的 iframe 限制（第三方 Cookie/Storage 访问）</td>
+          <td>中</td>
+          <td>App 的 Storage 需求通过 DataStore API 满足，不依赖 App 自身的 localStorage</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>产品风险</h3>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th>风险</th><th>影响</th><th>对策</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>开发者嫌 SDK 太复杂，不愿开发 App</td>
+          <td>高</td>
+          <td>最简 App 只需一个 URL + manifest.json，零 SDK 依赖也可运行；SDK 是增强，不是必须</td>
+        </tr>
+        <tr>
+          <td>竞品（Puter）先发优势</td>
+          <td>中</td>
+          <td>差异化聚焦 macOS 审美 + 结构化数据层；目标不同的用户群体（开发者个人工具场景）</td>
+        </tr>
+        <tr>
+          <td>维护者精力分散</td>
+          <td>高</td>
+          <td>MVP 范围严格控制在 P1；设计文档开源，吸引贡献者；用 GitHub Projects 公开路线图</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout blue">
+      <p><strong>建议的第一步：</strong>用你现有的 元镜 OS 代码作为视觉原型，从 WindowManager + KernelBus + iframe 沙箱开始实现，用一个最简的 "Hello World" App 验证通信机制。先跑通 <code>App → SDK → postMessage → KernelBus → WindowManager</code> 这条链路，再展开其他模块。</p>
+    </div>
+
+    <div style="margin-top:48px;padding:24px;background:var(--accent);border-radius:12px;color:rgba(240,237,232,0.85)">
+      <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-bottom:8px;color:#f0ede8">建议项目名</div>
+      <p style="color:rgba(240,237,232,0.65);font-size:14px;max-width:none;margin-bottom:16px">几个候选，供参考：</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px">
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;color:#f0ede8">Lume</div>
+          <div style="font-size:11px;color:rgba(240,237,232,0.4);margin-top:4px">优雅、简短</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;color:#f0ede8">Aether OS</div>
+          <div style="font-size:11px;color:rgba(240,237,232,0.4);margin-top:4px">轻盈感</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;color:#f0ede8">Canopy</div>
+          <div style="font-size:11px;color:rgba(240,237,232,0.4);margin-top:4px">遮蔽底层复杂度</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;color:#f0ede8">Pane</div>
+          <div style="font-size:11px;color:rgba(240,237,232,0.4);margin-top:4px">窗格/玻璃，双关</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
