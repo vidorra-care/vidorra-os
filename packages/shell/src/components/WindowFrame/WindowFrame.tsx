@@ -35,7 +35,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   }, [win.state])
 
   const position = isMaximized
-    ? { x: 0, y: 24 }
+    ? { x: 0, y: 0 }
     : { x: win.rect.x, y: win.rect.y }
 
   const size = isMaximized
@@ -106,7 +106,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
       dragHandleClassName="window-drag-handle"
       minWidth={win.minWidth}
       minHeight={win.minHeight}
-      style={{ zIndex: win.zIndex, pointerEvents: 'auto' }}
+      style={{ zIndex: win.zIndex, pointerEvents: 'auto', willChange: 'transform' }}
       onDragStop={handleDragStop}
       onResizeStop={handleResizeStop}
       onMouseDown={() => focusWindow(win.id)}

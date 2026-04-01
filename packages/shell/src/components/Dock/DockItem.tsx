@@ -51,7 +51,7 @@ interface MenuState {
 export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
   const imgRef = useRef<HTMLImageElement>(null)
   const [menu, setMenu] = useState<MenuState | null>(null)
-  const [animateObj, setAnimateObj] = useState({ translateY: ['0%', '0%', '0%'] })
+  const [bounceKey, setBounceKey] = useState(0)
 
   const closeWindow = useWindowStore((s) => s.closeWindow)
   const focusWindow = useWindowStore((s) => s.focusWindow)
@@ -79,7 +79,7 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
   const width = useTransform(widthPX, (w) => `${w / 16}rem`)
 
   const handleClick = () => {
-    setAnimateObj({ translateY: ['0%', '-39.2%', '0%'] })
+    setBounceKey((k) => k + 1)
     onOpen(app)
   }
 
@@ -115,10 +115,10 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
       >
         <p className={styles.tooltip}>{app.name}</p>
         <motion.span
-          initial={false}
-          animate={animateObj}
-          transition={{ type: 'spring', duration: 0.7 }}
-          transformTemplate={({ translateY }) => `translateY(${translateY})`}
+          key={bounceKey}
+          initial={{ translateY: '0%' }}
+          animate={{ translateY: ['0%', '-30%', '0%'] }}
+          transition={{ type: 'spring', duration: 0.5 }}
         >
           <motion.img
             ref={imgRef}

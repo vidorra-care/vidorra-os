@@ -1,4 +1,5 @@
 import { useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './ContextMenu.module.css'
 
 export interface ContextMenuItem {
@@ -38,7 +39,7 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
     }
   }, [onClose, handleKeyDown])
 
-  return (
+  return createPortal(
     <div
       className={styles.contextMenu}
       style={{ left: x, top: y }}
@@ -60,6 +61,7 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
           </button>
         )
       )}
-    </div>
+    </div>,
+    document.body
   )
 }

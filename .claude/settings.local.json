@@ -36,7 +36,9 @@
       "Bash(ls D:/Code/Study/vidorra-os/.planning/phases/00-scaffolding/*-SUMMARY.md)",
       "Bash(ls \".planning/phases/02-shell/\"*-PLAN.md)",
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs init plan-phase 02-shell)",
-      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap set-plans 2 02-00,02-01,02-02,02-03,02-04,02-05)"
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap set-plans 2 02-00,02-01,02-02,02-03,02-04,02-05)",
+      "Bash(ls packages/shell/src/*.css)",
+      "Bash(pnpm --filter @vidorra/shell test)"
     ]
   }
 }

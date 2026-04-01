@@ -13,6 +13,7 @@ export function Dock() {
   const windows = useWindowStore((s) => s.windows)
   const openWindow = useWindowStore((s) => s.openWindow)
   const focusWindow = useWindowStore((s) => s.focusWindow)
+  const setWindowState = useWindowStore((s) => s.setWindowState)
 
   useEffect(() => {
     setApps(appRegistry.getAllApps())
@@ -21,6 +22,9 @@ export function Dock() {
   const handleOpen = (app: AppManifest) => {
     const existing = windows.find((w) => w.appId === app.id)
     if (existing) {
+      if (existing.state === 'minimized') {
+        setWindowState(existing.id, 'normal')
+      }
       focusWindow(existing.id)
       return
     }
@@ -32,7 +36,7 @@ export function Dock() {
       icon: app.icon,
       rect: {
         x: Math.round((window.innerWidth - app.defaultSize.width) / 2),
-        y: Math.round((window.innerHeight - app.defaultSize.height) / 2),
+        y: Math.round((window.innerHeight - 24 - app.defaultSize.height) / 2) + 24,
         width: app.defaultSize.width,
         height: app.defaultSize.height,
       },
