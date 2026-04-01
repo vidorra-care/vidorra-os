@@ -161,6 +161,15 @@ docker run -p 3000:3000 -v ./data:/data ghcr.io/vidorra/server:latest
 
 ---
 
+## 致谢
+
+- [puruvj/macos-web](https://github.com/puruvj/macos-web) — macOS Web 桌面模拟项目，视觉语言参考
+- [AnNingUI/Macos-Genie-Effect-With-WebGPU](https://github.com/AnNingUI/Macos-Genie-Effect-With-WebGPU) — WebGPU Genie 最小化动画方案
+- [chenglou/pretext](https://github.com/chenglou/pretext) — 启发来源
+- [Claude](https://claude.ai) — AI 编程助手，参与架构设计与实现
+
+---
+
 ## License
 
 MIT
