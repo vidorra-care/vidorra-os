@@ -1,9 +1,1 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "composite": true
-  },
-  "include": ["src"]
-}
+{"extends":"../../tsconfig.json","compilerOptions":{"outDir":"./dist","composite":true,"resolveJsonModule":true,"types":["vitest/globals","@testing-library/jest-dom"]},"include":["src","../../../registry"]}
