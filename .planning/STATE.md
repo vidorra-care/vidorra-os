@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: planning
-stopped_at: Completed 02-shell-02-03-PLAN.md
-last_updated: "2026-04-01T13:06:15.977Z"
+stopped_at: Completed 02-04-PLAN.md (Menubar + Desktop)
+last_updated: "2026-04-01T13:18:12.063Z"
 last_activity: 2026-04-01 — Phase 1 (Kernel) complete; AppRegistry + ThemeEngine implemented and tested
 progress:
   total_phases: 7
@@ -46,7 +46,7 @@ Progress: [██░░░░░░░░] 17%
 |-------|-------|-------|----------|
 | 0. Scaffolding | 3 | - | - |
 | 1. Kernel | 3 | - | - |
-| Phase 02-shell P03 | 278 | 2 tasks | 10 files |
+| Phase 02-shell P04 | 525623 | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -57,7 +57,8 @@ Progress: [██░░░░░░░░] 17%
 - [Phase 1]: Class + singleton export pattern (`appRegistry`, `themeEngine`) — not function-based
 - [Phase 1]: ThemeEngine injects CSS variables to `:root`; Shell components use `var(--color-bg)` directly, no React subscription needed
 - [Phase 2]: Framer Motion for animations; Genie minimize effect deferred to post-MVP WebGPU phase
-- [Phase 02-shell]: useRaf hook implemented locally; shell vitest.config.ts with happy-dom created; useWindowStore created from interface spec (parallel execution)
+- [Phase 02-shell]: Menubar shows default items (文件/编辑/窗口/帮助) only when no window is focused, empty when focused window has no manifest menubar
+- [Phase 02-shell]: ContextMenu uses document-level mousedown listener for click-outside dismiss
 
 ### Pending Todos
 
@@ -69,6 +70,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-01T13:06:15.972Z
-Stopped at: Completed 02-shell-02-03-PLAN.md
+Last session: 2026-04-01T13:18:12.061Z
+Stopped at: Completed 02-04-PLAN.md (Menubar + Desktop)
 Resume file: None
