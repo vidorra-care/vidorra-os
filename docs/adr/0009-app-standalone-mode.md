@@ -31,13 +31,37 @@ App 有两种使用场景：
 
 ## Standalone 模式的数据获取
 
-Standalone 模式下没有 KernelBus，App 直接调用 Server 的公开 REST API：
+Standalone 模式下没有 KernelBus。访客读取的是桌面端用户**显式发布**的 snapshot，而非实时数据。
+
+### Publish 机制
+
+桌面端用户通过 SDK 发布数据快照到 Server：
+
+```ts
+await app.data
+  .collection('com.yourname.blog:posts')
+  .publish({
+    filter: { published: true },  // 只发布 published=true 的记录
+    slug: 'blog',
+  })
+// 返回 { snapshotId, publishedAt }
+```
+
+发布流程：
+1. DataStore 按 filter 查询当前数据
+2. HybridAdapter 确保本地已同步到 Server
+3. 将结果写入 Server 的 `published_snapshot` 表
+4. 访客访问 `/api/public/` 时读取该 snapshot
+
+### 访客数据流
 
 ```
-GET /api/public/{appSlug}/{namespace}?filter=...
+GET /api/public/{appSlug}/{namespace}
+  │
+  └─ Server 查 published_snapshot 表（不查实时数据），无需 token 返回
 ```
 
-Server 根据该命名空间的 SharePolicy 决定返回哪些数据（只返回 `published: true` 的记录等）。
+这样可防止草稿意外暴露，数据发布时机由用户掌控。
 
 App 通过 SDK 感知模式并切换数据获取方式：
 
@@ -69,12 +93,14 @@ if (app.mode === 'standalone') {
     "publicNamespaces": [
       {
         "namespace": "com.yourname.blog:posts",
-        "filter": { "published": true }
+        "allowedFilter": { "published": true }
       }
     ]
   }
 }
 ```
+
+`allowedFilter` 描述哪些数据允许被发布，实际过滤在 `publish()` 调用时执行（而非访客请求时）。
 
 ## 为什么不让访客进入 Shell
 
@@ -85,7 +111,7 @@ if (app.mode === 'standalone') {
 
 ## 影响
 
-- SDK 需要新增 `mode`、`standaloneParams` 字段
-- manifest.json 需要新增 `standalone` 配置块
-- Server 需要实现 `/api/public/` 路由，按 SharePolicy 过滤数据
+- SDK 需要新增 `mode`、`standaloneParams` 字段，以及 `data.collection(ns).publish(options)` 方法
+- manifest.json 需要新增 `standalone` 配置块（`filter` 字段改为 `allowedFilter`）
+- Server 需要实现 `published_snapshot` 表和 `/api/public/` 路由
 - App 开发者需要考虑两种模式的 UI（可以共用组件，条件渲染编辑功能）

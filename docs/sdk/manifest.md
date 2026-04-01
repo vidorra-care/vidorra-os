@@ -43,6 +43,7 @@
   "exposes": {
     "transactions": {
       "description": "用户的所有收支记录",
+      "schemaVersion": 1,
       "schema": "./schemas/transaction.json"
     }
   }
@@ -64,7 +65,7 @@
     "publicNamespaces": [
       {
         "namespace": "com.yourname.blog:posts",
-        "filter": { "published": true }
+        "allowedFilter": { "published": true }
       }
     ]
   }
@@ -114,6 +115,8 @@ filesystem.write               写入共享文件系统
 ### `exposes` — 可选
 
 声明该 App 对外暴露的数据 schema。其他 App 在声明 `datastore.read` 权限时，可以看到这里的描述，帮助用户理解授权内容。
+
+`schemaVersion` 为整数，默认 1。需要 breaking change 时提升版本号，并在 `migrations` 中提供迁移函数（格式 `"旧版本→新版本"`）。所有新字段必须是 optional——禁止在同一版本内新增必填字段。
 
 ---
 

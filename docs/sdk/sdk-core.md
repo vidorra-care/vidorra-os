@@ -123,6 +123,20 @@ const unsub = col.subscribe(records => {
 unsub()
 ```
 
+### `.publish(options)` — 需要 Self-Hosted Server（P3）
+
+将当前数据的过滤快照发布到 Server，供访客在 standalone 模式下读取。
+
+```ts
+await app.data
+  .collection('com.yourname.blog:posts')
+  .publish({
+    filter: { published: true },  // 只发布 published=true 的记录
+    slug: 'blog',                 // 对应 manifest.standalone.slug
+  })
+// 返回 { snapshotId, publishedAt }
+```
+
 ---
 
 ## theme

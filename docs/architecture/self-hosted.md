@@ -83,23 +83,23 @@ open http://localhost:3000
 
 ## 多设备同步
 
-### 同步策略：CRDT-lite
+### 同步策略：LWW（last-write-wins）
 
-不引入完整 CRDT 库（太重），用简化的 last-write-wins + 向量时钟：
+以 `updatedAt` 时间戳为准，最后写入的版本胜出。不引入 CRDT——个人数据场景下多设备同时修改同一记录的概率极低，LWW 完全够用（见 ADR-0008）。
 
 ```ts
 interface SyncRecord {
   id: string
   namespace: string
   data: unknown
-  updatedAt: number      // Unix timestamp（毫秒）
+  updatedAt: number      // Unix timestamp（毫秒），冲突时取最大值
   deviceId: string       // 最后修改的设备 ID
-  version: number        // 单调递增版本号
+  version: number        // Server 分配的单调递增版本号
   deleted: boolean       // 软删除
 }
 ```
 
-**冲突解决**：同一条记录在多设备同时修改时，取 `updatedAt` 最大的版本（last-write-wins）。对于大多数个人数据场景（笔记、账单、设置）这已经足够。
+**冲突解决**：同一条记录在多设备同时修改时，取 `updatedAt` 最大的版本。
 
 ### 同步流程
 

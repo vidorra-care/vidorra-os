@@ -76,6 +76,8 @@ windowManager.open({
 2. 将该窗口 `zIndex` 设为 `zIndexCounter + 1`
 3. 触发 `app:focused` 事件，Menubar 和 ShortcutManager 响应
 
+当 `zIndexCounter` 超出 4999 时，触发重排（compact）：将所有普通窗口按当前层级顺序从 100 开始重新赋值，`zIndexCounter` 重置为 100 + 窗口数。重排后相对层级不变，对用户无感知。
+
 ### 拖拽
 
 拖拽使用 Framer Motion 的 `drag` 约束，限制在桌面可视区域内：

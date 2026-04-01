@@ -63,6 +63,7 @@
 | `spotlightActions` | object[] | — | Spotlight 搜索集成 |
 | `menubar` | object | — | 菜单栏定义 |
 | `exposes` | object | — | 对外暴露的数据 schema |
+| `standalone` | object | — | 独立路由模式配置（访客无 Shell 直接访问），见 ADR-0009 |
 
 ---
 

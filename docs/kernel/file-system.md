@@ -2,7 +2,9 @@
 
 ## 职责
 
-虚拟文件系统，提供 App 间共享文件的能力。大文件（图片、视频、文档）走 VFS，不走 DataStore。
+虚拟文件系统，提供 App 间共享文件的能力。App 开发者无需关心文件路由——SDK 会自动将 record 中的 `Blob/File/ArrayBuffer` 类型字段路由到 VFS，DataStore 只存元数据和 `_vfsPath` 引用。读取时 SDK 自动取回原始 Blob，开发者全程无感知。
+
+**注意（P1）**：VFS 在 P2 实现。P1 阶段 record 中若包含 Blob 字段，SDK 返回 `VFS_NOT_AVAILABLE` 错误。
 
 ---
 
@@ -46,10 +48,10 @@ await app.fs.delete('/apps/com.example.notes/documents/old.md')
 
 ## 大文件处理
 
-超过 10MB 的文件使用 Blob 分片存储，避免 IndexedDB 单条记录过大：
+所有 Blob/File/ArrayBuffer 类型字段均使用分片存储，避免 IndexedDB 单条记录过大：
 
 - 分片大小：2MB
-- 元数据（文件名、大小、分片数）存 DataStore
+- 元数据（文件名、大小、分片数、`_vfsPath`）存 DataStore
 - 分片内容存 IndexedDB 的独立 object store
 
 ---
