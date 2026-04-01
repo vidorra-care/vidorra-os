@@ -315,24 +315,32 @@ function WindowFrame({ window }: { window: WindowDescriptor }) {
 
 ### Pattern 3: Dock Magnification with Framer Motion
 
-The Dock tracks mouse X on the container (`onMouseMove`). Each DockItem receives `mouseX` as a `MotionValue` and computes its own width using `useTransform` with a custom interpolation curve. `useSpring` smooths the width change.
+**Updated source:** `.reference/macos-preact-main/src/components/dock/DockItem.tsx` (more faithful macOS reproduction than the Svelte reference).
+
+Key differences from the Svelte reference:
+- **Spring params**: `stiffness: 1300, damping: 82` (tighter, snappier — closer to real macOS) vs Svelte's `stiffness: 150, damping: 15`
+- **Distance tracking**: `useRaf` loop reads `getBoundingClientRect` every frame — avoids `useTransform` closure-stale-ref pitfall
+- **Bounce animation**: `translateY: ['0%', '-39.2%', '0%']` (percentage-based, scales with icon size) vs absolute `-10px`
+- **Dot color**: `var(--app-color-dark)` (theme-adaptive, dark on light / light on dark) vs hardcoded white
+- **Backdrop blur**: `::before` pseudo-element isolates blur so it doesn't affect child elements
+
+The Dock tracks mouse X via `onMouseMove` on the container. Each DockItem maintains its own `distance` MotionValue, updated every frame via `useRaf`.
 
 ```typescript
 // packages/shell/src/components/Dock/Dock.tsx
 import { useMotionValue } from 'framer-motion'
 
-const BASE_SIZE = 48
-const MAX_SIZE = 80
-const DISTANCE_LIMIT = BASE_SIZE * 6  // 288px
+const BASE_SIZE = 57.6  // px — reference uses 57.6; normalized to 48 via container scaling
+const DISTANCE_LIMIT = BASE_SIZE * 6  // 345.6px
 
 function Dock() {
-  const mouseX = useMotionValue(Infinity)  // Infinity = mouse not over dock
+  const mouseX = useMotionValue<number | null>(null)  // null = mouse not over dock
 
   return (
     <nav
       className={styles.dock}
-      onMouseMove={(e) => mouseX.set(e.clientX)}
-      onMouseLeave={() => mouseX.set(Infinity)}
+      onMouseMove={(e) => mouseX.set(e.nativeEvent.x)}
+      onMouseLeave={() => mouseX.set(null)}
     >
       {apps.map(app => (
         <DockItem key={app.id} app={app} mouseX={mouseX} />
@@ -344,35 +352,131 @@ function Dock() {
 // packages/shell/src/components/Dock/DockItem.tsx
 import { useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, MotionValue } from 'framer-motion'
+import useRaf from '@rooks/use-raf'  // OR implement manually: see note below
 
-function DockItem({ app, mouseX }: { app: AppManifest; mouseX: MotionValue<number> }) {
-  const ref = useRef<HTMLDivElement>(null)
+const baseWidth = 57.6
+const distanceLimit = baseWidth * 6        // 345.6px
+const beyondLimit = distanceLimit + 1
 
-  const distance = useTransform(mouseX, (val) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
-    return val - bounds.x - bounds.width / 2
-  })
+const distanceInput = [
+  -distanceLimit, -distanceLimit / 1.25, -distanceLimit / 2,
+  0,
+  distanceLimit / 2, distanceLimit / 1.25, distanceLimit
+]
+const widthOutput = [
+  baseWidth, baseWidth * 1.1, baseWidth * 1.414,
+  baseWidth * 2,  // peak = 2× base
+  baseWidth * 1.414, baseWidth * 1.1, baseWidth
+]
 
-  // Multi-point interpolation: bell curve 48→80→48 over ±288px range
-  const widthTransform = useTransform(
-    distance,
-    [-DISTANCE_LIMIT, -DISTANCE_LIMIT / 1.25, -DISTANCE_LIMIT / 2, 0, DISTANCE_LIMIT / 2, DISTANCE_LIMIT / 1.25, DISTANCE_LIMIT],
-    [BASE_SIZE, BASE_SIZE * 1.1, BASE_SIZE * 1.414, MAX_SIZE, BASE_SIZE * 1.414, BASE_SIZE * 1.1, BASE_SIZE]
+function useDockHoverAnimation(mouseX: MotionValue<number | null>, ref: RefObject<HTMLImageElement>) {
+  const distance = useMotionValue(beyondLimit)
+
+  const widthPX = useSpring(
+    useTransform(distance, distanceInput, widthOutput),
+    { stiffness: 1300, damping: 82 }  // KEY: tight spring = snappy macOS feel
   )
 
-  const width = useSpring(widthTransform, { stiffness: 150, damping: 15, mass: 0.1 })
+  const width = useTransform(widthPX, (w) => `${w / 16}rem`)
+
+  // KEY: useRaf reads getBoundingClientRect every frame — avoids stale closure
+  useRaf(() => {
+    const el = ref.current
+    const mouseXVal = mouseX.get()
+    if (el && mouseXVal !== null) {
+      const rect = el.getBoundingClientRect()
+      distance.set(mouseXVal - (rect.left + rect.width / 2))
+      return
+    }
+    distance.set(beyondLimit)
+  }, true)
+
+  return { width }
+}
+
+// NOTE: If @rooks/use-raf is not available, implement manually:
+// function useRaf(callback: () => void, active: boolean) {
+//   useEffect(() => {
+//     if (!active) return
+//     let id: number
+//     const loop = () => { callback(); id = requestAnimationFrame(loop) }
+//     id = requestAnimationFrame(loop)
+//     return () => cancelAnimationFrame(id)
+//   }, [active])
+// }
+
+function DockItem({ app, mouseX }: { app: AppManifest; mouseX: MotionValue<number | null> }) {
+  const imgRef = useRef<HTMLImageElement>(null)
+  const [animateObj, setAnimateObj] = useState({ translateY: ['0%', '0%', '0%'] })
+  const { width } = useDockHoverAnimation(mouseX, imgRef)
 
   return (
-    <div ref={ref} className={styles.dockItem}>
-      <motion.img
-        src={app.icon}
-        alt={app.name}
-        style={{ width }}
-        draggable={false}
-      />
-      {isRunning && <span className={styles.dot} />}
-    </div>
+    <button className={styles.dockItemButton} onClick={() => openApp(app)}>
+      <p className={styles.tooltip}>{app.name}</p>
+      <motion.span
+        onTap={() => setAnimateObj({ translateY: ['0%', '-39.2%', '0%'] })}
+        initial={false}
+        animate={animateObj}
+        transition={{ type: 'spring', duration: 0.7 }}
+        transformTemplate={({ translateY }) => `translateY(${translateY})`}
+      >
+        <motion.img
+          ref={imgRef}
+          src={app.icon}
+          draggable={false}
+          style={{ width, willChange: 'width' }}
+          alt={`${app.name} app icon`}
+        />
+      </motion.span>
+      {/* dot: opacity driven by CSS variable for theme-adaptive color */}
+      <div className={styles.dot} style={{ '--opacity': +isRunning } as React.CSSProperties} />
+    </button>
   )
+}
+```
+
+**Dock container CSS** — backdrop via `::before` to isolate blur:
+```scss
+.dockEl {
+  background-color: hsla(var(--app-color-light-hsl), 0.4);
+  box-shadow:
+    inset 0 0 0 0.2px hsla(var(--app-color-grey-100-hsl), 0.7),
+    0 0 0 0.2px hsla(var(--app-color-grey-900-hsl), 0.7),
+    hsla(0, 0%, 0%, 0.3) 2px 5px 19px 7px;
+  padding: 0.3rem;
+  border-radius: 1.2rem;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+
+  &::before {
+    content: '';
+    width: 100%; height: 100%;
+    backdrop-filter: blur(10px);  // blur on ::before, NOT on the element itself
+    position: absolute;
+    top: 0; left: 0;
+    z-index: -1;
+  }
+}
+```
+
+**Dot CSS** — theme-adaptive via CSS variable opacity:
+```scss
+.dot {
+  height: 4px; width: 4px;
+  border-radius: 50%;
+  background-color: var(--app-color-dark);  // adaptive: dark on light, light on dark
+  opacity: var(--opacity);  // set via inline style: { '--opacity': +isRunning }
+}
+```
+
+**transform-origin: bottom** — essential for natural upward scaling:
+```scss
+.dockItemButton {
+  transform-origin: bottom;  // icons grow upward, not centered
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 ```
 
@@ -484,11 +588,33 @@ function handleContextMenu(e: React.MouseEvent) {
 
 ### Pitfall 3: Dock magnification jank on fast mouse movement
 
-**What goes wrong:** At high mouse velocity, the `useTransform` distance calculation lags because `getBoundingClientRect()` is called inside a transform function that runs on every frame — if the ref is not yet measured, it returns stale bounds.
+**What goes wrong:** Using `useTransform(mouseX, callback)` where the callback calls `getBoundingClientRect()` — this runs in a Framer Motion subscriber context, not a RAF loop, causing reflow-per-frame and stale ref issues.
 
-**Why it happens:** `getBoundingClientRect()` forces a layout reflow if called mid-animation. The ref may also be null during the first render.
+**Why it happens:** Framer Motion's `useTransform` callback fires synchronously during state updates, not on a predictable RAF schedule. `getBoundingClientRect()` inside a transform callback can return stale values or trigger extra reflows.
 
-**How to avoid:** Guard with `if (!ref.current) return BASE_SIZE`. The Framer Motion `useTransform` callback already runs on a RAF schedule — this is the correct approach from the reference DockItem.svelte, just with null guard added.
+**How to avoid (preact reference pattern):** Use `useRaf` to read `getBoundingClientRect()` on every animation frame and update a `distance` MotionValue directly. This decouples the measurement from the transform computation:
+
+```typescript
+const distance = useMotionValue(beyondLimit)
+
+useRaf(() => {
+  const el = ref.current
+  const mouseXVal = mouseX.get()
+  if (el && mouseXVal !== null) {
+    const rect = el.getBoundingClientRect()
+    distance.set(mouseXVal - (rect.left + rect.width / 2))
+    return
+  }
+  distance.set(beyondLimit)
+}, true)
+
+const widthPX = useSpring(useTransform(distance, distanceInput, widthOutput), {
+  stiffness: 1300,
+  damping: 82,
+})
+```
+
+If `@rooks/use-raf` is unavailable, implement a simple RAF loop in a `useEffect` with cleanup.
 
 **Warning signs:** Icons snap to base size for one frame during fast mouse sweep.
 
@@ -778,8 +904,10 @@ Constraints enforced by established patterns (from STATE.md and CONTEXT.md):
 
 ### Primary (HIGH confidence)
 - Verified via `npm view` — react-rnd@10.5.3, framer-motion@12.38.0, zustand@5.0.12 (registry, 2026-04-01)
-- `.reference/macos-web-main/src/components/Dock/DockItem.svelte` — magnification math, spring params, bounce animation
-- `.reference/macos-web-main/src/components/Dock/Dock.svelte` — glass CSS, border-radius, mouse tracking pattern
+- `.reference/macos-web-main/src/components/Dock/DockItem.svelte` — magnification math structure, bounce animation concept
+- `.reference/macos-preact-main/src/components/dock/DockItem.tsx` — **PRIMARY for Dock**: precise spring params (stiffness:1300, damping:82), useRaf pattern, translateY bounce, dot CSS variable, transform-origin:bottom
+- `.reference/macos-preact-main/src/components/dock/Dock.module.scss` — ::before backdrop blur isolation, box-shadow formula, border-radius 1.2rem, divider style
+- `.reference/macos-web-main/src/components/Dock/Dock.svelte` — mouse tracking fallback reference
 - `.reference/macos-web-main/src/components/Desktop/Window/Window.svelte` — shadow values, maximize transition, drag handle pattern
 - `.reference/macos-web-main/src/components/Desktop/Window/TrafficLights.svelte` — exact traffic light hex colors, size, gap
 - `.reference/macos-web-main/src/components/TopBar/TopBar.svelte` — Menubar height (1.8rem = ~28.8px, spec uses 24px), glass formula, clock font

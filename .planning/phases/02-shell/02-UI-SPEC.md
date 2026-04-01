@@ -184,23 +184,24 @@ Selection token (`--color-selection`) reserved for: context menu item hover back
 - Base size: 48px — source: CONTEXT.md
 - Max magnified size: 80px — source: CONTEXT.md
 - Influence range: 3-5 adjacent icons — source: CONTEXT.md
-- Spring: Framer Motion `useSpring` with `stiffness: 150, damping: 15, mass: 0.1` (replaces reference popmotion `spring({ damping: 0.47, stiffness: 0.12 })` — adapt to Framer Motion API)
-- Distance limit: `baseWidth * 6 = 48 * 6 = 288px`
-- Width interpolation at distance 0: 80px; at `±288px`: 48px; intermediate: cosine curve approximated with Framer Motion `useTransform`
+- Spring: Framer Motion `useSpring` with `stiffness: 1300, damping: 82` (source: `.reference/macos-preact-main` DockItem.tsx — tighter spring replicates actual macOS Dock responsiveness; replaces earlier estimate stiffness:150/damping:15/mass:0.1 which was too slow)
+- Distance tracking: `useRaf` loop reads `getBoundingClientRect()` per frame into a `distance` MotionValue — avoids `useTransform` closure/stale-ref pitfall
+- Distance limit: `baseWidth * 6 = 57.6 * 6 = 345.6px` (baseWidth=57.6 from preact reference; icons sized via rem conversion `width / 16`)
+- Width interpolation at distance 0: `baseWidth * 2` (peak); at `±345.6px`: `baseWidth`; intermediate: 7-point Framer Motion `useTransform` curve
 
 **Run indicator dot**
 - Size: 4px × 4px circle, `border-radius: 50%`
-- Color: white (`#ffffff`) — visible against wallpaper
-- Position: `margin-top: 2px` below icon, centered horizontally
-- Visibility: opacity 1 when app running, opacity 0 when not — transition 150ms
+- Color: `var(--app-color-dark)` — theme-adaptive (dark on light bg, light on dark bg)
+- Visibility: `opacity: var(--opacity)` driven by inline style `{ '--opacity': +isRunning }` — avoids conditional render
+- Position: `margin: 0` below icon, centered horizontally
 
 **Hover tooltip**
-- Appears above icon on hover
+- Appears above icon on hover/focus-visible
 - Background: `hsla(<surface-hsl>, 0.5)`, `backdrop-filter: blur(5px)`
 - Padding: `8px 12px`, border-radius: 6px
-- Font: 13px / 400 / `var(--color-text)`
+- Font: 13px / 400 / `var(--color-text)`, `white-space: nowrap`
 - Shadow: `rgba(0,0,0,0.3) 0px 1px 5px 2px`
-- Offset: `bottom: calc(100% + 8px)` from icon top
+- Position: `top: -35%` (relative to button, so scales with icon height)
 
 **Right-click context menu (3 items)**
 - Not running state: single item — "打开"
@@ -208,7 +209,8 @@ Selection token (`--color-selection`) reserved for: context menu item hover back
 - Source: CONTEXT.md
 
 **Launch bounce animation**
-- On app launch: icon animates `translateY(0) → translateY(-10px) → translateY(0)`, duration 400ms, `easeInOut` — source: reference DockItem.svelte `appOpenIconBounceTransform`
+- On app launch: icon animates `translateY(0%) → translateY(-39.2%) → translateY(0%)`, spring `{ type: 'spring', duration: 0.7 }` — source: `.reference/macos-preact-main` DockItem.tsx (percentage-based, scales with icon size; replaces earlier `-10px` absolute value)
+- Triggered via `useState` animateObj + Framer Motion `animate` prop (not `useAnimation`) — simpler and avoids imperative API
 
 ---
 
@@ -355,8 +357,8 @@ Source: CONTEXT.md (all menu items); defaults applied for error state and close 
 | Window close | 150ms | easeIn | Framer Motion |
 | Window minimize | 300ms | spring `{ stiffness: 300, damping: 35 }` | Framer Motion |
 | Window maximize/restore | 300ms | ease (CSS transition) | CSS |
-| Dock icon magnification | continuous | spring `{ stiffness: 150, damping: 15, mass: 0.1 }` | Framer Motion useSpring |
-| Dock icon launch bounce | 400ms | easeInOut | Framer Motion |
+| Dock icon magnification | continuous | spring `{ stiffness: 1300, damping: 82 }` | Framer Motion useSpring + useRaf |
+| Dock icon launch bounce | ~700ms | spring `{ type: 'spring', duration: 0.7 }` | Framer Motion animate prop |
 | Context menu appear | 100ms | easeOut | Framer Motion |
 | Run indicator dot appear | 150ms | linear | CSS transition |
 
@@ -384,8 +386,11 @@ No third-party component registries are used in this phase. All components are c
 | phase1-kernel-design.md | 5 — CSS variable names and values (both light/dark modes) |
 | theme-engine.ts | 5 — exact hex values for all CSS variables (light and dark) |
 | window.ts / manifest.ts | 3 — WindowDescriptor rect type, minSize field, menubar field |
-| reference Dock.svelte | 3 — glass background formula, border-radius 1.2rem, box-shadow formula |
-| reference DockItem.svelte | 4 — magnification math (baseWidth=57.6, spring damping/stiffness), tooltip style, bounce animation |
+| reference Dock.svelte | 3 — glass background formula (supplemental) |
+| reference DockItem.svelte | 2 — magnification math structure (superseded by preact reference) |
+| **reference macos-preact DockItem.tsx** | **5** — **PRIMARY Dock source**: spring params (stiffness:1300, damping:82), useRaf distance tracking, translateY bounce (-39.2%), dot CSS variable, transform-origin:bottom |
+| **reference macos-preact Dock.module.scss** | **4** — **::before backdrop blur isolation**, border-radius 1.2rem, box-shadow 3-layer formula, divider style |
+| Preact reference addition (2026-04-01) | 5 — spring params corrected, bounce animation corrected, dot color adaptive, useRaf tracking pattern, ::before blur isolation |
 | reference Window.svelte | 4 — shadow values (focused/unfocused), border-radius 0.75rem, maximize transition 300ms, traffic light container position |
 | reference TrafficLights.svelte | 3 — button size 0.8rem, gap 0.6rem, exact hex colors for all 3 lights |
 | reference TopBar.svelte | 2 — menubar height 1.8rem, glass bg formula, clock font-size/weight |
