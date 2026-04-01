@@ -28,6 +28,12 @@ Source: CONTEXT.md (established patterns: CSS Modules, no CSS-in-JS), RESEARCH.m
 
 ---
 
+## Focal Point
+
+Primary focal point: active window titlebar.
+
+---
+
 ## Spacing Scale
 
 Declared values (multiples of 4 only):
@@ -60,11 +66,12 @@ Exceptions:
 |------|------|--------|-------------|
 | Body (window content, Dock tooltip) | 13px | 400 | 1.5 |
 | Label (Menubar app name, menu items, context menu) | 13px | 500 | 1.4 |
-| Clock (Menubar right) | 12px | 500 | 1.0 (single line, no wrap) |
+| Clock (Menubar right — clock only, not used elsewhere) | 12px | 500 | 1.0 (single line, no wrap) |
 | Caption (Dock run indicator — not text, visual only) | n/a | n/a | n/a |
 
 Notes:
 - The reference TopBar.svelte uses `font-size: 0.8rem` (12.8px) at `font-weight: 500` for the clock — normalized to 12px/500.
+- 12px is used strictly for the Menubar clock. All other text elements use 13px minimum.
 - The reference DockItem tooltip uses `font-size: 0.9rem` (14.4px) — normalized to 13px/400 for body label consistency.
 - Heading role not needed in Phase 2 shell chrome (no headings in Menubar, Dock, or window chrome itself).
 - Font family: `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif` — renders SF Pro on macOS, Segoe UI on Windows, Inter-equivalent on Linux.
@@ -83,6 +90,7 @@ Source: reference TopBar.svelte (font-size, font-weight), CONTEXT.md (Menubar he
 | Secondary (30%) | `var(--color-surface)` → `#f5f5f5` | Window titlebar, Dock glass base, Menubar glass base, context menu background |
 | Accent (10%) | `var(--color-accent)` → `#0066cc` | Active Dock indicator dot, focused window ring on dark mode only, link text |
 | Destructive | `#ff5f56` (traffic light red) | Close button only |
+| Selection | `--color-selection` → `rgba(0, 102, 204, 0.15)` | Context menu item hover background (light mode) |
 
 ### Dark Mode
 
@@ -92,6 +100,7 @@ Source: reference TopBar.svelte (font-size, font-weight), CONTEXT.md (Menubar he
 | Secondary (30%) | `var(--color-surface)` → `#313244` | Window titlebar, Dock glass base, Menubar glass base, context menu background |
 | Accent (10%) | `var(--color-accent)` → `#89b4fa` | Active Dock indicator dot, focused window ring, link text |
 | Destructive | `#ff5f56` (traffic light red) | Close button only — same in both modes |
+| Selection | `--color-selection` → `rgba(137, 180, 250, 0.2)` | Context menu item hover background (dark mode) |
 
 ### Semantic Colors (fixed, not theme-variable)
 
@@ -122,6 +131,8 @@ Reference Dock.svelte uses `blur(10px)` — override to `blur(20px)` per CONTEXT
 Source: reference Window.svelte — use verbatim.
 
 Accent reserved for: Dock run indicator dot, focused window accent ring (dark mode only), inline link text inside app content. NOT for: buttons, hover states, generic borders, disabled states.
+
+Selection token (`--color-selection`) reserved for: context menu item hover background only. This keeps hover states distinct from the accent color and satisfies the accent reserved-for contract.
 
 ---
 
@@ -163,7 +174,7 @@ Accent reserved for: Dock run indicator dot, focused window accent ring (dark mo
 **Layout**
 - Fixed bottom center: `position: fixed; bottom: 0; left: 50%; transform: translateX(-50%)`
 - Container height: 72px (48px icon + 8px padding top + 8px padding bottom + 8px for label/dot area)
-- Inner rail: `display: flex; align-items: flex-end; padding: 6px 8px; gap: 4px`
+- Inner rail: `display: flex; align-items: flex-end; padding: 8px; gap: 4px`
 - Border-radius: 20px
 - Glass: `background-color: hsla(<surface-hsl>, 0.4); backdrop-filter: blur(20px) saturate(180%)`
 - Box shadow: `inset 0 0 0 0.5px rgba(255,255,255,0.2), 0 0 0 0.5px rgba(0,0,0,0.3), rgba(0,0,0,0.3) 2px 5px 19px 7px`
@@ -185,7 +196,7 @@ Accent reserved for: Dock run indicator dot, focused window accent ring (dark mo
 **Hover tooltip**
 - Appears above icon on hover
 - Background: `hsla(<surface-hsl>, 0.5)`, `backdrop-filter: blur(5px)`
-- Padding: `6px 10px`, border-radius: 6px
+- Padding: `8px 12px`, border-radius: 6px
 - Font: 13px / 400 / `var(--color-text)`
 - Shadow: `rgba(0,0,0,0.3) 0px 1px 5px 2px`
 - Offset: `bottom: calc(100% + 8px)` from icon top
@@ -210,7 +221,7 @@ Accent reserved for: Dock run indicator dot, focused window accent ring (dark mo
 - Right section: `margin-left: auto; padding-right: 8px` (clock)
 
 **Left zone elements**
-- Apple icon: 14px SVG, padding `0 10px`, clickable
+- Apple icon: 14px SVG, padding `0 10px`, clickable, `aria-label="Apple 菜单"`
 - App name: 13px / 500, padding `0 8px`
 - Menu items from `manifest.menubar`: 13px / 400, padding `0 8px`, clickable (Phase 2: show but no action)
 - Separator between Apple icon and app name: none (space only)
@@ -269,7 +280,7 @@ Used by: Desktop right-click, Dock right-click, Apple menu.
 - Item height: 24px
 - Item padding: `0 12px`
 - Item font: 13px / 400 / `var(--color-text)`
-- Item hover: `background-color: var(--color-accent)`, text `#ffffff`
+- Item hover: `background-color: var(--color-selection)`, text color unchanged (`var(--color-text)`)
 - Separator: `height: 1px; background: var(--color-border); margin: 4px 8px`
 - Appears with Framer Motion `initial={{ opacity: 0, scale: 0.95 }}` → `animate={{ opacity: 1, scale: 1 }}`, duration 100ms, `easeOut`
 
@@ -327,7 +338,7 @@ Used by: Desktop right-click, Dock right-click, Apple menu.
 | Menubar fallback app name | "Vidorra OS" |
 | Empty Dock state heading | n/a (Dock always shows at least App Store — source: CONTEXT.md) |
 | Empty desktop state | No text — desktop is pure wallpaper, no empty state copy needed |
-| Window load error (iframe fails) | "无法加载应用" (centered in iframe area, 13px / 400 / `var(--color-text)`) |
+| Window load error (iframe fails) | "无法加载应用 — 请尝试重新打开，或检查应用是否已正确安装" (centered in iframe area, 13px / 400 / `var(--color-text)`) |
 | Destructive — window close | No confirmation — click red traffic light closes immediately (macOS convention) |
 | Destructive — force refresh | No confirmation — "强制刷新" triggers `window.location.reload()` immediately |
 
@@ -379,6 +390,7 @@ No third-party component registries are used in this phase. All components are c
 | reference TopBar.svelte | 2 — menubar height 1.8rem, glass bg formula, clock font-size/weight |
 | App.module.css | 1 — font-family: system-ui, sans-serif (already established) |
 | Researcher defaults | 7 — spacing scale tokens, typography normalization, window open/close animation durations, context menu animation, z-index layering, keyboard focus ring |
+| Checker revision (2026-04-01) | 6 — error copy solution path, Dock padding multiples-of-4, tooltip padding multiples-of-4, focal point declaration, Apple icon aria-label, selection token for hover |
 
 ---
 
