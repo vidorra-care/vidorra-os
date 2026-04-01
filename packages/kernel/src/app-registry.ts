@@ -53,6 +53,15 @@ export class AppRegistry {
         throw new Error(`Invalid manifest: missing ${field}`)
       }
     }
+    const size = obj['defaultSize']
+    if (
+      typeof size !== 'object' ||
+      size === null ||
+      typeof (size as Record<string, unknown>)['width'] !== 'number' ||
+      typeof (size as Record<string, unknown>)['height'] !== 'number'
+    ) {
+      throw new Error('Invalid manifest: defaultSize must have numeric width and height')
+    }
     return obj as unknown as AppManifest
   }
 

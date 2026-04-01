@@ -100,6 +100,25 @@ describe('AppRegistry', () => {
         registry.install('http://localhost:3001/manifest.json'),
       ).rejects.toThrow('Invalid manifest: missing name')
     })
+
+    it('throws when defaultSize is not an object with width and height', async () => {
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          id: 'com.test.app',
+          name: 'Test App',
+          version: '1.0.0',
+          entry: 'http://localhost:3001',
+          icon: './icon.svg',
+          category: 'utility',
+          defaultSize: 'invalid',
+        }),
+      } as Response)
+
+      await expect(
+        registry.install('http://localhost:3001/manifest.json'),
+      ).rejects.toThrow('Invalid manifest: defaultSize must have numeric width and height')
+    })
   })
 
   describe('uninstall', () => {
