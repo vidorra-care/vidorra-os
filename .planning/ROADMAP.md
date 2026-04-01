@@ -8,7 +8,7 @@ Vidorra OS is a browser-based macOS-style Web Desktop OS with a framework-agnost
 
 - [x] **Phase 0: Scaffolding** - Monorepo skeleton, toolchain, all packages/apps wired up
 - [x] **Phase 1: Kernel** - AppRegistry + ThemeEngine — core logic without UI
-- [ ] **Phase 2: Shell** - WindowManager + Dock + Menubar + Desktop — visual shell
+- [x] **Phase 2: Shell** - WindowManager + Dock + Menubar + Desktop — visual shell
 - [ ] **Phase 3: KernelBus (Bridge)** - postMessage RPC between Shell and sandboxed App iframes
 - [ ] **Phase 4: SDK v0.1** - Developer-facing API (`createApp`, window/theme APIs)
 - [ ] **Phase 5: Built-in Apps** - App Store, Settings, Calculator, Welcome
@@ -111,7 +111,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 0. Scaffolding | 3/3 | Complete | 2026-04-01 |
 | 1. Kernel | 3/3 | Complete | 2026-04-01 |
-| 2. Shell | 1/6 | In Progress|  |
+| 2. Shell | 9/9 | Complete | 2026-04-02 |
 | 3. KernelBus | 0/TBD | Not started | - |
 | 4. SDK v0.1 | 0/TBD | Not started | - |
 | 5. Built-in Apps | 0/TBD | Not started | - |
