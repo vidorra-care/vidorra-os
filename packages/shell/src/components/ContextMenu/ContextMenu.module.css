@@ -1,3 +1,7 @@
+.contextMenuPanel {
+  /* positioning and shadow handled via GlassPanel style prop */
+}
+
 .contextMenu {
   position: fixed;
   /* Liquid glass via CSS: same saturated blur pattern as Dock */

@@ -4,6 +4,7 @@ import type { AppManifest } from '@vidorra/types'
 import { appRegistry } from '@vidorra/kernel'
 import { useWindowStore } from '../../stores/useWindowStore'
 import { DockItem } from './DockItem'
+import { GlassPanel } from '../LiquidGlass'
 import styles from './Dock.module.css'
 
 export function Dock() {
@@ -48,24 +49,34 @@ export function Dock() {
 
   return (
     <div className={styles.dockWrapper}>
-      <nav
-        className={styles.dockInner}
-        onMouseMove={(e) => mouseX.set(e.nativeEvent.x)}
-        onMouseLeave={() => mouseX.set(null)}
+      <GlassPanel
+        cornerRadius={20}
+        padding="0"
+        displacementScale={30}
+        blurAmount={0.3}
+        saturation={190}
+        aberrationIntensity={1.5}
+        style={{ boxShadow: 'inset 0 0.5px 0 rgba(255,255,255,0.7), inset 0 -0.5px 0 rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.18), 0 4px 24px rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.12)' }}
       >
-        {apps.map((app) => {
-          const isRunning = windows.some((w) => w.appId === app.id)
-          return (
-            <DockItem
-              key={app.id}
-              app={app}
-              mouseX={mouseX}
-              isRunning={isRunning}
-              onOpen={handleOpen}
-            />
-          )
-        })}
-      </nav>
+        <nav
+          className={styles.dockInner}
+          onMouseMove={(e) => mouseX.set(e.nativeEvent.x)}
+          onMouseLeave={() => mouseX.set(null)}
+        >
+          {apps.map((app) => {
+            const isRunning = windows.some((w) => w.appId === app.id)
+            return (
+              <DockItem
+                key={app.id}
+                app={app}
+                mouseX={mouseX}
+                isRunning={isRunning}
+                onOpen={handleOpen}
+              />
+            )
+          })}
+        </nav>
+      </GlassPanel>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { ContextMenu } from '../ContextMenu/ContextMenu'
 import type { ContextMenuEntry } from '../ContextMenu/ContextMenu'
 import styles from './Desktop.module.css'
@@ -9,6 +9,7 @@ const STORAGE_KEY = 'vidorra:wallpaper'
 export function Desktop() {
   const [wallpaperUrl, setWallpaperUrl] = useState(DEFAULT_WALLPAPER)
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
@@ -20,9 +21,19 @@ export function Desktop() {
     setMenu({ x: e.clientX, y: e.clientY })
   }, [])
 
+  const handleWallpaperChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const url = URL.createObjectURL(file)
+    setWallpaperUrl(url)
+    localStorage.setItem(STORAGE_KEY, url)
+    // Reset input so the same file can be picked again
+    e.target.value = ''
+  }, [])
+
   const desktopMenuItems: ContextMenuEntry[] = [
     { label: '关于 Vidorra OS', action: () => { /* no-op Phase 2 */ } },
-    { label: '更改壁纸...', action: () => { /* opens Settings app in Phase 5 */ } },
+    { label: '更改壁纸...', action: () => fileInputRef.current?.click() },
     { separator: true },
     { label: '强制刷新', action: () => window.location.reload() },
   ]
@@ -33,6 +44,13 @@ export function Desktop() {
       style={{ backgroundImage: `url(${wallpaperUrl})` }}
       onContextMenu={handleContextMenu}
     >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={handleWallpaperChange}
+      />
       {menu && (
         <ContextMenu
           x={menu.x}

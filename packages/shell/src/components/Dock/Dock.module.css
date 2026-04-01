@@ -11,18 +11,6 @@
   align-items: flex-end;
   padding: 8px;
   gap: 4px;
-  border-radius: 20px;
-  /* Liquid glass via CSS: saturated backdrop + multi-layer shadow + edge highlight */
-  background: hsla(0, 0%, 100%, 0.18);
-  backdrop-filter: blur(40px) saturate(200%) brightness(1.1);
-  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.1);
-  box-shadow:
-    inset 0 0.5px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -0.5px 0 rgba(0, 0, 0, 0.08),
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.25),
-    0 0 0 0.5px rgba(0, 0, 0, 0.18),
-    0 4px 24px rgba(0, 0, 0, 0.22),
-    0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
 .dockItemButton {
