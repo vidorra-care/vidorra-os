@@ -1,0 +1,64 @@
+.windowFrame {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 28px 1fr;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-bg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.windowFrame[data-focused='true'] {
+  box-shadow: 0px 8.5px 10px rgba(0,0,0,0.28), 0px 68px 80px rgba(0,0,0,0.56);
+}
+
+.windowFrame[data-focused='false'] {
+  box-shadow: 0px 8.5px 10px rgba(0,0,0,0.115), 0px 68px 80px rgba(0,0,0,0.23);
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 16px;
+  background-color: hsla(0, 0%, 50%, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--color-border);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.content {
+  overflow: hidden;
+  position: relative;
+}
+
+.content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.maximized {
+  border-radius: 0;
+}
+
+.minimizedHidden {
+  visibility: hidden;
+  pointer-events: none;
+}
