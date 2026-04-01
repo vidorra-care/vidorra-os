@@ -20,7 +20,23 @@
       "Bash(mkdir -p d:/Code/Study/vidorra-os/.planning/phases/02-shell)",
       "Bash(wc -l .planning/codebase/*.md)",
       "Bash(grep -E '\\(sk-[a-zA-Z0-9]{20,}|sk_live_[a-zA-Z0-9]+|sk_test_[a-zA-Z0-9]+|ghp_[a-zA-Z0-9]{36}|gho_[a-zA-Z0-9]{36}|glpat-[a-zA-Z0-9_-]+|AKIA[A-Z0-9]{16}|xox[baprs]-[a-zA-Z0-9-]+|-----BEGIN.*PRIVATE KEY|eyJ[a-zA-Z0-9_-]+\\\\.eyJ[a-zA-Z0-9_-]+\\\\.\\)' .planning/codebase/*.md)",
-      "Bash(node \"C:/Users/12946/.claude/get-shit-done/bin/gsd-tools.cjs\" commit \"docs: map existing codebase\" --files .planning/codebase/*.md)"
+      "Bash(node \"C:/Users/12946/.claude/get-shit-done/bin/gsd-tools.cjs\" commit \"docs: map existing codebase\" --files .planning/codebase/*.md)",
+      "Skill(gsd:new-project)",
+      "Skill(gsd:new-project:*)",
+      "Skill(gsd:plan-phase)",
+      "Skill(gsd:plan-phase:*)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap get-phase 2)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs init phase-op 02)",
+      "Bash(npm --version)",
+      "Bash(pnpm --version)",
+      "Bash(node -e ':*)",
+      "Bash(npm view:*)",
+      "Bash(ls \".planning/phases/02-shell/\"*-UI-SPEC.md)",
+      "Bash(ls D:/Code/Study/vidorra-os/.planning/phases/01-kernel/*-SUMMARY.md)",
+      "Bash(ls D:/Code/Study/vidorra-os/.planning/phases/00-scaffolding/*-SUMMARY.md)",
+      "Bash(ls \".planning/phases/02-shell/\"*-PLAN.md)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs init plan-phase 02-shell)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap set-plans 2 02-00,02-01,02-02,02-03,02-04,02-05)"
     ]
   }
 }

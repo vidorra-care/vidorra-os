@@ -8,7 +8,8 @@
     "commit_docs": true,
     "auto_advance": false,
     "ui_phase": true,
-    "ui_safety_gate": true
+    "ui_safety_gate": true,
+    "_auto_chain_active": false
   },
   "models": {
     "profile": "balanced",
