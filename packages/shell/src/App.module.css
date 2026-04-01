@@ -1,0 +1,10 @@
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  background: #1e1e2e;
+  color: #cdd6f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
+}
