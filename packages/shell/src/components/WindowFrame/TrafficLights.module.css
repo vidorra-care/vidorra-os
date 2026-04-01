@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  top: 8px;
+  left: 12px;
+}
+
+.container svg {
+  visibility: hidden;
+}
+
+.container:hover svg {
+  visibility: visible;
+}
+
+.button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: default;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  border: none;
+}

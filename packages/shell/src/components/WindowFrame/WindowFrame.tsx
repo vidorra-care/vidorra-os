@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Rnd } from 'react-rnd'
 import { motion } from 'framer-motion'
 import { useWindowStore, type WindowStoreWindow } from '../../stores/useWindowStore'
+import { useDockStore } from '../../stores/useDockStore'
 import { TrafficLights } from './TrafficLights'
 import styles from './WindowFrame.module.css'
 
@@ -13,6 +14,8 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   const focusWindow = useWindowStore((s) => s.focusWindow)
   const setWindowRect = useWindowStore((s) => s.setWindowRect)
   const toggleMaximize = useWindowStore((s) => s.toggleMaximize)
+  const iconPositions = useDockStore((s) => s.iconPositions)
+  const dockTarget = iconPositions[win.appId]
 
   const isMaximized = win.state === 'maximized'
   const isMinimized = win.state === 'minimized'
@@ -50,8 +53,13 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   }
 
   const animateTarget = isMinimized
-    ? { scale: 0.1, opacity: 0, y: 400 }
-    : { scale: 1, opacity: 1, y: 0 }
+    ? {
+        scale: 0.1,
+        opacity: 0,
+        x: dockTarget ? dockTarget.x - (win.rect.x + win.rect.width / 2) : 0,
+        y: dockTarget ? dockTarget.y - (win.rect.y + win.rect.height / 2) : 500,
+      }
+    : { scale: 1, opacity: 1, x: 0, y: 0 }
 
   const transition = isMinimized
     ? { type: 'spring' as const, stiffness: 300, damping: 35 }
@@ -80,7 +88,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
       dragHandleClassName="window-drag-handle"
       minWidth={win.minWidth ?? 200}
       minHeight={win.minHeight ?? 150}
-      style={{ zIndex: win.zIndex, pointerEvents: 'auto' }}
+      style={{ zIndex: win.zIndex, pointerEvents: isMinimized ? 'none' : 'auto' }}
       onDragStart={() => setIsDragging(true)}
       onDragStop={(_e, d) => {
         setIsDragging(false)

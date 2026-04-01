@@ -13,6 +13,7 @@ interface WindowStore {
   openWindow: (descriptor: Omit<WindowDescriptor, 'zIndex' | 'focused'> & { minWidth?: number; minHeight?: number }) => void
   closeWindow: (id: string) => void
   focusWindow: (id: string) => void
+  unfocusAll: () => void
   setWindowState: (id: string, state: WindowState) => void
   setWindowRect: (id: string, rect: WindowRect) => void
   toggleMaximize: (id: string) => void
@@ -69,6 +70,10 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       nextZIndex: nextZIndex + 1,
     }))
   },
+  unfocusAll: () =>
+    set((s) => ({
+      windows: s.windows.map((w) => ({ ...w, focused: false })),
+    })),
   setWindowState: (id, state) =>
     set((s) => ({
       windows: s.windows.map((w) => {

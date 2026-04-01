@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { ContextMenu } from '../ContextMenu/ContextMenu'
 import type { ContextMenuEntry } from '../ContextMenu/ContextMenu'
+import { useWindowStore } from '../../stores/useWindowStore'
 import styles from './Desktop.module.css'
 
 const DEFAULT_WALLPAPER = '/wallpapers/default.jpg'
@@ -10,6 +11,7 @@ export function Desktop() {
   const [wallpaperUrl, setWallpaperUrl] = useState(DEFAULT_WALLPAPER)
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const unfocusAll = useWindowStore((s) => s.unfocusAll)
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
@@ -21,13 +23,22 @@ export function Desktop() {
     setMenu({ x: e.clientX, y: e.clientY })
   }, [])
 
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    // Only unfocus if the click target is the desktop itself (not a child)
+    if (e.target === e.currentTarget) unfocusAll()
+  }, [unfocusAll])
+
   const handleWallpaperChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const url = URL.createObjectURL(file)
-    setWallpaperUrl(url)
-    localStorage.setItem(STORAGE_KEY, url)
-    // Reset input so the same file can be picked again
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string
+      if (!dataUrl) return
+      setWallpaperUrl(dataUrl)
+      localStorage.setItem(STORAGE_KEY, dataUrl)
+    }
+    reader.readAsDataURL(file)
     e.target.value = ''
   }, [])
 
@@ -43,6 +54,7 @@ export function Desktop() {
       className={styles.desktop}
       style={{ backgroundImage: `url(${wallpaperUrl})` }}
       onContextMenu={handleContextMenu}
+      onClick={handleClick}
     >
       <input
         ref={fileInputRef}

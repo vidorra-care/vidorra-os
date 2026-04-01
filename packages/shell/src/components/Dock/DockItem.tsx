@@ -8,6 +8,7 @@ import {
 } from 'framer-motion'
 import type { AppManifest } from '@vidorra/types'
 import { useWindowStore } from '../../stores/useWindowStore'
+import { useDockStore } from '../../stores/useDockStore'
 import { useRaf } from '../../hooks/useRaf'
 import { ContextMenu } from '../ContextMenu/ContextMenu'
 import type { ContextMenuEntry } from '../ContextMenu/ContextMenu'
@@ -51,19 +52,26 @@ interface MenuState {
 export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
   const imgRef = useRef<HTMLImageElement>(null)
   const [menu, setMenu] = useState<MenuState | null>(null)
-  const [bounceUp, setBounceUp] = useState(false)
+  const [animateObj, setAnimateObj] = useState({ y: ['0%', '0%', '0%'] })
 
   const closeWindow = useWindowStore((s) => s.closeWindow)
   const focusWindow = useWindowStore((s) => s.focusWindow)
   const windows = useWindowStore((s) => s.windows)
+  const setIconPosition = useDockStore((s) => s.setIconPosition)
 
   const distance = useMotionValue(beyondLimit)
 
   useRaf(() => {
     const el = imgRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    // Always update icon position for minimize target tracking
+    setIconPosition(app.id, {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    })
     const mouseXVal = mouseX.get()
-    if (el && mouseXVal !== null) {
-      const rect = el.getBoundingClientRect()
+    if (mouseXVal !== null) {
       distance.set(mouseXVal - (rect.left + rect.width / 2))
       return
     }
@@ -109,10 +117,10 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
       >
         <p className={styles.tooltip}>{app.name}</p>
         <motion.span
-          onTap={() => setBounceUp(true)}
-          animate={{ y: bounceUp ? '-39.2%' : '0%' }}
-          transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-          onAnimationComplete={() => { if (bounceUp) setBounceUp(false) }}
+          onTap={() => setAnimateObj({ y: ['0%', '-39.2%', '0%'] })}
+          initial={false}
+          animate={animateObj}
+          transition={{ type: 'spring', duration: 0.7 }}
         >
           <motion.img
             ref={imgRef}
