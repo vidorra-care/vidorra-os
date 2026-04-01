@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "project": "vidorra-os",
+  "workflow": {
+    "research_enabled": true,
+    "plan_checker_enabled": true,
+    "nyquist_validation_enabled": true,
+    "commit_docs": true,
+    "auto_advance": false,
+    "ui_phase": true,
+    "ui_safety_gate": true
+  },
+  "models": {
+    "profile": "balanced",
+    "researcher": "sonnet",
+    "planner": "opus",
+    "checker": "sonnet"
+  }
+}
