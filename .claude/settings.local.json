@@ -8,7 +8,10 @@
       "Bash(git commit:*)",
       "Bash(pnpm --filter @vidorra/app-store build)",
       "Bash(pnpm --filter @vidorra/settings build)",
-      "Bash(pnpm test:*)"
+      "Bash(pnpm test:*)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
