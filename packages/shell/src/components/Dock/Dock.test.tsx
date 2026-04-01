@@ -58,11 +58,11 @@ describe('DockItem', () => {
   })
 
   describe('SHELL-05: right-click context menu', () => {
-    it('shows 3 items when right-clicking a running app: 打开, 在 Dock 中隐藏, 关闭', () => {
+    it('shows 2 items when right-clicking a running app: 在 Dock 中隐藏, 关闭', () => {
       render(<DockItem app={mockApp} mouseX={mouseX} isRunning={true} onOpen={() => {}} />)
       const item = screen.getByAltText('Test App')
       fireEvent.contextMenu(item)
-      expect(screen.getByText('打开')).toBeInTheDocument()
+      expect(screen.queryByText('打开')).not.toBeInTheDocument()
       expect(screen.getByText('在 Dock 中隐藏')).toBeInTheDocument()
       expect(screen.getByText('关闭')).toBeInTheDocument()
     })

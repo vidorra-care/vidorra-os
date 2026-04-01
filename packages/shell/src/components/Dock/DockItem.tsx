@@ -14,7 +14,7 @@ import type { ContextMenuEntry } from '../ContextMenu/ContextMenu'
 import styles from './Dock.module.css'
 
 const baseWidth = 57.6
-const distanceLimit = baseWidth * 6 // 345.6px
+const distanceLimit = baseWidth * 6
 const beyondLimit = distanceLimit + 1
 
 const distanceInput = [
@@ -30,7 +30,7 @@ const widthOutput = [
   baseWidth,
   baseWidth * 1.1,
   baseWidth * 1.414,
-  baseWidth * 2, // peak
+  baseWidth * 2,
   baseWidth * 1.414,
   baseWidth * 1.1,
   baseWidth,
@@ -51,13 +51,13 @@ interface MenuState {
 export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
   const imgRef = useRef<HTMLImageElement>(null)
   const [menu, setMenu] = useState<MenuState | null>(null)
-  const [bounceKey, setBounceKey] = useState(0)
+  // Matches reference: animateObj state updated via onTap on the motion.span
+  const [animateObj, setAnimateObj] = useState({ translateY: ['0%', '0%', '0%'] })
 
   const closeWindow = useWindowStore((s) => s.closeWindow)
   const focusWindow = useWindowStore((s) => s.focusWindow)
   const windows = useWindowStore((s) => s.windows)
 
-  // Distance MotionValue updated every RAF frame
   const distance = useMotionValue(beyondLimit)
 
   useRaf(() => {
@@ -78,11 +78,6 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
 
   const width = useTransform(widthPX, (w) => `${w / 16}rem`)
 
-  const handleClick = () => {
-    setBounceKey((k) => k + 1)
-    onOpen(app)
-  }
-
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault()
     setMenu({ x: e.clientX, y: e.clientY })
@@ -99,7 +94,6 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
 
   const menuItems: ContextMenuEntry[] = isRunning
     ? [
-        { label: '打开', action: () => focusExistingWindow(app.id) },
         { label: '在 Dock 中隐藏', action: () => {} },
         { label: '关闭', action: () => closeAllWindowsForApp(app.id) },
       ]
@@ -109,16 +103,18 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
     <>
       <button
         className={styles.dockItemButton}
-        onClick={handleClick}
+        onClick={() => onOpen(app)}
         onContextMenu={handleContextMenu}
         title={app.name}
+        aria-label={`Launch ${app.name}`}
       >
         <p className={styles.tooltip}>{app.name}</p>
         <motion.span
-          key={bounceKey}
-          initial={{ translateY: '0%' }}
-          animate={{ translateY: ['0%', '-30%', '0%'] }}
-          transition={{ type: 'spring', duration: 0.5 }}
+          onTap={() => setAnimateObj({ translateY: ['0%', '-39.2%', '0%'] })}
+          initial={false}
+          animate={animateObj}
+          transition={{ type: 'spring', duration: 0.7 }}
+          transformTemplate={({ translateY }) => `translateY(${translateY})`}
         >
           <motion.img
             ref={imgRef}

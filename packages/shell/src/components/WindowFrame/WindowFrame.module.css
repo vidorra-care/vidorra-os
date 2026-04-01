@@ -62,3 +62,9 @@
   visibility: hidden;
   pointer-events: none;
 }
+
+.dragOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
