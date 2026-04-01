@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
-status: executing
-stopped_at: Phase 2 ready to plan — CONTEXT.md and UI-SPEC.md exist in docs/plans/phase2-shell/
-last_updated: "2026-04-01T12:40:19.940Z"
-last_activity: 2026-04-01 -- Phase 02 execution started
+status: planning
+stopped_at: Completed 02-shell-02-PLAN.md (WindowFrame + WindowManager)
+last_updated: "2026-04-01T12:56:59.523Z"
+last_activity: 2026-04-01 — Phase 1 (Kernel) complete; AppRegistry + ThemeEngine implemented and tested
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 6
-  completed_plans: 0
-  percent: 28
+  completed_plans: 1
+  percent: 17
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Any web app runs as a first-class citizen inside a macOS-style browser desktop with a single SDK call.
-**Current focus:** Phase 02 — shell
+**Current focus:** Phase 2 — Shell
 
 ## Current Position
 
-Phase: 02 (shell) — EXECUTING
-Plan: 1 of 6
-Status: Executing Phase 02
-Last activity: 2026-04-01 -- Phase 02 execution started
+Phase: 2 of 7 (Shell)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
+Last activity: 2026-04-01 — Phase 1 (Kernel) complete; AppRegistry + ThemeEngine implemented and tested
 
-Progress: [██░░░░░░░░] ~28%
+Progress: [██░░░░░░░░] 17%
 
 ## Performance Metrics
 
@@ -46,6 +46,7 @@ Progress: [██░░░░░░░░] ~28%
 |-------|-------|-------|----------|
 | 0. Scaffolding | 3 | - | - |
 | 1. Kernel | 3 | - | - |
+| Phase 02-shell P02 | 526376min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -56,6 +57,8 @@ Progress: [██░░░░░░░░] ~28%
 - [Phase 1]: Class + singleton export pattern (`appRegistry`, `themeEngine`) — not function-based
 - [Phase 1]: ThemeEngine injects CSS variables to `:root`; Shell components use `var(--color-bg)` directly, no React subscription needed
 - [Phase 2]: Framer Motion for animations; Genie minimize effect deferred to post-MVP WebGPU phase
+- [Phase 02-shell]: WindowFrame minimize uses visibility:hidden after animation complete to prevent iframe reload on restore
+- [Phase 02-shell]: react-rnd receives controlled position/size from Zustand store; onDragStop/onResizeStop write back to store
 
 ### Pending Todos
 
@@ -67,6 +70,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-01
-Stopped at: Phase 2 ready to plan — CONTEXT.md and UI-SPEC.md exist in docs/plans/phase2-shell/
+Last session: 2026-04-01T12:56:59.520Z
+Stopped at: Completed 02-shell-02-PLAN.md (WindowFrame + WindowManager)
 Resume file: None

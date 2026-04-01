@@ -11,10 +11,12 @@ interface WindowStore {
   windows: WindowStoreWindow[]
   nextZIndex: number
 
-  openWindow: (descriptor: Omit<WindowDescriptor, 'zIndex' | 'focused'> & {
-    minWidth?: number
-    minHeight?: number
-  }) => void
+  openWindow: (
+    descriptor: Omit<WindowDescriptor, 'zIndex' | 'focused'> & {
+      minWidth?: number
+      minHeight?: number
+    }
+  ) => void
   closeWindow: (id: string) => void
   focusWindow: (id: string) => void
   setWindowState: (id: string, state: WindowState) => void
@@ -27,126 +29,126 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
   nextZIndex: 1,
 
   openWindow: (descriptor) => {
-    set((state) => {
-      const nonMinimizedCount = state.windows.filter(w => w.state !== 'minimized').length
-      const offset = nonMinimizedCount * 20
+    const { nextZIndex, windows } = get()
+    const nonMinimizedCount = windows.filter((w) => w.state !== 'minimized').length
+    const offset = nonMinimizedCount * 20
 
-      const newWindow: WindowStoreWindow = {
-        ...descriptor,
-        rect: {
-          ...descriptor.rect,
-          x: descriptor.rect.x + offset,
-          y: descriptor.rect.y + offset,
-        },
-        zIndex: state.nextZIndex,
-        focused: true,
-        minWidth: descriptor.minWidth ?? 200,
-        minHeight: descriptor.minHeight ?? 150,
-      }
+    const newWindow: WindowStoreWindow = {
+      ...descriptor,
+      rect: {
+        ...descriptor.rect,
+        x: descriptor.rect.x + offset,
+        y: descriptor.rect.y + offset,
+      },
+      zIndex: nextZIndex,
+      focused: true,
+      minWidth: descriptor.minWidth ?? 200,
+      minHeight: descriptor.minHeight ?? 150,
+    }
 
-      return {
-        windows: state.windows.map(w => ({ ...w, focused: false })).concat(newWindow),
-        nextZIndex: state.nextZIndex + 1,
-      }
-    })
-  },
-
-  closeWindow: (id) => {
-    set((state) => {
-      const windowToClose = state.windows.find(w => w.id === id)
-      const remainingWindows = state.windows.filter(w => w.id !== id)
-
-      if (windowToClose?.focused && remainingWindows.length > 0) {
-        // Focus the window with the highest zIndex
-        const topWindow = remainingWindows.reduce((top, w) => w.zIndex > top.zIndex ? w : top)
-        return {
-          windows: remainingWindows.map(w => ({
-            ...w,
-            focused: w.id === topWindow.id,
-          })),
-        }
-      }
-
-      return { windows: remainingWindows }
-    })
-  },
-
-  focusWindow: (id) => {
-    set((state) => ({
-      windows: state.windows.map(w => ({
-        ...w,
-        focused: w.id === id,
-        zIndex: w.id === id ? state.nextZIndex : w.zIndex,
-      })),
-      nextZIndex: state.nextZIndex + 1,
+    set((s) => ({
+      windows: [
+        ...s.windows.map((w) => ({ ...w, focused: false })),
+        newWindow,
+      ],
+      nextZIndex: nextZIndex + 1,
     }))
   },
 
-  setWindowState: (id, windowState) => {
-    set((state) => {
-      if (windowState === 'minimized') {
-        const updatedWindows = state.windows.map(w =>
-          w.id === id ? { ...w, state: windowState, focused: false } : w
-        )
-        // Focus the next highest zIndex non-minimized window
-        const nonMinimized = updatedWindows.filter(w => w.id !== id && w.state !== 'minimized')
-        if (nonMinimized.length > 0) {
-          const topWindow = nonMinimized.reduce((top, w) => w.zIndex > top.zIndex ? w : top)
+  closeWindow: (id) => {
+    const { windows } = get()
+    const closedWindow = windows.find((w) => w.id === id)
+    const remaining = windows.filter((w) => w.id !== id)
+
+    let updatedWindows = remaining
+    if (closedWindow?.focused && remaining.length > 0) {
+      // Focus the window with the highest zIndex among remaining
+      const topWindow = remaining.reduce((prev, curr) =>
+        curr.zIndex > prev.zIndex ? curr : prev
+      )
+      updatedWindows = remaining.map((w) => ({
+        ...w,
+        focused: w.id === topWindow.id,
+      }))
+    }
+
+    set({ windows: updatedWindows })
+  },
+
+  focusWindow: (id) => {
+    const { nextZIndex } = get()
+    set((s) => ({
+      windows: s.windows.map((w) =>
+        w.id === id
+          ? { ...w, focused: true, zIndex: nextZIndex }
+          : { ...w, focused: false }
+      ),
+      nextZIndex: nextZIndex + 1,
+    }))
+  },
+
+  setWindowState: (id, state) => {
+    const { windows, nextZIndex } = get()
+    const targetWindow = windows.find((w) => w.id === id)
+    if (!targetWindow) return
+
+    if (state === 'maximized') {
+      set((s) => ({
+        windows: s.windows.map((w) =>
+          w.id === id
+            ? { ...w, state: 'maximized', preMaximizeRect: w.rect }
+            : w
+        ),
+      }))
+    } else if (state === 'normal') {
+      set((s) => ({
+        windows: s.windows.map((w) => {
+          if (w.id !== id) return w
+          const restoredRect = w.preMaximizeRect ?? w.rect
           return {
-            windows: updatedWindows.map(w => ({
-              ...w,
-              focused: w.id === topWindow.id,
-            })),
+            ...w,
+            state: 'normal',
+            rect: restoredRect,
+            preMaximizeRect: undefined,
           }
-        }
-        return { windows: updatedWindows }
+        }),
+      }))
+    } else if (state === 'minimized') {
+      // When minimizing, unfocus and focus the next topmost window
+      const remaining = windows.filter((w) => w.id !== id && w.state !== 'minimized')
+      let nextFocusId: string | null = null
+      if (targetWindow.focused && remaining.length > 0) {
+        const topWindow = remaining.reduce((prev, curr) =>
+          curr.zIndex > prev.zIndex ? curr : prev
+        )
+        nextFocusId = topWindow.id
       }
 
-      if (windowState === 'maximized') {
-        return {
-          windows: state.windows.map(w =>
-            w.id === id
-              ? { ...w, state: windowState, preMaximizeRect: { ...w.rect } }
-              : w
-          ),
-        }
-      }
-
-      if (windowState === 'normal') {
-        return {
-          windows: state.windows.map(w => {
-            if (w.id !== id) return w
-            const restored: WindowStoreWindow = {
-              ...w,
-              state: windowState,
-            }
-            if (w.preMaximizeRect) {
-              restored.rect = { ...w.preMaximizeRect }
-              delete restored.preMaximizeRect
-            }
-            return restored
-          }),
-        }
-      }
-
-      return {}
-    })
+      set((s) => ({
+        windows: s.windows.map((w) => {
+          if (w.id === id) return { ...w, state: 'minimized', focused: false }
+          if (nextFocusId && w.id === nextFocusId) {
+            return { ...w, focused: true, zIndex: nextZIndex }
+          }
+          return w
+        }),
+        nextZIndex: nextFocusId ? nextZIndex + 1 : nextZIndex,
+      }))
+    }
   },
 
   setWindowRect: (id, rect) => {
-    set((state) => ({
-      windows: state.windows.map(w =>
-        w.id === id ? { ...w, rect: { ...rect } } : w
-      ),
+    set((s) => ({
+      windows: s.windows.map((w) => (w.id === id ? { ...w, rect } : w)),
     }))
   },
 
   toggleMaximize: (id) => {
     const { windows, setWindowState } = get()
-    const window = windows.find(w => w.id === id)
-    if (!window) return
+    const win = windows.find((w) => w.id === id)
+    if (!win) return
 
-    if (window.state === 'maximized') {
+    if (win.state === 'maximized') {
       setWindowState(id, 'normal')
     } else {
       setWindowState(id, 'maximized')
