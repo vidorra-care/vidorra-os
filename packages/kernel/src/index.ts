@@ -1,2 +1,3 @@
-// @vidorra/kernel — 阶段 1 实现 AppRegistry 和 ThemeEngine
-export {}
+export { AppRegistry, appRegistry } from './app-registry'
+export { ThemeEngine, themeEngine } from './theme-engine'
+export type { ThemeMode } from './theme-engine'
