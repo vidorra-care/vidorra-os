@@ -58,7 +58,7 @@ Plans:
   3. Menubar shows focused app name on the left and `HH:mm` clock on the right
   4. Desktop renders wallpaper from `localStorage['vidorra:wallpaper']` with fallback to default
   5. Welcome window opens automatically on first launch; does not reopen after `localStorage['vidorra:welcomed']` is set
-**Plans**: TBD
+**Plans**: 02-00, 02-01, 02-02, 02-03, 02-04, 02-05
 
 ### Phase 3: KernelBus (Bridge)
 **Goal**: Shell-side `KernelBusHost` handles postMessage RPC from trusted iframe sources; SDK-side `KernelBusClient` sends requests and resolves Promises. Core methods: `app.ready`, `window.setTitle`, `window.close`, `window.minimize`, `window.maximize`, `window.resize`, `theme.get`.

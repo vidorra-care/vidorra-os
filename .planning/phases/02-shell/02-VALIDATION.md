@@ -2,7 +2,7 @@
 phase: 2
 slug: shell
 status: draft
-nyquist_compliant: false
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-04-01
 ---
@@ -84,4 +84,4 @@ created: 2026-04-01
 - [ ] Feedback latency < 15s
 - [ ] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved 2026-04-01
