@@ -26,8 +26,8 @@
 - [ ] **SHELL-03**: Clicking any window raises it to the front (z-index management via `useWindowStore`)
 - [ ] **SHELL-04**: Dock shows all installed apps; hovering triggers Framer Motion magnification (base 48px → 80px); running apps show a white dot indicator
 - [ ] **SHELL-05**: Dock right-click menu has 3 contextual items (Open / Hide from Dock / Close) depending on running state
-- [ ] **SHELL-06**: Menubar shows focused app name and its `manifest.menubar` items on the left; `HH:mm` clock on the right; no focused app → "Vidorra OS"
-- [ ] **SHELL-07**: Desktop renders a wallpaper image; default fallback is a macOS-style landscape; user can set `localStorage['vidorra:wallpaper']`
+- [x] **SHELL-06**: Menubar shows focused app name and its `manifest.menubar` items on the left; `HH:mm` clock on the right; no focused app → "Vidorra OS"
+- [x] **SHELL-07**: Desktop renders a wallpaper image; default fallback is a macOS-style landscape; user can set `localStorage['vidorra:wallpaper']`
 - [ ] **SHELL-08**: Welcome window opens automatically on first launch; once `localStorage['vidorra:welcomed']` is set it never auto-opens again
 
 ### Bridge (KernelBus)
@@ -103,8 +103,8 @@
 | SHELL-03 | Phase 2 | Pending |
 | SHELL-04 | Phase 2 | Pending |
 | SHELL-05 | Phase 2 | Pending |
-| SHELL-06 | Phase 2 | Pending |
-| SHELL-07 | Phase 2 | Pending |
+| SHELL-06 | Phase 2 | Complete |
+| SHELL-07 | Phase 2 | Complete |
 | SHELL-08 | Phase 2 | Pending |
 | BUS-01 | Phase 3 | Pending |
 | BUS-02 | Phase 3 | Pending |

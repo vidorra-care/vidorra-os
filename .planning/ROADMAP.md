@@ -111,7 +111,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 0. Scaffolding | 3/3 | Complete | 2026-04-01 |
 | 1. Kernel | 3/3 | Complete | 2026-04-01 |
-| 2. Shell | 0/TBD | Not started | - |
+| 2. Shell | 1/6 | In Progress|  |
 | 3. KernelBus | 0/TBD | Not started | - |
 | 4. SDK v0.1 | 0/TBD | Not started | - |
 | 5. Built-in Apps | 0/TBD | Not started | - |
