@@ -1,6 +1,5 @@
 import { useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import LiquidGlass from 'liquid-glass-react'
 import styles from './ContextMenu.module.css'
 
 export interface ContextMenuItem {
@@ -41,35 +40,28 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
   }, [onClose, handleKeyDown])
 
   return createPortal(
-    <LiquidGlass
-      cornerRadius={8}
-      blurAmount={0.15}
-      saturation={130}
-      elasticity={0.1}
-      style={{ position: 'fixed', left: x, top: y, zIndex: 1002 }}
+    <div
+      className={styles.contextMenu}
+      style={{ left: x, top: y }}
+      onMouseDown={(e) => e.stopPropagation()}
     >
-      <div
-        className={styles.contextMenu}
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-        {items.map((item, index) =>
-          'separator' in item && item.separator ? (
-            <hr key={index} className={styles.separator} />
-          ) : (
-            <button
-              key={index}
-              className={styles.item}
-              onClick={() => {
-                ;(item as ContextMenuItem).action()
-                onClose()
-              }}
-            >
-              {(item as ContextMenuItem).label}
-            </button>
-          )
-        )}
-      </div>
-    </LiquidGlass>,
+      {items.map((item, index) =>
+        'separator' in item && item.separator ? (
+          <hr key={index} className={styles.separator} />
+        ) : (
+          <button
+            key={index}
+            className={styles.item}
+            onClick={() => {
+              ;(item as ContextMenuItem).action()
+              onClose()
+            }}
+          >
+            {(item as ContextMenuItem).label}
+          </button>
+        )
+      )}
+    </div>,
     document.body
   )
 }

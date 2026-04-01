@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useMotionValue } from 'framer-motion'
-import LiquidGlass from 'liquid-glass-react'
 import type { AppManifest } from '@vidorra/types'
 import { appRegistry } from '@vidorra/kernel'
 import { useWindowStore } from '../../stores/useWindowStore'
@@ -49,26 +48,24 @@ export function Dock() {
 
   return (
     <div className={styles.dockWrapper}>
-      <LiquidGlass cornerRadius={20} elasticity={0.15} blurAmount={0.3} saturation={140} style={{ display: 'flex' }}>
-        <nav
-          className={styles.dockInner}
-          onMouseMove={(e) => mouseX.set(e.nativeEvent.x)}
-          onMouseLeave={() => mouseX.set(null)}
-        >
-          {apps.map((app) => {
-            const isRunning = windows.some((w) => w.appId === app.id)
-            return (
-              <DockItem
-                key={app.id}
-                app={app}
-                mouseX={mouseX}
-                isRunning={isRunning}
-                onOpen={handleOpen}
-              />
-            )
-          })}
-        </nav>
-      </LiquidGlass>
+      <nav
+        className={styles.dockInner}
+        onMouseMove={(e) => mouseX.set(e.nativeEvent.x)}
+        onMouseLeave={() => mouseX.set(null)}
+      >
+        {apps.map((app) => {
+          const isRunning = windows.some((w) => w.appId === app.id)
+          return (
+            <DockItem
+              key={app.id}
+              app={app}
+              mouseX={mouseX}
+              isRunning={isRunning}
+              onOpen={handleOpen}
+            />
+          )
+        })}
+      </nav>
     </div>
   )
 }
