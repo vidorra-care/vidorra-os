@@ -26,7 +26,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
     const offset = windows.filter((w) => w.state !== 'minimized').length * 20
     set((s) => ({
       windows: [
-        ...s.windows,
+        ...s.windows.map((w) => ({ ...w, focused: false })),
         {
           ...descriptor,
           rect: {
@@ -41,7 +41,21 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       nextZIndex: nextZIndex + 1,
     }))
   },
-  closeWindow: (id) => set((s) => ({ windows: s.windows.filter((w) => w.id !== id) })),
+  closeWindow: (id) => {
+    set((s) => {
+      const remaining = s.windows.filter((w) => w.id !== id)
+      const wasClosedFocused = s.windows.find((w) => w.id === id)?.focused
+      if (wasClosedFocused && remaining.length > 0) {
+        const topmost = remaining.reduce((a, b) => (a.zIndex > b.zIndex ? a : b))
+        return {
+          windows: remaining.map((w) =>
+            w.id === topmost.id ? { ...w, focused: true } : { ...w, focused: false }
+          ),
+        }
+      }
+      return { windows: remaining }
+    })
+  },
   focusWindow: (id) => {
     const { nextZIndex } = get()
     set((s) => ({
@@ -55,7 +69,14 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
   },
   setWindowState: (id, state) =>
     set((s) => ({
-      windows: s.windows.map((w) => (w.id === id ? { ...w, state } : w)),
+      windows: s.windows.map((w) => {
+        if (w.id !== id) return w
+        if (state === 'minimized') return { ...w, state, focused: false }
+        if (state === 'maximized') return { ...w, state, preMaximizeRect: w.rect }
+        if (state === 'normal' && w.preMaximizeRect)
+          return { ...w, state, rect: w.preMaximizeRect, preMaximizeRect: undefined }
+        return { ...w, state }
+      }),
     })),
   setWindowRect: (id, rect) =>
     set((s) => ({
@@ -76,6 +97,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
         return {
           ...w,
           state: 'maximized' as WindowState,
+          rect: { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight - 24 },
           preMaximizeRect: w.rect,
         }
       }),
