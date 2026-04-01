@@ -3,14 +3,14 @@ import type { WindowDescriptor, WindowRect, WindowState } from '@vidorra/types'
 
 export interface WindowStoreWindow extends WindowDescriptor {
   preMaximizeRect?: WindowRect
-  minWidth: number
-  minHeight: number
+  minWidth?: number
+  minHeight?: number
 }
 
 interface WindowStore {
   windows: WindowStoreWindow[]
   nextZIndex: number
-  openWindow: (descriptor: Omit<WindowStoreWindow, 'zIndex' | 'focused'>) => void
+  openWindow: (descriptor: Omit<WindowDescriptor, 'zIndex' | 'focused'> & { minWidth?: number; minHeight?: number }) => void
   closeWindow: (id: string) => void
   focusWindow: (id: string) => void
   setWindowState: (id: string, state: WindowState) => void
@@ -21,7 +21,7 @@ interface WindowStore {
 export const useWindowStore = create<WindowStore>((set, get) => ({
   windows: [],
   nextZIndex: 1,
-  openWindow: (descriptor) => {
+  openWindow: (descriptor: Omit<WindowDescriptor, 'zIndex' | 'focused'> & { minWidth?: number; minHeight?: number }) => {
     const { nextZIndex, windows } = get()
     const offset = windows.filter((w) => w.state !== 'minimized').length * 20
     set((s) => ({
@@ -29,6 +29,8 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
         ...s.windows.map((w) => ({ ...w, focused: false })),
         {
           ...descriptor,
+          minWidth: descriptor.minWidth ?? 200,
+          minHeight: descriptor.minHeight ?? 150,
           rect: {
             ...descriptor.rect,
             x: descriptor.rect.x + offset,

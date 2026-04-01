@@ -24,7 +24,7 @@ describe('Menubar', () => {
   it('shows "Vidorra OS" as app name when no window is focused', () => {
     // No focused window
     mockUseWindowStore.mockImplementation((selector: (s: Parameters<typeof mockUseWindowStore>[0] extends (s: infer S) => unknown ? S : never) => unknown) =>
-      selector({ windows: [], nextZIndex: 1, openWindow: vi.fn(), closeWindow: vi.fn(), focusWindow: vi.fn(), setWindowState: vi.fn(), setWindowRect: vi.fn() })
+      selector({ windows: [], nextZIndex: 1, openWindow: vi.fn(), closeWindow: vi.fn(), focusWindow: vi.fn(), setWindowState: vi.fn(), setWindowRect: vi.fn(), toggleMaximize: vi.fn() })
     )
     render(<Menubar />)
     expect(screen.getByText('Vidorra OS')).toBeInTheDocument()
@@ -41,7 +41,7 @@ describe('Menubar', () => {
         closeWindow: vi.fn(),
         focusWindow: vi.fn(),
         setWindowState: vi.fn(),
-        setWindowRect: vi.fn(),
+        setWindowRect: vi.fn(), toggleMaximize: vi.fn(),
       })
     )
     render(<Menubar />)
@@ -50,7 +50,7 @@ describe('Menubar', () => {
 
   it('renders a clock string matching HH:mm pattern', () => {
     mockUseWindowStore.mockImplementation((selector: (s: Parameters<typeof mockUseWindowStore>[0] extends (s: infer S) => unknown ? S : never) => unknown) =>
-      selector({ windows: [], nextZIndex: 1, openWindow: vi.fn(), closeWindow: vi.fn(), focusWindow: vi.fn(), setWindowState: vi.fn(), setWindowRect: vi.fn() })
+      selector({ windows: [], nextZIndex: 1, openWindow: vi.fn(), closeWindow: vi.fn(), focusWindow: vi.fn(), setWindowState: vi.fn(), setWindowRect: vi.fn(), toggleMaximize: vi.fn() })
     )
     render(<Menubar />)
     // Clock should display a string like "09:45" or "14:30"

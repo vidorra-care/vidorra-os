@@ -1,16 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Rnd } from 'react-rnd'
 import { motion } from 'framer-motion'
-import { useWindowStore } from '../../stores/useWindowStore'
+import { useWindowStore, type WindowStoreWindow } from '../../stores/useWindowStore'
 import { TrafficLights } from './TrafficLights'
 import styles from './WindowFrame.module.css'
-import type { WindowDescriptor, WindowRect } from '@vidorra/types'
-
-interface WindowStoreWindow extends WindowDescriptor {
-  preMaximizeRect?: WindowRect
-  minWidth: number
-  minHeight: number
-}
 
 interface WindowFrameProps {
   window: WindowStoreWindow
