@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: planning
-stopped_at: Completed 02-shell-02-PLAN.md (WindowFrame + WindowManager)
-last_updated: "2026-04-01T12:56:59.523Z"
+stopped_at: Completed 02-shell-02-03-PLAN.md
+last_updated: "2026-04-01T13:06:15.977Z"
 last_activity: 2026-04-01 — Phase 1 (Kernel) complete; AppRegistry + ThemeEngine implemented and tested
 progress:
   total_phases: 7
@@ -46,7 +46,7 @@ Progress: [██░░░░░░░░] 17%
 |-------|-------|-------|----------|
 | 0. Scaffolding | 3 | - | - |
 | 1. Kernel | 3 | - | - |
-| Phase 02-shell P02 | 526376min | 2 tasks | 6 files |
+| Phase 02-shell P03 | 278 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -57,8 +57,7 @@ Progress: [██░░░░░░░░] 17%
 - [Phase 1]: Class + singleton export pattern (`appRegistry`, `themeEngine`) — not function-based
 - [Phase 1]: ThemeEngine injects CSS variables to `:root`; Shell components use `var(--color-bg)` directly, no React subscription needed
 - [Phase 2]: Framer Motion for animations; Genie minimize effect deferred to post-MVP WebGPU phase
-- [Phase 02-shell]: WindowFrame minimize uses visibility:hidden after animation complete to prevent iframe reload on restore
-- [Phase 02-shell]: react-rnd receives controlled position/size from Zustand store; onDragStop/onResizeStop write back to store
+- [Phase 02-shell]: useRaf hook implemented locally; shell vitest.config.ts with happy-dom created; useWindowStore created from interface spec (parallel execution)
 
 ### Pending Todos
 
@@ -70,6 +69,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-01T12:56:59.520Z
-Stopped at: Completed 02-shell-02-PLAN.md (WindowFrame + WindowManager)
+Last session: 2026-04-01T13:06:15.972Z
+Stopped at: Completed 02-shell-02-03-PLAN.md
 Resume file: None

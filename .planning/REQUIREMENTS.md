@@ -21,11 +21,11 @@
 
 ### Shell
 
-- [x] **SHELL-01**: Multiple windows can be open simultaneously; each is independently draggable and resizable via `react-rnd`
-- [x] **SHELL-02**: Window minimize/maximize/close buttons work; maximize fills viewport minus Menubar height; Dock remains visible
-- [x] **SHELL-03**: Clicking any window raises it to the front (z-index management via `useWindowStore`)
-- [ ] **SHELL-04**: Dock shows all installed apps; hovering triggers Framer Motion magnification (base 48px → 80px); running apps show a white dot indicator
-- [ ] **SHELL-05**: Dock right-click menu has 3 contextual items (Open / Hide from Dock / Close) depending on running state
+- [ ] **SHELL-01**: Multiple windows can be open simultaneously; each is independently draggable and resizable via `react-rnd`
+- [ ] **SHELL-02**: Window minimize/maximize/close buttons work; maximize fills viewport minus Menubar height; Dock remains visible
+- [ ] **SHELL-03**: Clicking any window raises it to the front (z-index management via `useWindowStore`)
+- [x] **SHELL-04**: Dock shows all installed apps; hovering triggers Framer Motion magnification (base 48px → 80px); running apps show a white dot indicator
+- [x] **SHELL-05**: Dock right-click menu has 3 contextual items (Open / Hide from Dock / Close) depending on running state
 - [ ] **SHELL-06**: Menubar shows focused app name and its `manifest.menubar` items on the left; `HH:mm` clock on the right; no focused app → "Vidorra OS"
 - [ ] **SHELL-07**: Desktop renders a wallpaper image; default fallback is a macOS-style landscape; user can set `localStorage['vidorra:wallpaper']`
 - [ ] **SHELL-08**: Welcome window opens automatically on first launch; once `localStorage['vidorra:welcomed']` is set it never auto-opens again
@@ -98,11 +98,11 @@
 | KERN-03 | Phase 1 | Complete |
 | KERN-04 | Phase 1 | Complete |
 | KERN-05 | Phase 1 | Complete |
-| SHELL-01 | Phase 2 | Complete |
-| SHELL-02 | Phase 2 | Complete |
-| SHELL-03 | Phase 2 | Complete |
-| SHELL-04 | Phase 2 | Pending |
-| SHELL-05 | Phase 2 | Pending |
+| SHELL-01 | Phase 2 | Pending |
+| SHELL-02 | Phase 2 | Pending |
+| SHELL-03 | Phase 2 | Pending |
+| SHELL-04 | Phase 2 | Complete |
+| SHELL-05 | Phase 2 | Complete |
 | SHELL-06 | Phase 2 | Pending |
 | SHELL-07 | Phase 2 | Pending |
 | SHELL-08 | Phase 2 | Pending |
