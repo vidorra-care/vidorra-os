@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Rnd } from 'react-rnd'
 import { motion } from 'framer-motion'
 import { useWindowStore, type WindowStoreWindow } from '../../stores/useWindowStore'
@@ -22,15 +22,16 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   const [isDragging, setIsDragging] = useState(false)
 
   // Show window before restore animation when un-minimizing
-  const prevState = prevStateRef.current
-  if (prevState === 'minimized' && win.state !== 'minimized' && isHidden) {
-    setIsHidden(false)
-  }
+  useEffect(() => {
+    if (win.state !== 'minimized' && isHidden) {
+      setIsHidden(false)
+    }
+  }, [win.state, isHidden])
   prevStateRef.current = win.state
 
   const position = isMaximized ? { x: 0, y: 0 } : { x: win.rect.x, y: win.rect.y }
   const size = isMaximized
-    ? { width: window.innerWidth, height: window.innerHeight - 24 }
+    ? { width: window.innerWidth, height: window.innerHeight - 28 }
     : { width: win.rect.width, height: win.rect.height }
 
   const handleResizeStop = (

@@ -6,6 +6,7 @@ import { Desktop } from './components/Desktop/Desktop'
 import { Menubar } from './components/Menubar/Menubar'
 import { WindowManager } from './components/WindowManager/WindowManager'
 import { Dock } from './components/Dock/Dock'
+import { BootScreen } from './components/BootScreen/BootScreen'
 import styles from './App.module.css'
 
 // Built-in apps to seed into appRegistry on first boot
@@ -47,6 +48,7 @@ export default function App() {
 
   return (
     <div className={styles.shell}>
+      <BootScreen />
       <Desktop />
       <Menubar />
       <WindowManager />
