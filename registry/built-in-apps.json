@@ -1,4 +1,21 @@
 {
   "version": "1.0.0",
-  "apps": []
+  "apps": [
+    {
+      "id": "app-store",
+      "name": "App Store",
+      "version": "1.0.0",
+      "entry": "/apps/app-store/index.html",
+      "icon": "/app-icons/app-store.svg",
+      "category": "system",
+      "defaultSize": { "width": 800, "height": 600 },
+      "minSize": { "width": 400, "height": 300 },
+      "permissions": [],
+      "menubar": {
+        "Store": [
+          { "label": "关于 App Store", "action": "about" }
+        ]
+      }
+    }
+  ]
 }

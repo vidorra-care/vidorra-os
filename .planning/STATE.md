@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: planning
-stopped_at: Completed 02-04-PLAN.md (Menubar + Desktop)
-last_updated: "2026-04-01T13:18:12.063Z"
+stopped_at: Completed 02-05 Task 1; awaiting checkpoint at Task 2 (visual verify)
+last_updated: "2026-04-01T13:31:19.693Z"
 last_activity: 2026-04-01 — Phase 1 (Kernel) complete; AppRegistry + ThemeEngine implemented and tested
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 6
   completed_plans: 1
-  percent: 17
+  percent: 28
 ---
 
 # Project State
@@ -30,7 +30,7 @@ Plan: 0 of TBD in current phase
 Status: Ready to plan
 Last activity: 2026-04-01 — Phase 1 (Kernel) complete; AppRegistry + ThemeEngine implemented and tested
 
-Progress: [██░░░░░░░░] 17%
+Progress: [██░░░░░░░░] ~28%
 
 ## Performance Metrics
 
@@ -46,7 +46,6 @@ Progress: [██░░░░░░░░] 17%
 |-------|-------|-------|----------|
 | 0. Scaffolding | 3 | - | - |
 | 1. Kernel | 3 | - | - |
-| Phase 02-shell P04 | 525623 | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -57,8 +56,6 @@ Progress: [██░░░░░░░░] 17%
 - [Phase 1]: Class + singleton export pattern (`appRegistry`, `themeEngine`) — not function-based
 - [Phase 1]: ThemeEngine injects CSS variables to `:root`; Shell components use `var(--color-bg)` directly, no React subscription needed
 - [Phase 2]: Framer Motion for animations; Genie minimize effect deferred to post-MVP WebGPU phase
-- [Phase 02-shell]: Menubar shows default items (文件/编辑/窗口/帮助) only when no window is focused, empty when focused window has no manifest menubar
-- [Phase 02-shell]: ContextMenu uses document-level mousedown listener for click-outside dismiss
 
 ### Pending Todos
 
@@ -70,6 +67,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-01T13:18:12.061Z
-Stopped at: Completed 02-04-PLAN.md (Menubar + Desktop)
+Last session: 2026-04-01T13:31:19.690Z
+Stopped at: Completed 02-05 Task 1; awaiting checkpoint at Task 2 (visual verify)
 Resume file: None

@@ -1,18 +1,5 @@
-import { AnimatePresence } from 'framer-motion'
-import { useWindowStore } from '../../stores/useWindowStore'
-import { WindowFrame } from '../WindowFrame/WindowFrame'
-import styles from './WindowManager.module.css'
-
-export function WindowManager() {
-  const windows = useWindowStore((s) => s.windows)
-
-  return (
-    <div className={styles.windowArea}>
-      <AnimatePresence>
-        {windows.map((win) => (
-          <WindowFrame key={win.id} window={win} />
-        ))}
-      </AnimatePresence>
-    </div>
-  )
+// packages/shell/src/components/WindowManager/WindowManager.tsx
+// STUB — full implementation comes in plan 02-02
+export function WindowManager(): JSX.Element {
+  return <div data-component="window-manager" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 1 }} />
 }

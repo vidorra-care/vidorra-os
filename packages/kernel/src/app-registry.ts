@@ -35,6 +35,13 @@ export class AppRegistry {
     this.persist()
   }
 
+  registerLocal(manifest: AppManifest): void {
+    if (!this.apps.has(manifest.id)) {
+      this.apps.set(manifest.id, manifest)
+      this.persist()
+    }
+  }
+
   getApp(appId: string): AppManifest | undefined {
     return this.apps.get(appId)
   }
