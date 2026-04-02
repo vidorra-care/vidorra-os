@@ -14,11 +14,11 @@ Any web app can become a Vidorra OS app with a single `createApp()` SDK call —
 
 - ✓ SCAF-01 – SCAF-03: Monorepo scaffolding — Phase 0
 - ✓ KERN-01 – KERN-05: AppRegistry + ThemeEngine — Phase 1
+- ✓ SHELL-01 – SHELL-08: Visual shell (WindowManager, Dock, Menubar, Desktop) — Phase 2
+- ✓ BUS-01 – BUS-04: KernelBus postMessage RPC — Phase 3
 
 ### Active
 
-- [ ] SHELL-01 – SHELL-08: Visual shell (WindowManager, Dock, Menubar, Desktop)
-- [ ] BUS-01 – BUS-04: KernelBus postMessage RPC
 - [ ] SDK-01 – SDK-04: `@vidorra/sdk` v0.1
 - [ ] APP-01 – APP-05: App Store, Settings, Calculator, Welcome
 - [ ] QUAL-01 – QUAL-03: 60 fps animations, < 2 s load, no P0/P1 bugs
@@ -60,4 +60,4 @@ Any web app can become a Vidorra OS app with a single `createApp()` SDK call —
 | postMessage RPC (no library) | Zero external deps for bridge layer; full control | ✓ Good |
 
 ---
-*Last updated: 2026-04-01 after Phase 1 completion*
+*Last updated: 2026-04-02 after Phase 3 completion*
