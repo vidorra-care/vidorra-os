@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
-status: planning
+status: executing
 stopped_at: Completed 03-kernelbus-bridge-01-PLAN.md
 last_updated: "2026-04-02T06:39:09.868Z"
-last_activity: 2026-04-02 — Phase 2 (Shell) complete; all 9 UAT gaps closed and verified
+last_activity: 2026-04-02 — Phase 3 Plan 01 complete; KernelBusPush type added to @vidorra/types
 progress:
   total_phases: 7
   completed_phases: 1
-  total_plans: 9
-  completed_plans: 7
+  total_plans: 13
+  completed_plans: 9
   percent: 43
 ---
 
@@ -21,12 +21,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Any web app runs as a first-class citizen inside a macOS-style browser desktop with a single SDK call.
-**Current focus:** Phase 3 — KernelBus (Bridge)
+**Current focus:** Phase 03 — kernelbus-bridge
 
 ## Current Position
 
-Phase: 3 of 7 (KernelBus)
-Plan: 1 of 4 in current phase (03-01 complete)
+Phase: 03 (kernelbus-bridge) — EXECUTING
+Plan: 1 of 4 (03-01 complete)
 Status: In progress
 Last activity: 2026-04-02 — Phase 3 Plan 01 complete; KernelBusPush type added to @vidorra/types
 
