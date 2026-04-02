@@ -2,19 +2,35 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 28px 1fr;
-  border-radius: 12px;
+  grid-template-rows: 2.5rem 1fr;
+  border-radius: 0.75rem;
   overflow: hidden;
   background: var(--color-bg);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--app-font-family);
+  cursor: default;
+  position: relative;
 }
 
+/* Focused window */
 .windowFrame[data-focused='true'] {
-  box-shadow: 0px 8.5px 10px rgba(0,0,0,0.28), 0px 68px 80px rgba(0,0,0,0.56);
+  box-shadow:
+    0 0 0 0.5px hsla(var(--app-color-dark-hsl), 0.18),
+    0 33px 81px rgba(0, 0, 0, 0.31);
 }
 
+/* Unfocused window */
 .windowFrame[data-focused='false'] {
-  box-shadow: 0px 8.5px 10px rgba(0,0,0,0.115), 0px 68px 80px rgba(0,0,0,0.23);
+  box-shadow:
+    0 0 0 0.5px hsla(var(--app-color-dark-hsl), 0.12),
+    0 16px 40px rgba(0, 0, 0, 0.16);
+}
+
+/* Dark mode: add inner highlight border */
+body.dark .windowFrame[data-focused='true'] {
+  box-shadow:
+    inset 0 0 0 0.9px hsla(var(--app-color-dark-hsl), 0.3),
+    0 0 0 1px hsla(var(--app-color-light-hsl), 0.5),
+    0 33px 81px rgba(0, 0, 0, 0.5);
 }
 
 .titlebar {
@@ -22,24 +38,25 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 0 16px;
-  background-color: hsla(0, 0%, 50%, 0.4);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--color-border);
+  padding: 0 1rem;
+  background-color: hsla(var(--app-color-light-hsl), 0.3);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid hsla(var(--app-color-dark-hsl), 0.1);
   user-select: none;
   -webkit-user-select: none;
 }
 
 .title {
-  font-size: 13px;
+  font-size: 0.8rem;
   font-weight: 500;
-  line-height: 1.4;
+  letter-spacing: 0.3px;
   color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
+  text-shadow: 0 0 1px hsla(0, 0%, 0%, 0.1);
 }
 
 .content {
@@ -61,6 +78,10 @@
 .minimizedHidden {
   visibility: hidden;
   pointer-events: none;
+}
+
+.dragging {
+  user-select: none;
 }
 
 .dragOverlay {
