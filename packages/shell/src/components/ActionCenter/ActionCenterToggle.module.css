@@ -1,0 +1,26 @@
+.container {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.toggleButton {
+  height: 100%;
+  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--app-color-light-contrast);
+}
+
+.toggleButton:hover {
+  opacity: 0.8;
+}
+
+.panel {
+  position: absolute;
+  top: 100%;
+  right: 0.5rem;
+  margin-top: 4px;
+  z-index: 9960;
+}

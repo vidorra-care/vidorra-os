@@ -1,0 +1,91 @@
+.container {
+  width: 19.5rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: hsla(var(--app-color-light-hsl), 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 11px 0px;
+  user-select: none;
+}
+
+body.dark .container {
+  box-shadow:
+    rgba(0, 0, 0, 0.3) 0px 0px 11px 0px,
+    inset 0 0 0 0.5px hsla(var(--app-color-dark-hsl), 0.3),
+    0 0 0 0.5px hsla(var(--app-color-light-hsl), 0.3);
+}
+
+.surface {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: hsla(var(--app-color-light-hsl), 0.5);
+  border-radius: 0.75rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 4px -1px;
+}
+
+body.dark .surface {
+  box-shadow:
+    rgba(0, 0, 0, 0.15) 0px 1px 4px -1px,
+    inset 0 0 0 0.4px hsla(var(--app-color-dark-hsl), 0.3),
+    0 0 0 0.4px hsla(var(--app-color-light-hsl), 0.3);
+}
+
+.surfaceRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.surfaceRow .surface {
+  flex: 1;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.tileLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--app-color-dark);
+  text-align: center;
+}
+
+.toggle {
+  --size: 1.7rem;
+  height: var(--size);
+  width: var(--size);
+  padding: 0;
+  display: flex;
+  place-items: center;
+  border-radius: 50%;
+  transition: box-shadow 100ms ease, background-color 150ms ease;
+}
+
+.toggle:focus-visible {
+  box-shadow: 0 0 0 0.25rem hsla(var(--app-color-primary-hsl), 0.4);
+}
+
+.toggleOn {
+  background-color: hsla(var(--app-color-primary-hsl), 1);
+}
+
+.toggleOn svg {
+  fill: hsla(var(--app-color-primary-contrast-hsl), 1);
+}
+
+.toggleOff {
+  background-color: hsla(var(--app-color-dark-hsl), 0.1);
+}
+
+.toggleOff svg {
+  fill: hsla(var(--app-color-light-contrast-hsl), 0.9);
+}

@@ -4,6 +4,7 @@ import { useMenubarStore } from '../../stores/useMenubarStore'
 import { defaultMenuConfig, type MenuConfig } from '../../data/finder.menu.config'
 import { Menu } from './Menu'
 import { MenubarClock } from './MenubarClock'
+import { ActionCenterToggle } from '../ActionCenter/ActionCenterToggle'
 import styles from './Menubar.module.css'
 
 function AppleIcon() {
@@ -74,7 +75,7 @@ export function Menubar() {
       </div>
 
       <div className={styles.spacer} />
-
+      <ActionCenterToggle />
       <div className={styles.rightSection}>
         <MenubarClock />
       </div>
