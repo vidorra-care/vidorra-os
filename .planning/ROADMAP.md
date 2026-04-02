@@ -68,7 +68,13 @@ Plans:
   1. An App iframe calling `window.parent.postMessage({method:'window.setTitle', ...})` causes the shell to update the window title
   2. Messages from untrusted origins are silently dropped
   3. Request timeout (5 s) correctly rejects the Promise
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Extend KernelBus types with KernelBusPush interface
+- [ ] 03-02-PLAN.md — Implement KernelBusHost with RPC dispatch + unit tests
+- [ ] 03-03-PLAN.md — Implement KernelBusClient with Promise/timeout + unit tests
+- [ ] 03-04-PLAN.md — Wire KernelBusHost into WindowFrame and shell main.tsx
 
 ### Phase 4: SDK v0.1
 **Goal**: `@vidorra/sdk` package exposing `createApp()` with `window` and `theme` APIs; TypeScript types; ESM bundle < 8 KB gzip.
@@ -112,7 +118,7 @@ Plans:
 | 0. Scaffolding | 3/3 | Complete | 2026-04-01 |
 | 1. Kernel | 3/3 | Complete | 2026-04-01 |
 | 2. Shell | 9/9 | Complete | 2026-04-02 |
-| 3. KernelBus | 0/TBD | Not started | - |
+| 3. KernelBus | 0/4 | Not started | - |
 | 4. SDK v0.1 | 0/TBD | Not started | - |
 | 5. Built-in Apps | 0/TBD | Not started | - |
 | 6. Integration & Polish | 0/TBD | Not started | - |
