@@ -52,7 +52,7 @@ export function Menubar() {
                   menuId === 'finder' ? styles.appNameButton : '',
                   isActive ? styles.active : '',
                 ].filter(Boolean).join(' ')}
-                onClick={() => setActiveMenu(isActive ? '' : menuId)}
+                onClick={() => isActive ? closeMenu() : setActiveMenu(menuId)}
                 onMouseEnter={() => activeMenu && activeMenu !== menuId && setActiveMenu(menuId)}
                 aria-haspopup="menu"
                 aria-expanded={isActive}

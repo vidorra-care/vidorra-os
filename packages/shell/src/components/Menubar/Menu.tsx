@@ -11,20 +11,6 @@ export function Menu({ items, onClose }: MenuProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const itemKeys = Object.keys(items)
 
-  // Close on outside click (small delay avoids the triggering click closing it immediately)
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (!containerRef.current?.contains(e.target as Node)) {
-        onClose()
-      }
-    }
-    const timer = setTimeout(() => document.addEventListener('mousedown', handler), 0)
-    return () => {
-      clearTimeout(timer)
-      document.removeEventListener('mousedown', handler)
-    }
-  }, [onClose])
-
   // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
