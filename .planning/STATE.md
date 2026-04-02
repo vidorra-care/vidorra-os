@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp`"
 status: planning
-stopped_at: Phase 2 complete; ready to start Phase 3 (KernelBus)
-last_updated: "2026-04-02T00:30:00Z"
-last_activity: 2026-04-02 — Phase 2 (Shell) complete; all UAT gaps closed
+stopped_at: Phase 2 visual fidelity complete (02-09~02-15); ready to start Phase 3 (KernelBus)
+last_updated: "2026-04-02T10:45:00Z"
+last_activity: 2026-04-02 — Phase 2 visual fidelity overhaul complete (7 plans, 9 commits)
 progress:
   total_phases: 7
   completed_phases: 2
@@ -60,6 +60,13 @@ Progress: [███░░░░░░░] ~43%
 - [Phase 2]: Dock/ContextMenu use pure CSS `backdrop-filter` glass (not SVG liquid glass) — matches macos-preact reference
 - [Phase 2]: Wallpaper stored as base64 via FileReader (not blob URL) for persistence across reloads
 - [Phase 2]: `useDockStore` tracks icon positions via RAF for accurate minimize genie target
+- [Phase 2 Visual]: HSL CSS variable system + `body.dark` class-based theme switching (02-09)
+- [Phase 2 Visual]: TrafficLights CSS-class-driven colors; unfocused greying via `.unfocused` compound selector (02-10)
+- [Phase 2 Visual]: WindowFrame 2.5rem titlebar, layered shadows, dark mode inner border (02-11)
+- [Phase 2 Visual]: Dock theme-aware glass, `var(--app-color-dark)` dot, divider via `dockBreaksBefore` (02-12)
+- [Phase 2 Visual]: Menubar full dropdown (useMenubarStore + defaultMenuConfig + Menu + slidethrough) (02-13)
+- [Phase 2 Visual]: ContextMenu theme-aware colors, dark mode double-border (02-14)
+- [Phase 2 Visual]: ActionCenter panel + useThemeStore + ThemeEngine startup sync in main.tsx (02-15)
 
 ### Pending Todos
 
@@ -71,6 +78,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T00:30:00Z
-Stopped at: Phase 2 UAT complete (15/15 tests, 9 gaps closed); Phase 3 not yet planned
+Last session: 2026-04-02T10:45:00Z
+Stopped at: Phase 2 visual fidelity complete (02-09~02-15, 7 plans, 9 commits); Phase 3 not yet planned
 Resume file: None
