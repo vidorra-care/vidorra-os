@@ -10,6 +10,7 @@ export interface AppManifest {
   permissions?: string[]
   menubar?: Record<string, MenuItem[]>
   spotlightActions?: SpotlightAction[]
+  dockBreaksBefore?: boolean
 }
 
 export interface MenuItem {

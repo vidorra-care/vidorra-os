@@ -54,13 +54,17 @@ export function Dock() {
         {apps.map((app) => {
           const isRunning = windows.some((w) => w.appId === app.id)
           return (
-            <DockItem
-              key={app.id}
-              app={app}
-              mouseX={mouseX}
-              isRunning={isRunning}
-              onOpen={handleOpen}
-            />
+            <div key={app.id} style={{ display: 'contents' }}>
+              {app.dockBreaksBefore && (
+                <div className={styles.divider} aria-hidden="true" />
+              )}
+              <DockItem
+                app={app}
+                mouseX={mouseX}
+                isRunning={isRunning}
+                onOpen={handleOpen}
+              />
+            </div>
           )
         })}
       </div>
