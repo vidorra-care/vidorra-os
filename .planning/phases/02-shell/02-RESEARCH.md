@@ -180,7 +180,7 @@ packages/shell/src/
 └── main.tsx
 packages/shell/public/
 └── wallpapers/
-    ├── default.jpg
+    ├── default.png
     ├── preset-1.jpg
     └── preset-2.jpg
 ```
@@ -556,7 +556,7 @@ function handleContextMenu(e: React.MouseEvent) {
 | Live service config | None | — |
 | OS-registered state | None | — |
 | Secrets/env vars | None | — |
-| Build artifacts | `packages/shell/public/wallpapers/` — does not yet exist | Wave 0: create directory, add `default.jpg`, `preset-1.jpg`, `preset-2.jpg` |
+| Build artifacts | `packages/shell/public/wallpapers/` — does not yet exist | Wave 0: create directory, add `default.png`, `preset-1.jpg`, `preset-2.jpg` |
 
 ---
 
@@ -727,7 +727,7 @@ export function MenubarClock() {
 // packages/shell/src/components/Desktop/Desktop.tsx
 import { useState, useEffect } from 'react'
 
-const DEFAULT_WALLPAPER = '/wallpapers/default.jpg'
+const DEFAULT_WALLPAPER = '/wallpapers/default.png'
 
 export function Desktop() {
   const [wallpaperUrl, setWallpaperUrl] = useState(DEFAULT_WALLPAPER)
@@ -837,7 +837,7 @@ onDragStop={(_, d) => {
 - react-rnd, framer-motion, zustand — must be installed via `pnpm add` before implementation begins (Wave 0 task)
 
 **Missing dependencies with fallback:**
-- Wallpaper `default.jpg` — if not available, CSS `background: linear-gradient(...)` can be used as a placeholder until images are sourced
+- Wallpaper `default.png` — if not available, CSS `background: linear-gradient(...)` can be used as a placeholder until images are sourced
 
 ---
 
@@ -881,7 +881,7 @@ onDragStop={(_, d) => {
 - [ ] `packages/shell/src/components/Menubar/Menubar.test.tsx` — covers SHELL-06
 - [ ] `packages/shell/src/components/Desktop/Desktop.test.tsx` — covers SHELL-07
 - [ ] `packages/shell/src/App.test.tsx` — covers SHELL-08
-- [ ] `packages/shell/public/wallpapers/` directory with `default.jpg`
+- [ ] `packages/shell/public/wallpapers/` directory with `default.png`
 
 ---
 

@@ -60,7 +60,7 @@ metrics:
 
 ### Desktop (`packages/shell/src/components/Desktop/`)
 
-- `Desktop.tsx`: Full-viewport fixed div with `background-size: cover`. Reads `localStorage['vidorra:wallpaper']` on mount and applies as `backgroundImage` inline style. Falls back to `/wallpapers/default.jpg`. Right-click opens shared ContextMenu with 4 entries: "关于 Vidorra OS", "更改壁纸...", separator, "强制刷新" (triggers `window.location.reload()`).
+- `Desktop.tsx`: Full-viewport fixed div with `background-size: cover`. Reads `localStorage['vidorra:wallpaper']` on mount and applies as `backgroundImage` inline style. Falls back to `/wallpapers/default.png`. Right-click opens shared ContextMenu with 4 entries: "关于 Vidorra OS", "更改壁纸...", separator, "强制刷新" (triggers `window.location.reload()`).
 - `Desktop.module.css`: `position: fixed; inset: 0; background-size: cover; z-index: 0`.
 
 ### ContextMenu (`packages/shell/src/components/ContextMenu/`)
@@ -86,7 +86,7 @@ All 6 behavioral tests pass:
 - Menubar: focused window title displayed
 - Menubar: clock matches /\d{2}:\d{2}/ pattern
 - Desktop: localStorage wallpaper applied as backgroundImage
-- Desktop: default.jpg fallback when localStorage empty
+- Desktop: default.png fallback when localStorage empty
 - Desktop: right-click shows 4-entry context menu (3 buttons + 1 separator)
 
 ## Deviations from Plan

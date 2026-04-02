@@ -248,12 +248,12 @@ Selection token (`--color-selection`) reserved for: context menu item hover back
 **Layout**
 - `position: fixed; inset: 0` (full viewport, behind all chrome)
 - Background: `background-image: url(var(--wallpaper-url)); background-size: cover; background-position: center`
-- Wallpaper URL: read from `localStorage['vidorra:wallpaper']` on mount; fallback to `/wallpapers/default.jpg`
+- Wallpaper URL: read from `localStorage['vidorra:wallpaper']` on mount; fallback to `/wallpapers/default.png`
 - No desktop icons in Phase 2 (empty content area)
 
 **Wallpaper presets**
 - 2-3 JPG files in `packages/shell/public/wallpapers/`
-- `default.jpg`: macOS Sequoia-style mountain scene (landscape, min 1920×1200)
+- `default.png`: macOS Sequoia-style mountain scene (landscape, min 1920×1200)
 - Naming: `preset-1.jpg`, `preset-2.jpg`
 
 **Right-click context menu**

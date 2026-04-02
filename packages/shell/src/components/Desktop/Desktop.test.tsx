@@ -34,7 +34,7 @@ describe('Desktop', () => {
   it('falls back to default wallpaper when localStorage is empty', () => {
     const { container } = render(<Desktop />)
     const desktop = container.firstElementChild as HTMLElement
-    expect(desktop.style.backgroundImage).toContain('/wallpapers/default.jpg')
+    expect(desktop.style.backgroundImage).toContain('/wallpapers/default.png')
   })
 
   it('shows context menu with 4 items (including separator) on right-click', () => {

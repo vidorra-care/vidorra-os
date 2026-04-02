@@ -4,7 +4,7 @@ import type { ContextMenuEntry } from '../ContextMenu/ContextMenu'
 import { useWindowStore } from '../../stores/useWindowStore'
 import styles from './Desktop.module.css'
 
-const DEFAULT_WALLPAPER = '/wallpapers/default.jpg'
+const DEFAULT_WALLPAPER = '/wallpapers/default.png'
 const STORAGE_KEY = 'vidorra:wallpaper'
 
 export function Desktop() {

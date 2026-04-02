@@ -16,7 +16,7 @@ key_files:
     - packages/shell/src/stores/useWindowStore.test.ts
     - packages/shell/vitest.config.ts
     - packages/shell/src/test-setup.ts
-    - packages/shell/public/wallpapers/default.jpg
+    - packages/shell/public/wallpapers/default.png
     - packages/shell/public/wallpapers/preset-1.jpg
     - packages/shell/public/wallpapers/preset-2.jpg
   modified:

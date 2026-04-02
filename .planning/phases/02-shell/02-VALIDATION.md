@@ -59,7 +59,7 @@ created: 2026-04-01
 - [ ] `packages/shell/src/components/Menubar/Menubar.test.tsx` — stubs for SHELL-06
 - [ ] `packages/shell/src/components/Desktop/Desktop.test.tsx` — stubs for SHELL-07
 - [ ] `packages/shell/src/App.test.tsx` — stubs for SHELL-08
-- [ ] `packages/shell/public/wallpapers/` directory with `default.jpg`
+- [ ] `packages/shell/public/wallpapers/` directory with `default.png`
 
 ---
 

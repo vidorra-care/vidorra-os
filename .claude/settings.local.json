@@ -38,7 +38,10 @@
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs init plan-phase 02-shell)",
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap set-plans 2 02-00,02-01,02-02,02-03,02-04,02-05)",
       "Bash(ls packages/shell/src/*.css)",
-      "Bash(pnpm --filter @vidorra/shell test)"
+      "Bash(pnpm --filter @vidorra/shell test)",
+      "Bash(pnpm --filter @vidorra/shell test --run)",
+      "Bash(git -C D:/Code/Study/vidorra-os show 02f80c26294fc78a583fd4860e6dbaed4db17643:packages/shell/src/components/WindowFrame/TrafficLights.tsx)",
+      "Bash(pnpm add:*)"
     ]
   }
 }
