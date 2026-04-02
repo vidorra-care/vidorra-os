@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-03-PLAN.md (KernelBusClient)
-last_updated: "2026-04-02T06:51:11.751Z"
+stopped_at: Completed 03-kernelbus-bridge 03-02-PLAN.md
+last_updated: "2026-04-02T06:51:35.738Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 6
@@ -49,6 +49,7 @@ Progress: [████░░░░░░] ~46%
 | 2. Shell | 9 | - | - |
 | Phase 03-kernelbus-bridge P01 | 5 | 1 tasks | 1 files |
 | Phase 03-kernelbus-bridge P03 | 4min | 2 tasks | 3 files |
+| Phase 03-kernelbus-bridge P02 | 5min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,8 @@ Progress: [████░░░░░░] ~46%
 - [Phase 03-kernelbus-bridge]: KernelBusClient is a class (not singleton) — Phase 4 SDK instantiates it per app context
 - [Phase 03-kernelbus-bridge]: Pending request Map pattern: Map<requestId, {resolve, reject, timer}> for concurrent Promise tracking with timeout cleanup
 - [Phase 03-kernelbus-bridge]: Push notifications routed via type: 'push' discriminant before requestId check in KernelBusClient.handleMessage
+- [Phase 03-kernelbus-bridge]: KernelBusHost uses DI (KernelBusHostCallbacks) not direct useWindowStore import — prevents circular kernel<->shell dependency
+- [Phase 03-kernelbus-bridge]: KernelBusHost two-stage trust: pendingFrames->trustedFrames on app.ready; untrusted drops silently
 
 ### Pending Todos
 
@@ -84,6 +87,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T06:50:42.966Z
-Stopped at: Completed 03-03-PLAN.md (KernelBusClient)
+Last session: 2026-04-02T06:51:35.733Z
+Stopped at: Completed 03-kernelbus-bridge 03-02-PLAN.md
 Resume file: None

@@ -32,7 +32,7 @@
 
 ### Bridge (KernelBus)
 
-- [ ] **BUS-01**: Shell-side `KernelBusHost` only processes messages from registered iframe `contentWindow` references; unknown origins are dropped
+- [x] **BUS-01**: Shell-side `KernelBusHost` only processes messages from registered iframe `contentWindow` references; unknown origins are dropped
 - [x] **BUS-02**: App iframes can call `window.setTitle`, `window.close`, `window.minimize`, `window.maximize`, `window.resize`, `theme.get` via postMessage RPC
 - [x] **BUS-03**: Each request includes a `requestId`; Shell sends a response message with matching `requestId`
 - [x] **BUS-04**: Client-side request times out after 5 seconds with a rejected Promise
@@ -106,7 +106,7 @@
 | SHELL-06 | Phase 2 | Pending |
 | SHELL-07 | Phase 2 | Pending |
 | SHELL-08 | Phase 2 | Complete |
-| BUS-01 | Phase 3 | Pending |
+| BUS-01 | Phase 3 | Complete |
 | BUS-02 | Phase 3 | Complete |
 | BUS-03 | Phase 3 | Complete |
 | BUS-04 | Phase 3 | Complete |
