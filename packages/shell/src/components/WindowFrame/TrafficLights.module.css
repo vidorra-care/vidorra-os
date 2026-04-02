@@ -59,8 +59,3 @@
   --bgcolor: #27c93f;
   --border-color: #1aab29;
 }
-
-/* Rotate the maximize/expand icon 90 degrees like macOS */
-.maximizeLight svg {
-  transform: rotate(90deg);
-}
