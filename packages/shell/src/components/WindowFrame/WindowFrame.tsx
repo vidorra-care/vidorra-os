@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Rnd } from 'react-rnd'
 import { motion } from 'framer-motion'
+import { kernelBusHost } from '@vidorra/kernel'
 import { useWindowStore, type WindowStoreWindow } from '../../stores/useWindowStore'
 import { useDockStore } from '../../stores/useDockStore'
 import { TrafficLights } from './TrafficLights'
@@ -22,6 +23,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
 
   const [isHidden, setIsHidden] = useState(false)
   const prevStateRef = useRef(win.state)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
   const [isDragging, setIsDragging] = useState(false)
 
   // Show window before restore animation when un-minimizing
@@ -31,6 +33,18 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
     }
   }, [win.state, isHidden])
   prevStateRef.current = win.state
+
+  // Register/unregister iframe contentWindow with KernelBusHost
+  useEffect(() => {
+    const iframe = iframeRef.current
+    if (!iframe) return
+    const contentWindow = iframe.contentWindow
+    if (!contentWindow) return
+    kernelBusHost.registerFrame(win.id, contentWindow as WindowProxy)
+    return () => {
+      kernelBusHost.unregisterFrame(win.id)
+    }
+  }, [win.id])
 
   const position = isMaximized ? { x: 0, y: 0 } : { x: win.rect.x, y: win.rect.y }
   const size = isMaximized
@@ -118,6 +132,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
           {/* Overlay prevents iframe from stealing mouse events during drag */}
           {isDragging && <div className={styles.dragOverlay} />}
           <iframe
+            ref={iframeRef}
             src={win.url}
             title={win.title}
             sandbox="allow-scripts allow-same-origin"
