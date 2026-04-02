@@ -9,7 +9,7 @@ Vidorra OS is a browser-based macOS-style Web Desktop OS with a framework-agnost
 - [x] **Phase 0: Scaffolding** - Monorepo skeleton, toolchain, all packages/apps wired up
 - [x] **Phase 1: Kernel** - AppRegistry + ThemeEngine — core logic without UI
 - [x] **Phase 2: Shell** - WindowManager + Dock + Menubar + Desktop — visual shell
-- [ ] **Phase 3: KernelBus (Bridge)** - postMessage RPC between Shell and sandboxed App iframes
+- [x] **Phase 3: KernelBus (Bridge)** - postMessage RPC between Shell and sandboxed App iframes (completed 2026-04-02)
 - [ ] **Phase 4: SDK v0.1** - Developer-facing API (`createApp`, window/theme APIs)
 - [ ] **Phase 5: Built-in Apps** - App Store, Settings, Calculator, Welcome
 - [ ] **Phase 6: Integration & Polish** - E2E testing, animation tuning, final MVP verification
@@ -74,7 +74,7 @@ Plans:
 - [x] 03-01: KernelBus type definitions (KernelBusPush)
 - [x] 03-02: KernelBusHost (Shell-side)
 - [x] 03-03: KernelBusClient (SDK-side)
-- [ ] 03-04: Integration and push notifications
+- [x] 03-04: Integration and push notifications
 **Goal**: `@vidorra/sdk` package exposing `createApp()` with `window` and `theme` APIs; TypeScript types; ESM bundle < 8 KB gzip.
 **Depends on**: Phase 3
 **Requirements**: SDK-01, SDK-02, SDK-03, SDK-04
@@ -116,7 +116,7 @@ Plans:
 | 0. Scaffolding | 3/3 | Complete | 2026-04-01 |
 | 1. Kernel | 3/3 | Complete | 2026-04-01 |
 | 2. Shell | 9/9 | Complete | 2026-04-02 |
-| 3. KernelBus | 3/4 | In Progress|  |
+| 3. KernelBus | 4/4 | Complete   | 2026-04-02 |
 | 4. SDK v0.1 | 0/TBD | Not started | - |
 | 5. Built-in Apps | 0/TBD | Not started | - |
 | 6. Integration & Polish | 0/TBD | Not started | - |

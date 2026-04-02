@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-kernelbus-bridge 03-02-PLAN.md
-last_updated: "2026-04-02T06:51:35.738Z"
+stopped_at: Completed 03-04-PLAN.md (Shell KernelBus integration — WindowFrame + main.tsx wiring)
+last_updated: "2026-04-02T06:57:39.955Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 6
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 13
-  completed_plans: 12
+  completed_plans: 13
   percent: 46
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 03 (kernelbus-bridge) — EXECUTING
-Plan: 3 of 4 (03-01 complete)
+Plan: 4 of 4 (03-01 complete)
 Status: Ready to execute
 Last activity: 2026-04-02
 
@@ -50,6 +50,7 @@ Progress: [████░░░░░░] ~46%
 | Phase 03-kernelbus-bridge P01 | 5 | 1 tasks | 1 files |
 | Phase 03-kernelbus-bridge P03 | 4min | 2 tasks | 3 files |
 | Phase 03-kernelbus-bridge P02 | 5min | 2 tasks | 3 files |
+| Phase 03-kernelbus-bridge P04 | 4 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,9 @@ Progress: [████░░░░░░] ~46%
 - [Phase 03-kernelbus-bridge]: Push notifications routed via type: 'push' discriminant before requestId check in KernelBusClient.handleMessage
 - [Phase 03-kernelbus-bridge]: KernelBusHost uses DI (KernelBusHostCallbacks) not direct useWindowStore import — prevents circular kernel<->shell dependency
 - [Phase 03-kernelbus-bridge]: KernelBusHost two-stage trust: pendingFrames->trustedFrames on app.ready; untrusted drops silently
+- [Phase 03-04]: kernelBusHost.init() placed before createRoot().render() in main.tsx — trust model active before any iframe mounts (D-01)
+- [Phase 03-04]: WindowFrame useEffect [win.id] dep: registerFrame on mount, unregisterFrame in cleanup — correct lifecycle for trust model
+- [Phase 03-04]: setWindowTitle uses useWindowStore.setState (no action exists); other callbacks use useWindowStore.getState().action()
 
 ### Pending Todos
 
@@ -87,6 +91,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T06:51:35.733Z
-Stopped at: Completed 03-kernelbus-bridge 03-02-PLAN.md
+Last session: 2026-04-02T06:57:39.950Z
+Stopped at: Completed 03-04-PLAN.md (Shell KernelBus integration — WindowFrame + main.tsx wiring)
 Resume file: None
