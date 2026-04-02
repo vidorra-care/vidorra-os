@@ -1,84 +1,83 @@
-import { useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { useWindowStore } from '../../stores/useWindowStore'
-import { appRegistry } from '@vidorra/kernel'
-import { ContextMenu } from '../ContextMenu/ContextMenu'
-import type { ContextMenuEntry } from '../ContextMenu/ContextMenu'
+import { useMenubarStore } from '../../stores/useMenubarStore'
+import { defaultMenuConfig, type MenuConfig } from '../../data/finder.menu.config'
+import { Menu } from './Menu'
 import { MenubarClock } from './MenubarClock'
 import styles from './Menubar.module.css'
 
-function AppleIconSVG() {
+function AppleIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d="M11.17 7.47c-.02-1.89 1.55-2.8 1.62-2.84-0.88-1.29-2.26-1.47-2.75-1.49-1.17-.12-2.28.69-2.87.69-.59 0-1.51-.67-2.48-.65-1.28.02-2.46.74-3.12 1.89-1.33 2.3-.34 5.72.96 7.59.64.92 1.4 1.96 2.39 1.92.96-.04 1.32-.62 2.48-.62 1.16 0 1.49.62 2.5.6 1.03-.02 1.68-.94 2.31-1.87.73-1.07 1.03-2.1 1.05-2.16-.02-.01-2.07-.8-2.09-3.06zM9.19 2.13C9.73 1.47 10.1.55 9.99-.41c-.82.03-1.8.55-2.38 1.23-.52.6-.98 1.55-.85 2.47.9.07 1.82-.46 2.43-1.16z" />
+    <svg width="13" height="16" viewBox="0 0 814 1000" fill="currentColor" aria-hidden="true">
+      <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-43.4-150.3-109.6C27.8 766.4 1 637 1 524.3c0-221.1 144.4-338.2 285.7-338.2 75.5 0 138.5 49.9 185.5 49.9 44.9 0 118.1-52.7 203.7-52.7 32.4 0 117.6 1.3 177.3 64.3zm-158.3-81.4c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z" />
     </svg>
   )
 }
 
-const DEFAULT_MENU_ITEMS = ['文件', '编辑', '窗口', '帮助']
-
 export function Menubar() {
-  const [showAppleMenu, setShowAppleMenu] = useState(false)
+  const { activeMenu, setActiveMenu, closeMenu } = useMenubarStore()
+  const menubarRef = useRef<HTMLElement>(null)
 
-  const focusedWindow = useWindowStore((s) =>
+  // focusedWindow kept for future Phase 4 dynamic menu injection
+  const _focusedWindow = useWindowStore((s) =>
     s.windows.find((w) => w.focused) ?? null
   )
 
-  const manifest = focusedWindow
-    ? appRegistry.getApp(focusedWindow.appId) ?? null
-    : null
+  const menuConfig: MenuConfig = defaultMenuConfig
+  const menuIds = Object.keys(menuConfig)
 
-  const displayName = focusedWindow ? focusedWindow.title : 'Vidorra OS'
-
-  const menuItems: string[] = manifest?.menubar
-    ? Object.keys(manifest.menubar)
-    : focusedWindow
-      ? []
-      : DEFAULT_MENU_ITEMS
-
-  const appleMenuItems: ContextMenuEntry[] = [
-    { label: '关于 Vidorra OS', action: () => { /* no-op in Phase 2 */ } },
-    { label: '系统设置...', action: () => { /* open Settings app window in Phase 5 */ } },
-  ]
-
-  const toggleAppleMenu = () => setShowAppleMenu((v) => !v)
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!menubarRef.current?.contains(e.target as Node)) {
+        closeMenu()
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [closeMenu])
 
   return (
-    <header className={styles.menubar}>
+    <header className={styles.menubar} ref={menubarRef}>
       <div className={styles.leftSection}>
-        <div
-          className={styles.appleIcon}
-          onClick={toggleAppleMenu}
-          aria-label="Apple 菜单"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleAppleMenu() }}
-        >
-          <AppleIconSVG />
-        </div>
-        <span className={styles.appName}>{displayName}</span>
-        {menuItems.map((item) => (
-          <button key={item} className={styles.menuItem}>
-            {item}
-          </button>
-        ))}
+        {menuIds.map((menuId) => {
+          const menuDef = menuConfig[menuId]
+          const isActive = activeMenu === menuId
+
+          return (
+            <div key={menuId} className={styles.menuWrapper}>
+              <button
+                className={[
+                  styles.menuButton,
+                  menuId === 'apple' ? styles.appleButton : '',
+                  menuId === 'finder' ? styles.appNameButton : '',
+                  isActive ? styles.active : '',
+                ].filter(Boolean).join(' ')}
+                onClick={() => setActiveMenu(isActive ? '' : menuId)}
+                onMouseEnter={() => activeMenu && activeMenu !== menuId && setActiveMenu(menuId)}
+                aria-haspopup="menu"
+                aria-expanded={isActive}
+              >
+                {menuId === 'apple' ? <AppleIcon /> : menuDef.title}
+              </button>
+
+              {isActive && (
+                <div className={styles.menuDropdown}>
+                  <Menu
+                    items={menuDef.items}
+                    onClose={closeMenu}
+                  />
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
+
+      <div className={styles.spacer} />
+
       <div className={styles.rightSection}>
         <MenubarClock />
       </div>
-      {showAppleMenu && (
-        <ContextMenu
-          x={0}
-          y={24}
-          items={appleMenuItems}
-          onClose={() => setShowAppleMenu(false)}
-        />
-      )}
     </header>
   )
 }

@@ -3,13 +3,12 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 28px;
+  height: var(--menubar-height, 1.4rem);
   display: flex;
   align-items: center;
-  background-color: hsla(0, 0%, 95%, 0.3);
-  color: rgba(255, 255, 255, 0.9);
-  z-index: 1001;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--app-color-light-contrast);
+  fill: var(--app-color-light-contrast);
+  z-index: 9950;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -20,7 +19,8 @@
   left: 0;
   top: 0;
   width: 100%;
-  height: 28px;
+  height: var(--menubar-height, 1.4rem);
+  background-color: hsla(var(--app-color-light-hsl), 0.3);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   z-index: -1;
@@ -29,58 +29,63 @@
 .leftSection {
   display: flex;
   align-items: center;
-  gap: 0;
+  height: 100%;
 }
 
-.appleIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  height: 24px;
-  cursor: default;
-  position: relative;
-}
-
-.appleIcon:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-.appName {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
-  padding: 0 8px;
-}
-
-.menuItem {
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
-  padding: 0 8px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  cursor: default;
-  border: none;
-  background: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-.menuItem:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+.spacer {
+  flex: 1 1 auto;
 }
 
 .rightSection {
-  margin-left: auto;
-  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
-.clock {
-  font-size: 12px;
+.menuWrapper {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.menuButton {
   font-weight: 500;
-  line-height: 1.0;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.8rem;
+  font-family: var(--app-font-family);
+  letter-spacing: 0.3px;
+  height: 100%;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  color: var(--app-color-light-contrast);
+  fill: var(--app-color-light-contrast);
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 1px hsla(0, 0%, 0%, 0.1);
+}
+
+.menuButton:hover,
+.menuButton.active {
+  background-color: hsla(var(--app-color-grey-100-hsl), 0.3);
+}
+
+.appleButton {
+  padding: 0 0.7rem;
+  margin: 0 0 0 0.25rem;
+}
+
+.appNameButton {
+  font-weight: 600;
+  margin: 0 4px;
+}
+
+.menuDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 1.5px;
+  z-index: 9960;
 }
