@@ -45,54 +45,38 @@ export function TrafficLights({ windowId, focused }: TrafficLightsProps) {
   const setWindowState = useWindowStore((s) => s.setWindowState)
   const toggleMaximize = useWindowStore((s) => s.toggleMaximize)
 
-  const unfocusedBg = '#b6b6b7'
-  const unfocusedShadow = '0 0 0 0.5px rgba(0,0,0,0.15)'
+  const stopPropagation = (e: React.MouseEvent) => e.stopPropagation()
 
-  const handleMouseDown = (e: React.MouseEvent) => e.stopPropagation()
+  const containerClass = [
+    styles.container,
+    !focused ? styles.unfocused : '',
+  ].filter(Boolean).join(' ')
 
   return (
-    <div className={styles.container} onMouseDown={handleMouseDown}>
+    <div className={containerClass} onMouseDown={stopPropagation}>
       <button
-        className={styles.button}
-        style={
-          focused
-            ? { background: '#ff5f56', boxShadow: '0 0 0 0.5px #e0443e' }
-            : { background: unfocusedBg, boxShadow: unfocusedShadow }
-        }
-        tabIndex={0}
+        className={styles.closeLight}
         aria-label="Close window"
         onClick={() => closeWindow(windowId)}
-        onMouseDown={handleMouseDown}
+        onMouseDown={stopPropagation}
       >
-        {focused && <CloseIcon />}
+        <CloseIcon />
       </button>
       <button
-        className={styles.button}
-        style={
-          focused
-            ? { background: '#ffbd2e', boxShadow: '0 0 0 0.5px #dea123' }
-            : { background: unfocusedBg, boxShadow: unfocusedShadow }
-        }
-        tabIndex={0}
+        className={styles.minimizeLight}
         aria-label="Minimize window"
         onClick={() => setWindowState(windowId, 'minimized')}
-        onMouseDown={handleMouseDown}
+        onMouseDown={stopPropagation}
       >
-        {focused && <MinimizeIcon />}
+        <MinimizeIcon />
       </button>
       <button
-        className={styles.button}
-        style={
-          focused
-            ? { background: '#27c93f', boxShadow: '0 0 0 0.5px #1aab29' }
-            : { background: unfocusedBg, boxShadow: unfocusedShadow }
-        }
-        tabIndex={0}
+        className={styles.maximizeLight}
         aria-label="Maximize window"
         onClick={() => toggleMaximize(windowId)}
-        onMouseDown={handleMouseDown}
+        onMouseDown={stopPropagation}
       >
-        {focused && <MaximizeIcon />}
+        <MaximizeIcon />
       </button>
     </div>
   )

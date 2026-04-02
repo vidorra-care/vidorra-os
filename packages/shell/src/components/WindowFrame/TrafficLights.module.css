@@ -1,10 +1,13 @@
 .container {
+  --button-size: 0.75rem;
+
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
+
   position: absolute;
-  top: 8px;
-  left: 12px;
+  top: 0.9rem;
+  left: 0.9rem;
 }
 
 .container svg {
@@ -15,9 +18,17 @@
   visibility: visible;
 }
 
-.button {
-  width: 12px;
-  height: 12px;
+/* When the parent window is unfocused, grey out all lights */
+.unfocused .closeLight,
+.unfocused .minimizeLight,
+.unfocused .maximizeLight {
+  --bgcolor: hsla(var(--app-color-dark-hsl), 0.25);
+  --border-color: hsla(var(--app-color-dark-hsl), 0.4);
+}
+
+.light {
+  height: var(--button-size);
+  width: var(--button-size);
   border-radius: 50%;
   cursor: default;
   outline: none;
@@ -27,4 +38,29 @@
   padding: 0;
   flex-shrink: 0;
   border: none;
+  background-color: var(--bgcolor);
+  box-shadow: 0 0 0 0.5px var(--border-color);
+}
+
+.closeLight {
+  composes: light;
+  --bgcolor: #ff5f56;
+  --border-color: #e0443e;
+}
+
+.minimizeLight {
+  composes: light;
+  --bgcolor: #ffbd2e;
+  --border-color: #dea123;
+}
+
+.maximizeLight {
+  composes: light;
+  --bgcolor: #27c93f;
+  --border-color: #1aab29;
+}
+
+/* Rotate the maximize/expand icon 90 degrees like macOS */
+.maximizeLight svg {
+  transform: rotate(90deg);
 }
