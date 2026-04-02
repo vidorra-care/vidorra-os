@@ -1,43 +1,10 @@
+import { Icon } from '@iconify/react'
 import { useWindowStore } from '../../stores/useWindowStore'
 import styles from './TrafficLights.module.css'
 
 interface TrafficLightsProps {
   windowId: string
   focused: boolean
-}
-
-function CloseIcon() {
-  return (
-    <svg width={7} height={7} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        stroke="#4d0000"
-        strokeWidth={1.2}
-        strokeLinecap="round"
-        d="M1.182 5.99L5.99 1.182m0 4.95L1.182 1.323"
-      />
-    </svg>
-  )
-}
-
-function MinimizeIcon() {
-  return (
-    <svg width={6} height={2} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path stroke="#4d3400" strokeWidth={2} strokeLinecap="round" d="M.61 1h5.8" />
-    </svg>
-  )
-}
-
-function MaximizeIcon() {
-  return (
-    <svg width={8} height={8} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        stroke="#004d00"
-        strokeWidth={1.2}
-        strokeLinecap="round"
-        d="M1.5 6.5L6.5 1.5M4.5 1.5H6.5V3.5M1.5 4.5V6.5H3.5"
-      />
-    </svg>
-  )
 }
 
 export function TrafficLights({ windowId, focused }: TrafficLightsProps) {
@@ -60,7 +27,7 @@ export function TrafficLights({ windowId, focused }: TrafficLightsProps) {
         onClick={() => closeWindow(windowId)}
         onMouseDown={stopPropagation}
       >
-        <CloseIcon />
+        <Icon icon="ri:close-line" width={8} height={8} color="#4d0000" />
       </button>
       <button
         className={styles.minimizeLight}
@@ -68,7 +35,7 @@ export function TrafficLights({ windowId, focused }: TrafficLightsProps) {
         onClick={() => setWindowState(windowId, 'minimized')}
         onMouseDown={stopPropagation}
       >
-        <MinimizeIcon />
+        <Icon icon="ri:subtract-line" width={8} height={8} color="#4d3400" />
       </button>
       <button
         className={styles.maximizeLight}
@@ -76,7 +43,7 @@ export function TrafficLights({ windowId, focused }: TrafficLightsProps) {
         onClick={() => toggleMaximize(windowId)}
         onMouseDown={stopPropagation}
       >
-        <MaximizeIcon />
+        <Icon icon="ri:fullscreen-line" width={8} height={8} color="#004d00" />
       </button>
     </div>
   )

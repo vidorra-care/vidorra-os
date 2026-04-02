@@ -6,7 +6,7 @@
       "name": "App Store",
       "version": "1.0.0",
       "entry": "/apps/app-store/index.html",
-      "icon": "/app-icons/app-store.svg",
+      "icon": "/app-icons/appstore-256.png",
       "category": "system",
       "defaultSize": { "width": 800, "height": 600 },
       "minSize": { "width": 400, "height": 300 },
