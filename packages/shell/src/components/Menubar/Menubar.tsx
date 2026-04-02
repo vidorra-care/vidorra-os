@@ -9,7 +9,7 @@ import { ActionCenterToggle } from '../ActionCenter/ActionCenterToggle'
 import styles from './Menubar.module.css'
 
 function AppleIcon() {
-  return <Icon icon="ri:apple-line" width={14} height={14} aria-hidden="true" />
+  return <Icon icon="ri:bluesky-fill" width={14} height={14} aria-hidden="true" />
 }
 
 export function Menubar() {
