@@ -72,8 +72,8 @@ Plans:
 
 Plans:
 - [x] 03-01: KernelBus type definitions (KernelBusPush)
-- [ ] 03-02: KernelBusHost (Shell-side)
-- [ ] 03-03: KernelBusClient (SDK-side)
+- [x] 03-02: KernelBusHost (Shell-side)
+- [x] 03-03: KernelBusClient (SDK-side)
 - [ ] 03-04: Integration and push notifications
 **Goal**: `@vidorra/sdk` package exposing `createApp()` with `window` and `theme` APIs; TypeScript types; ESM bundle < 8 KB gzip.
 **Depends on**: Phase 3
@@ -116,7 +116,7 @@ Plans:
 | 0. Scaffolding | 3/3 | Complete | 2026-04-01 |
 | 1. Kernel | 3/3 | Complete | 2026-04-01 |
 | 2. Shell | 9/9 | Complete | 2026-04-02 |
-| 3. KernelBus | 1/4 | In progress | - |
+| 3. KernelBus | 3/4 | In Progress|  |
 | 4. SDK v0.1 | 0/TBD | Not started | - |
 | 5. Built-in Apps | 0/TBD | Not started | - |
 | 6. Integration & Polish | 0/TBD | Not started | - |
