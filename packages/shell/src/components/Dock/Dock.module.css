@@ -58,14 +58,15 @@
   position: relative;
 }
 
-.dockItemButton > span {
-  display: flex;
-  place-items: center;
-}
-
 .dockItemButton:hover .tooltip,
 .dockItemButton:focus-visible .tooltip {
   display: block;
+}
+
+.iconWrapper {
+  position: relative;
+  display: flex;
+  place-items: center;
 }
 
 .dockIcon {
@@ -89,7 +90,7 @@
   display: none;
   white-space: nowrap;
   position: absolute;
-  top: -35%;
+  bottom: calc(100% + 0.4rem);
   left: 50%;
   transform: translateX(-50%);
   padding: 0.5rem 0.75rem;

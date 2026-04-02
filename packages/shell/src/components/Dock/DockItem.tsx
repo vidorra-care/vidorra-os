@@ -115,14 +115,15 @@ export function DockItem({ app, mouseX, isRunning, onOpen }: DockItemProps) {
         title={app.name}
         aria-label={`Launch ${app.name}`}
       >
-        <p className={styles.tooltip}>{app.name}</p>
         <motion.span
+          className={styles.iconWrapper}
           onTap={() => setAnimateObj({ translateY: ['0%', '-39.2%', '0%'] })}
           initial={false}
           animate={animateObj}
           transition={{ type: 'spring', duration: 0.7 }}
           transformTemplate={({ translateY }) => `translateY(${translateY})`}
         >
+          <p className={styles.tooltip}>{app.name}</p>
           <motion.img
             ref={imgRef}
             src={app.icon}
