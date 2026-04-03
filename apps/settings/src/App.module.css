@@ -22,7 +22,7 @@ body[data-theme='light'] {
 :global(body) {
   margin: 0;
   padding: 0;
-  background: var(--color-bg);
+  background: transparent;
   color: var(--color-text);
   font-family: var(--app-font-family);
   height: 100vh;
@@ -38,7 +38,7 @@ body[data-theme='light'] {
 }
 
 .content {
-  background: var(--color-bg);
   padding: 24px;
   overflow-y: auto;
+  background: transparent;
 }

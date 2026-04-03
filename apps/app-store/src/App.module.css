@@ -22,7 +22,7 @@
 :global(body) {
   margin: 0;
   padding: 0;
-  background: var(--color-bg);
+  background: transparent;
   color: var(--color-text);
   font-family: var(--app-font-family);
   height: 100vh;

@@ -157,23 +157,18 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
             <div
               className={[
                 styles.contentFull,
-                win.windowStyle === 'glass-dark' ? styles.glassDark : '',
-                win.windowStyle === 'glass-light' ? styles.glassLight : '',
+                win.windowStyle === 'glass-dark' ? styles.glassDark : styles.glassLight,
               ].filter(Boolean).join(' ')}
               style={win.windowBackground ? { '--glass-tint': win.windowBackground } as React.CSSProperties : undefined}
             >
-              {(win.windowStyle === 'glass-dark' || win.windowStyle === 'glass-light') && (
-                <>
-                  <div ref={glassBgRef} className={styles.glassBg} />
-                  <div className={styles.glassTint} />
-                </>
-              )}
+              <div ref={glassBgRef} className={styles.glassBg} />
+              <div className={styles.glassTint} />
               {isDragging && <div className={styles.dragOverlay} />}
               <iframe
                 ref={iframeRef}
                 src={win.url}
                 title={win.title}
-                className={win.windowStyle && win.windowStyle !== 'solid' ? styles.transparentIframe : ''}
+                className={styles.transparentIframe}
                 sandbox="allow-scripts allow-same-origin"
               />
             </div>
@@ -187,23 +182,18 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
             <div
               className={[
                 styles.content,
-                win.windowStyle === 'glass-dark' ? styles.glassDark : '',
-                win.windowStyle === 'glass-light' ? styles.glassLight : '',
+                win.windowStyle === 'glass-dark' ? styles.glassDark : styles.glassLight,
               ].filter(Boolean).join(' ')}
               style={win.windowBackground ? { '--glass-tint': win.windowBackground } as React.CSSProperties : undefined}
             >
-              {(win.windowStyle === 'glass-dark' || win.windowStyle === 'glass-light') && (
-                <>
-                  <div ref={glassBgRef} className={styles.glassBg} />
-                  <div className={styles.glassTint} />
-                </>
-              )}
+              <div ref={glassBgRef} className={styles.glassBg} />
+              <div className={styles.glassTint} />
               {isDragging && <div className={styles.dragOverlay} />}
               <iframe
                 ref={iframeRef}
                 src={win.url}
                 title={win.title}
-                className={win.windowStyle && win.windowStyle !== 'solid' ? styles.transparentIframe : ''}
+                className={styles.transparentIframe}
                 sandbox="allow-scripts allow-same-origin"
               />
             </div>

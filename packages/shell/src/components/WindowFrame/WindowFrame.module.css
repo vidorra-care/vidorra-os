@@ -6,7 +6,7 @@
   grid-template-rows: 2.5rem 1fr;
   border-radius: 0.75rem;
   overflow: hidden;
-  background: var(--color-bg);
+  background: transparent;
   font-family: var(--app-font-family);
   cursor: default;
   position: relative;
