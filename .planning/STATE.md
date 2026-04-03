@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: executing
-stopped_at: Completed 05-built-in-apps-05-02-PLAN.md
-last_updated: "2026-04-03T05:59:24.869Z"
+stopped_at: Completed 05-built-in-apps 05-03-PLAN.md
+last_updated: "2026-04-03T06:01:01.586Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 7
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 5
-Plan: 02 complete (03 next)
+Plan: 03 complete (04 next)
 Status: Executing
 Last activity: 2026-04-03
 
@@ -55,6 +55,7 @@ Progress: [█████████░] ~85%
 | Phase 04-sdk-v01 P02 | 10min | 2 tasks | 9 files |
 | Phase 05-built-in-apps P01 | 7min | 3 tasks | 17 files |
 | Phase 05-built-in-apps P02 | 3min | 2 tasks | 4 files |
+| Phase 05-built-in-apps P03 | 6min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,9 @@ Progress: [█████████░] ~85%
 - [Phase 05-built-in-apps]: Calculator uses zero SDK deps per D-08 — only react + react-dom + dev tooling (vitest + happy-dom)
 - [Phase 05-built-in-apps]: evaluate() uses Function() wrapper with safe character regex allowlist (not Shunting-yard) — simpler and JS natively handles operator precedence
 - [Phase 05-built-in-apps]: Calculator is always dark glass (Calculator Exception) per UI-SPEC.md — ignores prefers-color-scheme; display is 3rem/weight-200, operators use hsla(32,87%,56%,1)
+- [Phase 05-built-in-apps]: SDK calls (app.ready, app.theme.onChange, app.window.close) in main.tsx, not App.tsx — keeps UI component pure React, testable without SDK mock
+- [Phase 05-built-in-apps]: CSS tokens redeclared in iframe app body selector — iframes cannot inherit Shell :root variables
+- [Phase 05-built-in-apps]: Welcome app build output (outDir) targets shell public/apps/welcome — replaces static Phase 2 placeholder
 
 ### Pending Todos
 
@@ -104,6 +108,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T05:59:24.860Z
-Stopped at: Completed 05-built-in-apps-05-02-PLAN.md
+Last session: 2026-04-03T06:01:01.576Z
+Stopped at: Completed 05-built-in-apps 05-03-PLAN.md
 Resume file: None

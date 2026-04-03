@@ -46,9 +46,9 @@
 
 ### Built-in Apps
 
-- [x] **APP-01**: App Store lists installed apps (card layout) and supports "Install from URL" flow with manifest validation
-- [x] **APP-02**: App Store supports uninstall; uninstalled apps disappear from Dock
-- [x] **APP-03**: Settings app provides theme (Light/Dark/Auto) and wallpaper selection (2–3 presets)
+- [ ] **APP-01**: App Store lists installed apps (card layout) and supports "Install from URL" flow with manifest validation
+- [ ] **APP-02**: App Store supports uninstall; uninstalled apps disappear from Dock
+- [ ] **APP-03**: Settings app provides theme (Light/Dark/Auto) and wallpaper selection (2–3 presets)
 - [x] **APP-04**: Calculator performs basic arithmetic; zero SDK dependency; macOS-style UI
 - [x] **APP-05**: Welcome app renders first-launch guidance; "Get Started" button closes window and sets `vidorra:welcomed`
 
@@ -114,9 +114,9 @@
 | SDK-02 | Phase 4 | Complete |
 | SDK-03 | Phase 4 | Complete |
 | SDK-04 | Phase 4 | Complete |
-| APP-01 | Phase 5 | Complete |
-| APP-02 | Phase 5 | Complete |
-| APP-03 | Phase 5 | Complete |
+| APP-01 | Phase 5 | Pending |
+| APP-02 | Phase 5 | Pending |
+| APP-03 | Phase 5 | Pending |
 | APP-04 | Phase 5 | Complete |
 | APP-05 | Phase 5 | Complete |
 | QUAL-01 | Phase 6 | Pending |

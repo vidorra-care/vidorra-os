@@ -26,6 +26,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/apps\/calculator/, ''),
       },
+      '/apps/welcome': {
+        target: 'http://localhost:3013',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/apps\/welcome/, ''),
+      },
     },
   },
 })
