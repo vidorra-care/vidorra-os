@@ -1,0 +1,44 @@
+/* Token system — redeclared (iframe CSS isolation) */
+body,
+body[data-theme='light'] {
+  --app-color-primary: hsl(211, 100%, 50%);
+  --app-color-primary-hsl: 211, 100%, 50%;
+  --color-text: rgba(0, 0, 0, 0.85);
+  --color-text-secondary: rgba(0, 0, 0, 0.5);
+  --color-bg: rgba(255, 255, 255, 0.8);
+  --color-surface: rgba(245, 245, 245, 0.92);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --app-font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+:global(body.dark) {
+  --color-text: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-bg: rgba(30, 30, 30, 0.85);
+  --color-surface: rgba(40, 40, 40, 0.92);
+  --color-border: rgba(255, 255, 255, 0.12);
+}
+
+:global(body) {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--app-font-family);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Two-column layout: 200px sidebar + fill content */
+.root {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+
+.content {
+  background: var(--color-bg);
+  padding: 24px;
+  overflow-y: auto;
+}
