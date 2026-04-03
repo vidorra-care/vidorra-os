@@ -24,18 +24,19 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   const prevStateRef = useRef(win.state)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [isDragging, setIsDragging] = useState(false)
-  const glassRef = useRef<HTMLDivElement>(null)
+  const glassBgRef = useRef<HTMLDivElement>(null)
 
-  // Keep --win-x/--win-y in sync so the glass ::before pseudo-element
-  // can reverse-offset the wallpaper to stay aligned with the desktop.
-  const syncGlassPos = (x: number, y: number) => {
-    if (!glassRef.current) return
-    glassRef.current.style.setProperty('--win-x', `${x}px`)
-    glassRef.current.style.setProperty('--win-y', `${y}px`)
+  // Sync the glass background div's transform to be the inverse of the window position.
+  // Both transforms land on the compositor in the same frame — no layout, no paint.
+  const syncGlassBg = (x: number, y: number) => {
+    if (glassBgRef.current) {
+      glassBgRef.current.style.transform = `translate(${-x}px, ${-y}px) scale(1.05)`
+    }
   }
 
+  // Initial sync and any state-driven position changes (e.g. maximize)
   useEffect(() => {
-    syncGlassPos(win.rect.x, win.rect.y)
+    syncGlassBg(win.rect.x, win.rect.y)
   })
 
   // Show window before restore animation when un-minimizing
@@ -118,11 +119,11 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
       style={{ zIndex: win.zIndex, pointerEvents: isMinimized ? 'none' : 'auto' }}
       onDragStart={() => setIsDragging(true)}
       onDrag={(_e, d) => {
-        syncGlassPos(d.x, d.y)
+        syncGlassBg(d.x, d.y)
       }}
       onDragStop={(_e, d) => {
         setIsDragging(false)
-        syncGlassPos(d.x, d.y)
+        syncGlassBg(d.x, d.y)
         setWindowRect(win.id, { ...win.rect, x: d.x, y: d.y })
       }}
       onResizeStop={handleResizeStop}
@@ -145,7 +146,6 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
               <TrafficLights windowId={win.id} focused={win.focused} />
             </div>
             <div
-              ref={glassRef}
               className={[
                 styles.contentFull,
                 win.windowStyle === 'glass-dark' ? styles.glassDark : '',
@@ -153,6 +153,12 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
               ].filter(Boolean).join(' ')}
               style={win.windowBackground ? { '--glass-tint': win.windowBackground } as React.CSSProperties : undefined}
             >
+              {(win.windowStyle === 'glass-dark' || win.windowStyle === 'glass-light') && (
+                <>
+                  <div ref={glassBgRef} className={styles.glassBg} />
+                  <div className={styles.glassTint} />
+                </>
+              )}
               {isDragging && <div className={styles.dragOverlay} />}
               <iframe
                 ref={iframeRef}
@@ -170,7 +176,6 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
               <span className={styles.title}>{win.title}</span>
             </div>
             <div
-              ref={glassRef}
               className={[
                 styles.content,
                 win.windowStyle === 'glass-dark' ? styles.glassDark : '',
@@ -178,6 +183,12 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
               ].filter(Boolean).join(' ')}
               style={win.windowBackground ? { '--glass-tint': win.windowBackground } as React.CSSProperties : undefined}
             >
+              {(win.windowStyle === 'glass-dark' || win.windowStyle === 'glass-light') && (
+                <>
+                  <div ref={glassBgRef} className={styles.glassBg} />
+                  <div className={styles.glassTint} />
+                </>
+              )}
               {isDragging && <div className={styles.dragOverlay} />}
               <iframe
                 ref={iframeRef}

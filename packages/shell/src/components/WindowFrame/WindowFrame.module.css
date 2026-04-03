@@ -101,14 +101,12 @@
   overflow: hidden;
 }
 
-/* Full-viewport wallpaper layer, reverse-offset to stay aligned with the desktop.
-   --win-x / --win-y are kept in sync by WindowFrame.tsx on every drag tick. */
-.glassDark::before,
-.glassLight::before {
-  content: '';
+/* Real div (not ::before) so we can drive its transform from JS in the same frame
+   as the window's own transform — both hit the compositor simultaneously, zero layout. */
+.glassBg {
   position: absolute;
-  left: calc(-1 * var(--win-x, 0px));
-  top:  calc(-1 * var(--win-y, 0px));
+  left: 0;
+  top: 0;
   width: 100vw;
   height: 100vh;
   background-image: var(--wallpaper-url, none);
@@ -116,29 +114,26 @@
   background-position: center;
   background-repeat: no-repeat;
   filter: blur(24px) saturate(1.6) brightness(0.9);
-  transform: scale(1.05); /* absorb blur edge fringing */
-  transform-origin: top left;
+  transform-origin: 0 0;
+  will-change: transform;
   z-index: 0;
   pointer-events: none;
 }
 
 /* Tint layer */
-.glassDark::after {
-  content: '';
+.glassTint {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--glass-tint, hsla(0, 0%, 10%, 0.45));
   pointer-events: none;
 }
 
-.glassLight::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+.glassDark .glassTint {
+  background: var(--glass-tint, hsla(0, 0%, 10%, 0.45));
+}
+
+.glassLight .glassTint {
   background: var(--glass-tint, hsla(0, 0%, 100%, 0.35));
-  pointer-events: none;
 }
 
 /* iframe and drag overlay sit above the glass layers */
