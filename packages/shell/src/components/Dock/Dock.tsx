@@ -19,6 +19,13 @@ export function Dock() {
     setApps(appRegistry.getAllApps())
   }, [])
 
+  // Re-read registry when App Store (iframe) installs or uninstalls apps
+  useEffect(() => {
+    const refresh = () => setApps(appRegistry.getAllApps())
+    window.addEventListener('storage', refresh)
+    return () => window.removeEventListener('storage', refresh)
+  }, [])
+
   const handleOpen = (app: AppManifest) => {
     const existing = windows.find((w) => w.appId === app.id)
     if (existing) {
