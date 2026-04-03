@@ -1,8 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <p>Calculator — Phase 5</p>
+    <App />
   </StrictMode>,
 )
