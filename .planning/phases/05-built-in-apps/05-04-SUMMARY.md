@@ -145,6 +145,17 @@ None - no external service configuration required.
 - Wave 4 (Welcome app, 05-05) can proceed — same SDK init pattern as Settings
 - No blockers
 
+## Self-Check: PASSED
+
+- FOUND: apps/settings/src/App.tsx
+- FOUND: apps/settings/src/App.module.css
+- FOUND: apps/settings/src/components/Sidebar.tsx
+- FOUND: apps/settings/src/components/panels/GeneralPanel.tsx
+- FOUND: apps/settings/src/components/panels/WallpaperPanel.tsx
+- FOUND: .planning/phases/05-built-in-apps/05-04-SUMMARY.md
+- FOUND commit: 51fb11f (Task 1: SDK init + App root + Sidebar)
+- FOUND commit: 6d8622c (Task 2: GeneralPanel + WallpaperPanel)
+
 ---
 *Phase: 05-built-in-apps*
 *Completed: 2026-04-03*
