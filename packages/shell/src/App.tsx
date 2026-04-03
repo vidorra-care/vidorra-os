@@ -20,7 +20,7 @@ export default function App() {
   // Seed built-in apps into appRegistry if not already present
   useEffect(() => {
     for (const app of builtInApps.apps) {
-      appRegistry.registerLocal(app as AppManifest)
+      appRegistry.registerLocal(app as unknown as AppManifest)
     }
   }, [])
 
