@@ -10,7 +10,7 @@ Vidorra OS is a browser-based macOS-style Web Desktop OS with a framework-agnost
 - [x] **Phase 1: Kernel** - AppRegistry + ThemeEngine — core logic without UI
 - [x] **Phase 2: Shell** - WindowManager + Dock + Menubar + Desktop — visual shell
 - [x] **Phase 3: KernelBus (Bridge)** - postMessage RPC between Shell and sandboxed App iframes (completed 2026-04-02)
-- [x] **Phase 4: SDK v0.1** - Developer-facing API (`createApp`, window/theme APIs) (completed 2026-04-03)
+- [x] **Phase 4: SDK v0.1** - Developer-facing API (`createApp`, window/theme APIs) (completed 2026-04-03)
 - [ ] **Phase 5: Built-in Apps** - App Store, Settings, Calculator, Welcome
 - [ ] **Phase 6: Integration & Polish** - E2E testing, animation tuning, final MVP verification
 
@@ -100,7 +100,14 @@ Plans:
   2. Settings theme switch immediately updates all CSS variables across the shell
   3. Calculator computes `12 + 34 * 5` correctly
   4. Welcome app opens on first launch; `vidorra:welcomed` key prevents re-show
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Shell integration scaffolding (proxy, Dock/Desktop reactivity fixes, registry entries, Calculator scaffold + RED tests)
+- [ ] 05-02-PLAN.md — Calculator app: TDD arithmetic engine (useCalculator) + macOS dark-glass UI
+- [ ] 05-03-PLAN.md — Welcome app: React+Vite project with SDK init and "Get Started" close handler
+- [ ] 05-04-PLAN.md — Settings app: two-column layout, theme segmented control, wallpaper preset picker
+- [ ] 05-05-PLAN.md — App Store: card grid, install modal, detail view, right-click menu, drag-to-trash uninstall
 
 ### Phase 6: Integration & Polish
 **Goal**: All P0/P1 bugs fixed; window animations at 60 fps; 5+ simultaneous windows stable; Dock magnification smooth; full manual test checklist green.
@@ -124,5 +131,5 @@ Plans:
 | 2. Shell | 9/9 | Complete | 2026-04-02 |
 | 3. KernelBus | 4/4 | Complete   | 2026-04-02 |
 | 4. SDK v0.1 | 2/2 | Complete   | 2026-04-03 |
-| 5. Built-in Apps | 0/TBD | Not started | - |
+| 5. Built-in Apps | 0/5 | Not started | - |
 | 6. Integration & Polish | 0/TBD | Not started | - |
