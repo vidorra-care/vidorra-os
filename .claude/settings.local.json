@@ -48,7 +48,10 @@
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs frontmatter validate .planning/phases/04-sdk-v01/04-02-PLAN.md --schema plan)",
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs verify plan-structure .planning/phases/04-sdk-v01/04-01-PLAN.md)",
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs verify plan-structure .planning/phases/04-sdk-v01/04-02-PLAN.md)",
-      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs commit 'docs\\(04-sdk-v01\\): create phase 4 plan' --files .planning/phases/04-sdk-v01/04-01-PLAN.md .planning/phases/04-sdk-v01/04-02-PLAN.md .planning/ROADMAP.md)"
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs commit 'docs\\(04-sdk-v01\\): create phase 4 plan' --files .planning/phases/04-sdk-v01/04-01-PLAN.md .planning/phases/04-sdk-v01/04-02-PLAN.md .planning/ROADMAP.md)",
+      "Bash(npx vitest:*)",
+      "Bash(pnpm --filter @vidorra/bus test)",
+      "Bash(pnpm --filter @vidorra/calculator test)"
     ]
   }
 }
