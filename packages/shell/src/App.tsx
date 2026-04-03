@@ -33,7 +33,7 @@ export default function App() {
         appId: 'welcome',
         title: 'Welcome to Vidorra OS',
         url: '/apps/welcome/index.html',
-        icon: '/app-icons/welcome.svg',
+        icon: '/app-icons/welcome-256.png',
         rect: {
           x: Math.round((window.innerWidth - 600) / 2),
           y: Math.round((window.innerHeight - 400) / 2),

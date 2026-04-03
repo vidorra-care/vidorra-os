@@ -36,10 +36,9 @@ export class AppRegistry {
   }
 
   registerLocal(manifest: AppManifest): void {
-    if (!this.apps.has(manifest.id)) {
-      this.apps.set(manifest.id, manifest)
-      this.persist()
-    }
+    // Always overwrite built-in apps so code changes (icon, entry, etc.) take effect
+    this.apps.set(manifest.id, manifest)
+    this.persist()
   }
 
   getApp(appId: string): AppManifest | undefined {
