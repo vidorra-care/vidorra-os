@@ -1,0 +1,83 @@
+/* Token system — redeclared (iframe CSS isolation) */
+:global(body),
+:global(body[data-theme='light']) {
+  --app-color-primary: hsl(211, 100%, 50%);
+  --app-color-primary-hsl: 211, 100%, 50%;
+  --color-text: rgba(0, 0, 0, 0.85);
+  --color-text-secondary: rgba(0, 0, 0, 0.5);
+  --color-bg: rgba(255, 255, 255, 0.8);
+  --color-surface: rgba(245, 245, 245, 0.92);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --app-font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+:global(body.dark) {
+  --color-text: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-bg: rgba(30, 30, 30, 0.85);
+  --color-surface: rgba(40, 40, 40, 0.92);
+  --color-border: rgba(255, 255, 255, 0.12);
+}
+
+:global(body) {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--app-font-family);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Root: flex column occupying full height */
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Toolbar: 48px height, flex row */
+.toolbar {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+/* "App Store" title: 20px/600 (Heading scale — primary focal point) */
+.toolbarTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* "Install from URL" button: accent text + border (UI-SPEC color accent) */
+.installBtn {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--app-font-family);
+  color: var(--app-color-primary);
+  background: transparent;
+  border: 1px solid var(--app-color-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 80ms ease;
+}
+
+.installBtn:hover {
+  background: hsla(var(--app-color-primary-hsl), 0.08);
+}
+
+/* Content area: fills remaining height, scrollable */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
