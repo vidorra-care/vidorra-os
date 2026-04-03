@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --filter @vidorra/shell dev",
+    "dev:all": "pnpm --parallel --filter @vidorra/shell --filter @vidorra/app-store --filter @vidorra/settings --filter @vidorra/calculator --filter @vidorra/welcome dev",
     "build": "pnpm -r --filter './packages/**' --filter './apps/**' build",
     "lint": "eslint .",
     "test": "pnpm --filter @vidorra/kernel run test && pnpm --filter @vidorra/bus run test && pnpm --filter @vidorra/sdk run test",

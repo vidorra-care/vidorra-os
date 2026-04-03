@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/apps/welcome/',
   server: { port: 3013 },
   build: {
     outDir: '../../packages/shell/public/apps/welcome',

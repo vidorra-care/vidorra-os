@@ -14,22 +14,18 @@ export default defineConfig({
       '/apps/app-store': {
         target: 'http://localhost:3010',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/apps\/app-store/, ''),
       },
       '/apps/settings': {
         target: 'http://localhost:3011',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/apps\/settings/, ''),
       },
       '/apps/calculator': {
         target: 'http://localhost:3012',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/apps\/calculator/, ''),
       },
       '/apps/welcome': {
         target: 'http://localhost:3013',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/apps\/welcome/, ''),
       },
     },
   },
