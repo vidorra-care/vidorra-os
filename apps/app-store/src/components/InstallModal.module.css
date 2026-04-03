@@ -1,0 +1,124 @@
+/* Overlay: full-screen backdrop (NOT native dialog — sandbox Pitfall #1) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 150ms ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal card: 400px wide, 8px border-radius (UI-SPEC) */
+.modal {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 24px;
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 150ms ease-out;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Modal title: 20px/600 (UI-SPEC) */
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+/* Field label: 13px/500 (UI-SPEC Label scale) */
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.input {
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: var(--app-font-family);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--app-color-primary);
+  box-shadow: 0 0 0 0.25rem hsla(var(--app-color-primary-hsl), 0.2);
+}
+
+/* Error: inline, destructive red, 13px/400 */
+.error {
+  font-size: 13px;
+  font-weight: 400;
+  color: #d93025;
+  margin: 0;
+}
+
+/* Button row: cancel left, install right */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cancelBtn {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--app-font-family);
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.installBtn {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--app-font-family);
+  color: white;
+  background: var(--app-color-primary);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 80ms ease;
+}
+
+.installBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.installBtn:not(:disabled):hover {
+  filter: brightness(0.9);
+}
