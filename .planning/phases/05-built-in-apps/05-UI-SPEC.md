@@ -138,6 +138,8 @@ Weights used: 400 (regular) and 600 (semibold). Weight 500 (medium) is permitted
 
 Letter spacing: 0.3–0.4px on small labels (matching existing Shell `.menuButton` and `.item` patterns).
 
+**Calculator typography is explicitly excluded from this scale.** See the Calculator Exception section below for its own mini type system.
+
 ---
 
 ## Color
@@ -160,6 +162,8 @@ Letter spacing: 0.3–0.4px on small labels (matching existing Shell `.menuButto
 
 Accent is NOT used for: card hover states, general text links, secondary buttons, informational labels.
 
+**Calculator color is explicitly excluded from this contract.** The Calculator uses its own authentic macOS dark-glass palette regardless of system theme. See the Calculator Exception section.
+
 **Glass surface pattern** (inherited from Shell — use consistently):
 - Surface background: `hsla(var(--app-color-light-hsl), 0.3)` with `backdrop-filter: blur(12px)`
 - Card/panel elevated background: `hsla(var(--app-color-light-hsl), 0.5)`
@@ -168,6 +172,114 @@ Accent is NOT used for: card hover states, general text links, secondary buttons
 **Destructive state — Trash Zone:**
 - Idle: low-opacity grey icon, `rgba(0,0,0,0.15)` background
 - Hover/drag-over: `rgba(217,48,37,0.15)` background tint + destructive red icon
+
+---
+
+## Design System Exceptions: Calculator
+
+The Calculator app uses an authentic macOS dark-glass aesthetic that is intentionally independent of the system theme and the standard design token system. This is not a deviation — it is the correct macOS Calculator pattern, documented here so the executor can implement it directly from these values without guessing.
+
+### Why this exception exists
+
+The reference implementation at `.reference/macos-preact-main/src/components/apps/Calculator/Calculator.module.scss` uses:
+- A permanently dark glassmorphism container (not adaptive to `body.dark`)
+- macOS Calculator orange for operation buttons (not the project's `--app-color-primary` blue)
+- Thin/light font weights (200 for display, 300 for buttons) which are authentic to the real macOS Calculator
+
+All three of these violate the standard design contract. They are declared here as explicit, intentional exceptions.
+
+### Calculator Container
+
+```css
+.container {
+  background-color: hsla(0, 0%, 27%, 0.7);   /* dark glass — always dark, ignores body.dark */
+  backdrop-filter: blur(40px);
+  border-radius: inherit;                      /* inherits from WindowFrame */
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  font-family: var(--app-font-family) !important;
+}
+```
+
+This container is **always dark** regardless of system theme. The Calculator does not listen to `body.dark` or `theme.onChange()`.
+
+### Calculator Display (showArea)
+
+```css
+.showArea {
+  min-height: 4rem;          /* ~64px */
+  font-size: 3rem;           /* ~48px — Calculator-only size, NOT in the 4-size type scale */
+  font-weight: 200;          /* thin — Calculator-only weight, NOT in the standard 400/600 scale */
+  color: white;
+  text-align: end;           /* right-aligned */
+  overflow: auto;
+  padding: 0.5rem 1rem;      /* 8px 16px */
+}
+```
+
+| Property | Value | Note |
+|----------|-------|------|
+| Font size | 3rem (~48px) | Calculator-only — exception to 4-size type scale |
+| Font weight | 200 (thin) | Calculator display — exception to 400/600 weight rule |
+| Color | white | Static — always white regardless of theme |
+| Alignment | right (text-align: end) | Numeric display convention |
+
+### Calculator Button Grid
+
+```css
+.buttonsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);   /* 4 columns */
+  grid-template-rows: repeat(5, 1fr);      /* 5 rows */
+  gap: 1px;
+
+  & > button {
+    font-size: 1.618rem;       /* ~26px — Calculator-only size */
+    font-weight: 300;          /* light — Calculator-only weight, NOT in standard scale */
+    color: white;
+    fill: white;               /* for SVG icons */
+  }
+}
+```
+
+| Property | Value | Note |
+|----------|-------|------|
+| Button font size | 1.618rem (~26px) | Calculator-only — exception to type scale |
+| Button font weight | 300 (light) | Calculator buttons — exception to 400/600 weight rule |
+| Grid | 4 columns × 5 rows | Standard macOS Calculator layout |
+| Gap | 1px | Hairline gap between buttons |
+
+### Calculator Button Color Map
+
+All button colors are static — they do NOT adapt to `body.dark`.
+
+| Button Group | CSS Class | Background | Active Background | Text |
+|--------------|-----------|------------|-------------------|------|
+| Top row (AC, +/-, %, ÷) | `.topRowButton` | `hsla(0, 0%, 35%, 0.6)` | `hsla(0, 0%, 54%, 0.6)` | white |
+| Number (0–9, .) | `.numberButton` | `hsla(0, 0%, 54%, 0.6)` | `hsla(0, 0%, 90%, 0.6)` | white |
+| Operator (÷, ×, −, +) | `.operationButton` | `hsla(32, 87%, 56%, 1)` — **macOS orange** | `hsla(32, 68%, 47%, 1)` | white |
+| Equals (=) | `.operationButton` | `hsla(32, 87%, 56%, 1)` — **macOS orange** | `hsla(32, 68%, 47%, 1)` | white |
+
+The operator and equals buttons use **macOS Calculator orange** (`hsla(32, 87%, 56%, 1)`), NOT the project accent blue (`var(--app-color-primary)`). This is intentional and must not be "corrected" to the system accent color.
+
+### Calculator Special Button Layout
+
+| Button | Behavior |
+|--------|----------|
+| "0" (zero) | `grid-column: 1 / span 2` — spans 2 columns, bottom-left |
+| Bottom-left button (0) | `border-radius: 0 0 0 0.7rem` — rounded bottom-left corner only |
+| Bottom-right button (=) | `border-radius: 0 0 0.7rem 0` — rounded bottom-right corner only |
+
+### Summary: What the Calculator Overrides
+
+| Dimension | Standard Contract | Calculator Exception |
+|-----------|------------------|----------------------|
+| Theme | Adapts to `body.dark` | Always dark glass — static |
+| Accent color | `hsl(211,100%,50%)` macOS blue | `hsla(32,87%,56%,1)` macOS orange for operators/equals |
+| Display font size | 14/13/20/28px scale | 3rem (~48px) |
+| Display font weight | 400 / 600 | 200 (thin) |
+| Button font weight | 400 / 600 | 300 (light) |
+| Container BG | `var(--color-bg)` adaptive | `hsla(0,0%,27%,0.7)` static dark |
 
 ---
 
@@ -187,8 +299,8 @@ Reuse from Shell where possible; build new only for app-specific needs.
 | Sidebar | Settings | Build new | 220px fixed width, nav item list |
 | GeneralPanel | Settings | Build new | 3 segmented toggle buttons (Light/Dark/Auto) |
 | WallpaperPanel | Settings | Build new | 3 thumbnail cards in a row, 2px selected border |
-| CalculatorDisplay | Calculator | Build new | Right-aligned expression + result |
-| CalculatorButton | Calculator | Build new | Uniform grid cells, macOS color scheme |
+| CalculatorDisplay | Calculator | Build new | Right-aligned result display — uses Calculator Exception typography |
+| CalculatorButton | Calculator | Build new | Uniform grid cells, static macOS dark-glass color scheme |
 | WelcomeHero | Welcome | Build new | Full-screen centered flex column |
 
 ---
@@ -200,10 +312,12 @@ Reuse from Shell where possible; build new only for app-specific needs.
 Default window size: 800 × 560px (from built-in-apps.json defaultSize — adjust if not set yet).
 Min window size: 480 × 360px.
 
+Primary focal point: "App Store" toolbar title (20px/600) — primary visual anchor; card grid is secondary content area.
+
 Layout structure:
 ```
 [ Toolbar: 48px height ]
-  - Left: "App Store" heading (20px/600)
+  - Left: "App Store" heading (20px/600)  <-- PRIMARY FOCAL POINT
   - Right: "Install from URL" button (accent text + border, 8px vertical padding, 16px horizontal)
 [ Content area: fill remaining height ]
   Grid view:  AppGrid — CSS auto-fill grid, 160px min card width, 16px gap, 16px padding
@@ -215,10 +329,10 @@ Layout structure:
 ```
 
 App Card anatomy:
-- Container: 160px min-width, 100% in grid cell; 12px padding; 8px border-radius; `var(--color-surface)` background
+- Container: 160px min-width, 100% in grid cell; 8px padding (sm token); 8px border-radius; `var(--color-surface)` background
 - Icon: 56px × 56px `<img>`, centered
 - App name: 14px/600, centered, max 2 lines, ellipsis overflow
-- Version: 12px/400, `var(--color-text-secondary)`, centered
+- Version: 13px/400 (Label size), `var(--color-text-secondary)`, centered
 
 ### Settings
 
@@ -253,32 +367,22 @@ Wallpaper panel:
 Default window size: 320 × 480px.
 Min window size: 280 × 400px. No resize beyond max 400 × 600px recommended (fixed-ratio feel).
 
+The Calculator uses the design system exception defined above. Do NOT apply standard token values to the Calculator. All Calculator styling comes from the Calculator Exception section.
+
 Layout structure:
 ```
-[ Display area: top ~35% of window height ]
-  - Right-aligned expression string: 14px/400, var(--color-text-secondary)
-  - Right-aligned result: 48px/300 (thin weight for numeric display), var(--color-text)
-[ Button grid: bottom ~65% of window height ]
-  4 columns × 5 rows
-  Each button: equal flex, 1px gap between buttons
+[ Container: always dark glass — hsla(0,0%,27%,0.7) + backdrop-filter:blur(40px) ]
+[ Header / drag handle: auto height (~1rem padding = ~16px) ]
+[ Display area: min 4rem (~64px) ]
+  - Right-aligned result: 3rem/200 (thin), white — see Calculator Exception
+[ Button grid: fills remaining height ]
+  4 columns × 5 rows, 1px gap
+  Row 1: AC  +/-  %  ÷    (top row buttons — grey)
+  Row 2:  7   8   9  ×    (number + operator)
+  Row 3:  4   5   6  −    (number + operator)
+  Row 4:  1   2   3  +    (number + operator)
+  Row 5:  0 [spans 2] .  = (number + operator)
 ```
-
-Button color mapping (macOS Calculator style, light mode):
-| Button Group | Background | Text |
-|--------------|------------|------|
-| Digit (0–9, .) | `rgba(255,255,255,0.8)` | `rgba(0,0,0,0.85)` |
-| Function (AC, +/-, %) | `hsla(var(--app-color-grey-300-hsl), 1)` | `rgba(0,0,0,0.85)` |
-| Operator (+, -, *, /) | `var(--app-color-primary)` | white |
-| Equals (=) | `var(--app-color-primary)` | white |
-
-Dark mode button colors (`body.dark` or `@media (prefers-color-scheme: dark)`):
-| Button Group | Background |
-|--------------|------------|
-| Digit | `rgba(80,80,80,0.9)` |
-| Function | `rgba(55,55,55,0.9)` |
-| Operator / Equals | `var(--app-color-primary)` (unchanged) |
-
-Theme detection: `@media (prefers-color-scheme: dark)` — no SDK, no KernelBus. CSS-only.
 
 ### Welcome
 
@@ -300,6 +404,8 @@ Layout structure:
 
 All padding and gap values must be drawn from the declared scale above. Deviations (e.g., 0.3rem in Dock tooltip) are Shell-level exceptions and do not apply to built-in apps.
 
+The Calculator's internal `1px` button gap and `0.5rem 1rem` display padding are Calculator Exception values and are exempt from the standard spacing scale.
+
 ---
 
 ## Copywriting Contract
@@ -314,7 +420,7 @@ All padding and gap values must be drawn from the declared scale above. Deviatio
 | Install modal field label | "Manifest URL" |
 | Install modal field placeholder | "https://example.com/app/manifest.json" |
 | Install modal submit button | "Install" |
-| Install modal cancel | "Cancel" |
+| Install modal cancel | "Don't Install" |
 | Install success (inline) | "App installed successfully." |
 | Install error (inline) | "Could not install: {error.message}" |
 | Uninstall button (detail page) | "Uninstall" |
@@ -486,4 +592,6 @@ No external component registries used in this phase. All components are hand-bui
 | ContextMenu.module.css | Item typography (0.875rem/400), glass surface spec |
 | Menubar.module.css | Font size reference (0.8rem/500 for chrome labels) |
 | ActionCenter.module.css | Toggle size (1.7rem), focus ring spec, panel glass pattern |
+| Calculator reference (.reference/macos-preact-main/src/components/apps/Calculator/Calculator.module.scss) | Exact CSS values for Calculator Exception section: container BG, display size/weight, button colors, grid layout, active states |
+| UI checker revision | 5 fixes applied: cancel label, Calculator exception, version text size, focal point, card padding |
 | User input | 0 additional questions needed — all design decisions pre-answered by upstream artifacts |
