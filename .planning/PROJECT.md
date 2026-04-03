@@ -17,10 +17,10 @@ Any web app can become a Vidorra OS app with a single `createApp()` SDK call —
 - ✓ SHELL-01 – SHELL-08: Visual shell (WindowManager, Dock, Menubar, Desktop) — Phase 2
 - ✓ BUS-01 – BUS-04: KernelBus postMessage RPC — Phase 3
 - ✓ SDK-01 – SDK-04: `@vidorra/sdk` v0.1 (`createApp()`, `@vidorra/bus` extracted, Vite lib build) — Phase 4
+- ✓ APP-01 – APP-05: App Store, Settings, Calculator, Welcome — Phase 5
 
 ### Active
 
-- [ ] APP-01 – APP-05: App Store, Settings, Calculator, Welcome
 - [ ] QUAL-01 – QUAL-03: 60 fps animations, < 2 s load, no P0/P1 bugs
 
 ### Out of Scope
@@ -60,4 +60,4 @@ Any web app can become a Vidorra OS app with a single `createApp()` SDK call —
 | postMessage RPC (no library) | Zero external deps for bridge layer; full control | ✓ Good |
 
 ---
-*Last updated: 2026-04-03 after Phase 4 completion — @vidorra/sdk v0.1 with createApp() live, 65 tests passing*
+*Last updated: 2026-04-03 after Phase 5 completion — all 4 built-in apps live (App Store, Settings, Calculator, Welcome); 261 tests passing*
