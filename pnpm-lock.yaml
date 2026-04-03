@@ -106,6 +106,9 @@ importers:
 
   apps/settings:
     dependencies:
+      '@vidorra/kernel':
+        specifier: workspace:*
+        version: link:../../packages/kernel
       '@vidorra/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk

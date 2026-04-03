@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vidorra/kernel": "workspace:*",
     "@vidorra/sdk": "workspace:*",
     "@vidorra/types": "workspace:*",
     "react": "^18.3.0",

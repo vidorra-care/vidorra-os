@@ -106,7 +106,7 @@ Plans:
 - [x] 05-01-PLAN.md — Shell integration scaffolding (proxy, Dock/Desktop reactivity fixes, registry entries, Calculator scaffold + RED tests)
 - [x] 05-02-PLAN.md — Calculator app: TDD arithmetic engine (useCalculator) + macOS dark-glass UI
 - [x] 05-03-PLAN.md — Welcome app: React+Vite project with SDK init and "Get Started" close handler
-- [ ] 05-04-PLAN.md — Settings app: two-column layout, theme segmented control, wallpaper preset picker
+- [x] 05-04-PLAN.md — Settings app: two-column layout, theme segmented control, wallpaper preset picker
 - [ ] 05-05-PLAN.md — App Store: card grid, install modal, detail view, right-click menu, drag-to-trash uninstall
 
 ### Phase 6: Integration & Polish
@@ -131,5 +131,5 @@ Plans:
 | 2. Shell | 9/9 | Complete | 2026-04-02 |
 | 3. KernelBus | 4/4 | Complete   | 2026-04-02 |
 | 4. SDK v0.1 | 2/2 | Complete   | 2026-04-03 |
-| 5. Built-in Apps | 3/5 | In Progress|  |
+| 5. Built-in Apps | 4/5 | In Progress|  |
 | 6. Integration & Polish | 0/TBD | Not started | - |

@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: executing
-stopped_at: Completed 05-built-in-apps 05-03-PLAN.md
-last_updated: "2026-04-03T06:01:01.586Z"
+stopped_at: Completed 05-04-PLAN.md
+last_updated: "2026-04-03T06:14:38.012Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 20
-  completed_plans: 17
-  percent: 85
+  completed_plans: 18
+  percent: 90
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 5
-Plan: 03 complete (04 next)
+Plan: 04 complete (05 next)
 Status: Executing
 Last activity: 2026-04-03
 
-Progress: [█████████░] ~85%
+Progress: [█████████░] ~90%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [█████████░] ~85%
 | Phase 05-built-in-apps P01 | 7min | 3 tasks | 17 files |
 | Phase 05-built-in-apps P02 | 3min | 2 tasks | 4 files |
 | Phase 05-built-in-apps P03 | 6min | 2 tasks | 12 files |
+| Phase 05-built-in-apps P04 | 6min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,7 @@ Progress: [█████████░] ~85%
 - [Phase 05-built-in-apps]: SDK calls (app.ready, app.theme.onChange, app.window.close) in main.tsx, not App.tsx — keeps UI component pure React, testable without SDK mock
 - [Phase 05-built-in-apps]: CSS tokens redeclared in iframe app body selector — iframes cannot inherit Shell :root variables
 - [Phase 05-built-in-apps]: Welcome app build output (outDir) targets shell public/apps/welcome — replaces static Phase 2 placeholder
+- [Phase 05-built-in-apps]: Settings imports themeEngine directly from @vidorra/kernel (same-origin, per D-18) — not via SDK bridge; wallpaper via localStorage.setItem + StorageEvent
 
 ### Pending Todos
 
@@ -108,6 +110,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T06:01:01.576Z
-Stopped at: Completed 05-built-in-apps 05-03-PLAN.md
+Last session: 2026-04-03T06:14:38.001Z
+Stopped at: Completed 05-04-PLAN.md
 Resume file: None

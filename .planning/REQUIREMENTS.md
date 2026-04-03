@@ -116,7 +116,7 @@
 | SDK-04 | Phase 4 | Complete |
 | APP-01 | Phase 5 | Pending |
 | APP-02 | Phase 5 | Pending |
-| APP-03 | Phase 5 | Pending |
+| APP-03 | Phase 5 | Complete |
 | APP-04 | Phase 5 | Complete |
 | APP-05 | Phase 5 | Complete |
 | QUAL-01 | Phase 6 | Pending |
