@@ -1,15 +1,26 @@
 {
   "name": "@vidorra/sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run"
+  },
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/vidorra-sdk.js"
     }
   },
   "dependencies": {
-    "@vidorra/types": "workspace:*"
+    "@vidorra/bus": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.0.0",
+    "vitest": "^3.0.0",
+    "happy-dom": "^14.0.0",
+    "typescript": "^5.5.0"
   }
 }

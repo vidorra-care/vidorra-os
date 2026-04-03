@@ -40,9 +40,9 @@
 ### SDK
 
 - [x] **SDK-01**: `import { createApp } from '@vidorra/sdk'` works in a plain HTML/JS app (no build tool required)
-- [ ] **SDK-02**: `app.ready()` sends the `app.ready` signal to Shell (marks iframe as trusted)
-- [ ] **SDK-03**: `app.window.*` and `app.theme.*` APIs map to KernelBus methods with Promise return values
-- [ ] **SDK-04**: Published ESM bundle is ≤ 8 KB gzip; full TypeScript type definitions included
+- [x] **SDK-02**: `app.ready()` sends the `app.ready` signal to Shell (marks iframe as trusted)
+- [x] **SDK-03**: `app.window.*` and `app.theme.*` APIs map to KernelBus methods with Promise return values
+- [x] **SDK-04**: Published ESM bundle is ≤ 8 KB gzip; full TypeScript type definitions included
 
 ### Built-in Apps
 
@@ -111,9 +111,9 @@
 | BUS-03 | Phase 3 | Complete |
 | BUS-04 | Phase 3 | Complete |
 | SDK-01 | Phase 4 | Complete |
-| SDK-02 | Phase 4 | Pending |
-| SDK-03 | Phase 4 | Pending |
-| SDK-04 | Phase 4 | Pending |
+| SDK-02 | Phase 4 | Complete |
+| SDK-03 | Phase 4 | Complete |
+| SDK-04 | Phase 4 | Complete |
 | APP-01 | Phase 5 | Pending |
 | APP-02 | Phase 5 | Pending |
 | APP-03 | Phase 5 | Pending |

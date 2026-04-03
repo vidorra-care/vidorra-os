@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: executing
-stopped_at: Completed 04-01-PLAN.md (@vidorra/bus package extraction)
-last_updated: "2026-04-03T02:35:07.520Z"
-last_activity: 2026-04-03 -- Phase 04 execution started
+stopped_at: Completed 04-02-PLAN.md (@vidorra/sdk createApp() implementation + Vite build)
+last_updated: "2026-04-03T02:45:47.587Z"
+last_activity: 2026-04-03
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 15
   percent: 46
 ---
 
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 04 (sdk-v01) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 04
-Last activity: 2026-04-03 -- Phase 04 execution started
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-03
 
 Progress: [████░░░░░░] ~46%
 
@@ -52,6 +52,7 @@ Progress: [████░░░░░░] ~46%
 | Phase 03-kernelbus-bridge P02 | 5min | 2 tasks | 3 files |
 | Phase 03-kernelbus-bridge P04 | 4 | 2 tasks | 2 files |
 | Phase 04-sdk-v01 P01 | 5min | 2 tasks | 12 files |
+| Phase 04-sdk-v01 P02 | 10min | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Progress: [████░░░░░░] ~46%
 - [Phase 03-04]: setWindowTitle uses useWindowStore.setState (no action exists); other callbacks use useWindowStore.getState().action()
 - [Phase 04-sdk-v01]: @vidorra/bus is a leaf package (zero workspace deps) — sdk and kernel both depend on it, no circular paths
 - [Phase 04-sdk-v01]: packages/types/src/kernel-bus.ts kept as backward-compat re-export from @vidorra/bus (not deleted)
+- [Phase 04-sdk-v01]: createApp() is a factory (not singleton) — one KernelBusClient per app context; Vite lib with external:[] inlines @vidorra/bus for self-contained bundle
+- [Phase 04-sdk-v01]: app.ready() returns Promise.resolve() immediately after sendReady() — unidirectional signal, no Shell ACK needed; vite-plugin-dts with insertTypesEntry:true for dist/index.d.ts generation
 
 ### Pending Todos
 
@@ -94,6 +97,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T02:35:07.515Z
-Stopped at: Completed 04-01-PLAN.md (@vidorra/bus package extraction)
+Last session: 2026-04-03T02:45:47.582Z
+Stopped at: Completed 04-02-PLAN.md (@vidorra/sdk createApp() implementation + Vite build)
 Resume file: None
