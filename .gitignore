@@ -8,3 +8,4 @@ dist/
 .reference/
 *.tsbuildinfo
 .claude/worktrees/
+packages/sdk/dist/
