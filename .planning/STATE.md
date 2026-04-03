@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-03T03:20:08.977Z"
+stopped_at: Completed 05-built-in-apps 05-03-PLAN.md
+last_updated: "2026-04-03T06:01:01.586Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 15
-  completed_plans: 15
+  total_plans: 20
+  completed_plans: 16
   percent: 46
 ---
 
@@ -53,6 +53,7 @@ Progress: [████░░░░░░] ~46%
 | Phase 03-kernelbus-bridge P04 | 4 | 2 tasks | 2 files |
 | Phase 04-sdk-v01 P01 | 5min | 2 tasks | 12 files |
 | Phase 04-sdk-v01 P02 | 10min | 2 tasks | 9 files |
+| Phase 05-built-in-apps P03 | 6min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,9 @@ Progress: [████░░░░░░] ~46%
 - [Phase 04-sdk-v01]: packages/types/src/kernel-bus.ts kept as backward-compat re-export from @vidorra/bus (not deleted)
 - [Phase 04-sdk-v01]: createApp() is a factory (not singleton) — one KernelBusClient per app context; Vite lib with external:[] inlines @vidorra/bus for self-contained bundle
 - [Phase 04-sdk-v01]: app.ready() returns Promise.resolve() immediately after sendReady() — unidirectional signal, no Shell ACK needed; vite-plugin-dts with insertTypesEntry:true for dist/index.d.ts generation
+- [Phase 05-built-in-apps]: SDK calls (app.ready, app.theme.onChange, app.window.close) in main.tsx, not App.tsx — keeps UI component pure React, testable without SDK mock
+- [Phase 05-built-in-apps]: CSS tokens redeclared in iframe app body selector — iframes cannot inherit Shell :root variables
+- [Phase 05-built-in-apps]: Welcome app build output (outDir) targets shell public/apps/welcome — replaces static Phase 2 placeholder
 
 ### Pending Todos
 
@@ -97,6 +101,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T03:20:08.973Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-built-in-apps/05-CONTEXT.md
+Last session: 2026-04-03T06:01:01.576Z
+Stopped at: Completed 05-built-in-apps 05-03-PLAN.md
+Resume file: None
