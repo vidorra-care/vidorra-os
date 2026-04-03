@@ -9,7 +9,7 @@ Vidorra OS is a browser-based macOS-style Web Desktop OS with a framework-agnost
 - [x] **Phase 0: Scaffolding** - Monorepo skeleton, toolchain, all packages/apps wired up
 - [x] **Phase 1: Kernel** - AppRegistry + ThemeEngine — core logic without UI
 - [x] **Phase 2: Shell** - WindowManager + Dock + Menubar + Desktop — visual shell
-- [x] **Phase 3: KernelBus (Bridge)** - postMessage RPC between Shell and sandboxed App iframes (completed 2026-04-02)
+- [x] **Phase 3: KernelBus (Bridge)** - postMessage RPC between Shell and sandboxed App iframes (completed 2026-04-02)
 - [ ] **Phase 4: SDK v0.1** - Developer-facing API (`createApp`, window/theme APIs)
 - [ ] **Phase 5: Built-in Apps** - App Store, Settings, Calculator, Welcome
 - [ ] **Phase 6: Integration & Polish** - E2E testing, animation tuning, final MVP verification
@@ -75,6 +75,8 @@ Plans:
 - [x] 03-02: KernelBusHost (Shell-side)
 - [x] 03-03: KernelBusClient (SDK-side)
 - [x] 03-04: Integration and push notifications
+
+### Phase 4: SDK v0.1
 **Goal**: `@vidorra/sdk` package exposing `createApp()` with `window` and `theme` APIs; TypeScript types; ESM bundle < 8 KB gzip.
 **Depends on**: Phase 3
 **Requirements**: SDK-01, SDK-02, SDK-03, SDK-04
@@ -83,7 +85,11 @@ Plans:
   2. `app.window.setTitle('Test')` causes Shell window title to update
   3. `pnpm build` produces a bundle ≤ 8 KB gzip
   4. Full TypeScript type coverage (no implicit `any`)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Create @vidorra/bus package (migrate KernelBusClient + bus types from kernel/types)
+- [ ] 04-02-PLAN.md — Implement @vidorra/sdk (createApp, VidorraApp interfaces, Vite lib build, unit tests)
 
 ### Phase 5: Built-in Apps
 **Goal**: App Store (list + install from URL + uninstall), Settings (theme + wallpaper), Calculator (zero-dependency), Welcome (first-launch). All apps load as iframes via AppRegistry.
@@ -117,6 +123,6 @@ Plans:
 | 1. Kernel | 3/3 | Complete | 2026-04-01 |
 | 2. Shell | 9/9 | Complete | 2026-04-02 |
 | 3. KernelBus | 4/4 | Complete   | 2026-04-02 |
-| 4. SDK v0.1 | 0/TBD | Not started | - |
+| 4. SDK v0.1 | 0/2 | Not started | - |
 | 5. Built-in Apps | 0/TBD | Not started | - |
 | 6. Integration & Polish | 0/TBD | Not started | - |
