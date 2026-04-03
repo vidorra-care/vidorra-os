@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "tsc --noEmit"
   },
   "exports": {
     ".": {
@@ -13,7 +14,8 @@
     }
   },
   "dependencies": {
-    "@vidorra/types": "workspace:*"
+    "@vidorra/types": "workspace:*",
+    "@vidorra/bus": "workspace:*"
   },
   "devDependencies": {
     "happy-dom": "^14.0.0",

@@ -1,5 +1,5 @@
 // packages/kernel/src/kernel-bus-host.ts
-import type { KernelBusMessage, KernelBusResponse, KernelBusPush } from '@vidorra/types'
+import type { KernelBusMessage, KernelBusResponse, KernelBusPush } from '@vidorra/bus'
 import { themeEngine } from './theme-engine'
 import type { ThemeMode } from './theme-engine'
 
