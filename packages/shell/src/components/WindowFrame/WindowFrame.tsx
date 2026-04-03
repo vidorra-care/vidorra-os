@@ -6,7 +6,6 @@ import { useWindowStore, type WindowStoreWindow } from '../../stores/useWindowSt
 import { useDockStore } from '../../stores/useDockStore'
 import { TrafficLights } from './TrafficLights'
 import styles from './WindowFrame.module.css'
-
 interface WindowFrameProps {
   window: WindowStoreWindow
 }
@@ -25,6 +24,19 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   const prevStateRef = useRef(win.state)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const glassRef = useRef<HTMLDivElement>(null)
+
+  // Keep --win-x/--win-y in sync so the glass ::before pseudo-element
+  // can reverse-offset the wallpaper to stay aligned with the desktop.
+  const syncGlassPos = (x: number, y: number) => {
+    if (!glassRef.current) return
+    glassRef.current.style.setProperty('--win-x', `${x}px`)
+    glassRef.current.style.setProperty('--win-y', `${y}px`)
+  }
+
+  useEffect(() => {
+    syncGlassPos(win.rect.x, win.rect.y)
+  })
 
   // Show window before restore animation when un-minimizing
   useEffect(() => {
@@ -105,8 +117,12 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
       minHeight={win.minHeight ?? 150}
       style={{ zIndex: win.zIndex, pointerEvents: isMinimized ? 'none' : 'auto' }}
       onDragStart={() => setIsDragging(true)}
+      onDrag={(_e, d) => {
+        syncGlassPos(d.x, d.y)
+      }}
       onDragStop={(_e, d) => {
         setIsDragging(false)
+        syncGlassPos(d.x, d.y)
         setWindowRect(win.id, { ...win.rect, x: d.x, y: d.y })
       }}
       onResizeStop={handleResizeStop}
@@ -129,6 +145,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
               <TrafficLights windowId={win.id} focused={win.focused} />
             </div>
             <div
+              ref={glassRef}
               className={[
                 styles.contentFull,
                 win.windowStyle === 'glass-dark' ? styles.glassDark : '',
@@ -153,6 +170,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
               <span className={styles.title}>{win.title}</span>
             </div>
             <div
+              ref={glassRef}
               className={[
                 styles.content,
                 win.windowStyle === 'glass-dark' ? styles.glassDark : '',

@@ -98,22 +98,27 @@
 .glassLight {
   position: relative;
   isolation: isolate;
+  overflow: hidden;
 }
 
-/* Pseudo-element mirrors the desktop wallpaper with background-attachment:fixed
-   so it auto-aligns with the desktop as the window is dragged. Then blur is applied
-   on this layer — which is NOT an iframe, so backdrop-filter actually works. */
+/* Full-viewport wallpaper layer, reverse-offset to stay aligned with the desktop.
+   --win-x / --win-y are kept in sync by WindowFrame.tsx on every drag tick. */
 .glassDark::before,
 .glassLight::before {
   content: '';
   position: absolute;
-  inset: -10px; /* extra bleed prevents blur edge fringing */
-  z-index: 0;
+  left: calc(-1 * var(--win-x, 0px));
+  top:  calc(-1 * var(--win-y, 0px));
+  width: 100vw;
+  height: 100vh;
   background-image: var(--wallpaper-url, none);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-repeat: no-repeat;
   filter: blur(24px) saturate(1.6) brightness(0.9);
+  transform: scale(1.05); /* absorb blur edge fringing */
+  transform-origin: top left;
+  z-index: 0;
   pointer-events: none;
 }
 
