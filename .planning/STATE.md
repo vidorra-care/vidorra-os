@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: executing
-stopped_at: Completed 05-04-PLAN.md
-last_updated: "2026-04-03T06:14:38.012Z"
+stopped_at: Completed 05-05-PLAN.md
+last_updated: "2026-04-03T06:28:21.071Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 20
-  completed_plans: 18
-  percent: 90
+  completed_plans: 19
+  percent: 95
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 5
-Plan: 04 complete (05 next)
+Plan: 05 complete (all plans done — verification pending)
 Status: Executing
 Last activity: 2026-04-03
 
-Progress: [█████████░] ~90%
+Progress: [█████████░] ~95%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [█████████░] ~90%
 | Phase 05-built-in-apps P02 | 3min | 2 tasks | 4 files |
 | Phase 05-built-in-apps P03 | 6min | 2 tasks | 12 files |
 | Phase 05-built-in-apps P04 | 6min | 2 tasks | 10 files |
+| Phase 05-built-in-apps P05 | 8min | 2 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,9 @@ Progress: [█████████░] ~90%
 - [Phase 05-built-in-apps]: CSS tokens redeclared in iframe app body selector — iframes cannot inherit Shell :root variables
 - [Phase 05-built-in-apps]: Welcome app build output (outDir) targets shell public/apps/welcome — replaces static Phase 2 placeholder
 - [Phase 05-built-in-apps]: Settings imports themeEngine directly from @vidorra/kernel (same-origin, per D-18) — not via SDK bridge; wallpaper via localStorage.setItem + StorageEvent
+- [Phase 05-built-in-apps]: install() returns Promise<boolean> (hadError) — avoids stale closure reading installError after await
+- [Phase 05-built-in-apps]: CSS position:fixed overlay for InstallModal — sandbox may block showModal()
+- [Phase 05-built-in-apps]: Lightweight custom context menu in AppCard — iframe cannot import shell React components
 
 ### Pending Todos
 
@@ -110,6 +114,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T06:14:38.001Z
-Stopped at: Completed 05-04-PLAN.md
+Last session: 2026-04-03T06:28:21.062Z
+Stopped at: Completed 05-05-PLAN.md
 Resume file: None

@@ -1,0 +1,92 @@
+.detail {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.backBtn {
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--app-font-family);
+  color: var(--app-color-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.backBtn:hover {
+  opacity: 0.8;
+}
+
+/* Card: icon left + meta right (UI-SPEC: 72px icon) */
+.card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--color-surface);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.icon {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.version {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.description {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin: 8px 0 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Uninstall button: destructive red (#d93025) (UI-SPEC color) */
+.uninstallBtn {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--app-font-family);
+  color: white;
+  background: #d93025;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 80ms ease;
+}
+
+.uninstallBtn:hover {
+  filter: brightness(0.9);
+}
