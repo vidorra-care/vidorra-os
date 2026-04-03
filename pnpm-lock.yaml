@@ -98,6 +98,18 @@ importers:
         specifier: ^6.0.0
         version: 6.4.1
 
+  packages/bus:
+    devDependencies:
+      happy-dom:
+        specifier: ^14.0.0
+        version: 14.12.3
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4(happy-dom@14.12.3)(jsdom@25.0.1)
+
   packages/kernel:
     dependencies:
       '@vidorra/types':

@@ -1,6 +1,6 @@
-// packages/kernel/src/kernel-bus-client.test.ts
+// packages/bus/src/client.test.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { KernelBusClient } from './kernel-bus-client'
+import { KernelBusClient } from './client'
 
 describe('KernelBusClient', () => {
   let client: KernelBusClient

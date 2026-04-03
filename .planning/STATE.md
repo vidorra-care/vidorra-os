@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 4 context gathered
-last_updated: "2026-04-03T02:04:46.904Z"
+stopped_at: Completed 04-01-PLAN.md (@vidorra/bus package extraction)
+last_updated: "2026-04-03T02:35:07.520Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 6
@@ -51,6 +51,7 @@ Progress: [████░░░░░░] ~46%
 | Phase 03-kernelbus-bridge P03 | 4min | 2 tasks | 3 files |
 | Phase 03-kernelbus-bridge P02 | 5min | 2 tasks | 3 files |
 | Phase 03-kernelbus-bridge P04 | 4 | 2 tasks | 2 files |
+| Phase 04-sdk-v01 P01 | 5min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,8 @@ Progress: [████░░░░░░] ~46%
 - [Phase 03-04]: kernelBusHost.init() placed before createRoot().render() in main.tsx — trust model active before any iframe mounts (D-01)
 - [Phase 03-04]: WindowFrame useEffect [win.id] dep: registerFrame on mount, unregisterFrame in cleanup — correct lifecycle for trust model
 - [Phase 03-04]: setWindowTitle uses useWindowStore.setState (no action exists); other callbacks use useWindowStore.getState().action()
+- [Phase 04-sdk-v01]: @vidorra/bus is a leaf package (zero workspace deps) — sdk and kernel both depend on it, no circular paths
+- [Phase 04-sdk-v01]: packages/types/src/kernel-bus.ts kept as backward-compat re-export from @vidorra/bus (not deleted)
 
 ### Pending Todos
 
@@ -91,6 +94,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T02:04:46.898Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-sdk-v01/04-CONTEXT.md
+Last session: 2026-04-03T02:35:07.515Z
+Stopped at: Completed 04-01-PLAN.md (@vidorra/bus package extraction)
+Resume file: None

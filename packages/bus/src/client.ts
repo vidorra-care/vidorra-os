@@ -1,4 +1,4 @@
-import type { KernelBusMessage, KernelBusResponse, KernelBusPush } from '@vidorra/types'
+import type { KernelBusMessage, KernelBusResponse, KernelBusPush } from './types'
 
 type PushHandler = (push: KernelBusPush) => void
 
