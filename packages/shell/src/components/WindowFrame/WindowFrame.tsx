@@ -23,7 +23,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   const [isHidden, setIsHidden] = useState(false)
   const prevStateRef = useRef(win.state)
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const [isDragging, setIsDragging] = useState(false)
+  const isDraggingRef = useRef(false)
   const glassBgRef = useRef<HTMLDivElement>(null)
   const rndRef = useRef<Rnd>(null)
 
@@ -43,8 +43,11 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   }
 
   // Initial sync and state-driven position changes (maximize, restore)
+  // Guard: skip during drag so onDrag's real-time transform isn't overwritten
   useEffect(() => {
-    syncGlassBg(win.rect.x, win.rect.y)
+    if (!isDraggingRef.current) {
+      syncGlassBg(win.rect.x, win.rect.y)
+    }
   })
 
   // Show window before restore animation when un-minimizing
@@ -109,7 +112,6 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
     win.immersiveTitlebar ? styles.immersive : '',
     isMaximized ? styles.maximized : '',
     isHidden ? styles.minimizedHidden : '',
-    isDragging ? styles.dragging : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -126,12 +128,16 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
       minWidth={win.minWidth ?? 200}
       minHeight={win.minHeight ?? 150}
       style={{ zIndex: win.zIndex, pointerEvents: isMinimized ? 'none' : 'auto' }}
-      onDragStart={() => setIsDragging(true)}
+      onDragStart={() => {
+        isDraggingRef.current = true
+        rndRef.current?.getSelfElement()?.setAttribute('data-dragging', 'true')
+      }}
       onDrag={() => {
         syncGlassBgFromDom()
       }}
       onDragStop={(_e, d) => {
-        setIsDragging(false)
+        isDraggingRef.current = false
+        rndRef.current?.getSelfElement()?.removeAttribute('data-dragging')
         syncGlassBg(d.x, d.y)
         setWindowRect(win.id, { ...win.rect, x: d.x, y: d.y })
       }}
@@ -163,7 +169,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
             >
               <div ref={glassBgRef} className={styles.glassBg} />
               <div className={styles.glassTint} />
-              {isDragging && <div className={styles.dragOverlay} />}
+              <div className={styles.dragOverlay} />
               <iframe
                 ref={iframeRef}
                 src={win.url}
@@ -188,7 +194,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
             >
               <div ref={glassBgRef} className={styles.glassBg} />
               <div className={styles.glassTint} />
-              {isDragging && <div className={styles.dragOverlay} />}
+              <div className={styles.dragOverlay} />
               <iframe
                 ref={iframeRef}
                 src={win.url}

@@ -166,12 +166,20 @@
   pointer-events: none;
 }
 
-.dragging {
-  user-select: none;
-}
-
 .dragOverlay {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
+  display: none;
+  pointer-events: none;
+}
+
+/* Activated via data attribute (no re-render) */
+[data-dragging] .dragOverlay {
+  display: block;
+  pointer-events: auto;
+}
+
+[data-dragging] {
+  user-select: none;
 }
