@@ -148,3 +148,11 @@ None - no external service configuration required.
 ---
 *Phase: 05-built-in-apps*
 *Completed: 2026-04-03*
+
+## Self-Check: PASSED
+
+- All 15 files created/modified: FOUND
+- Commit 7e9c591 (Task 1): FOUND
+- Commit 07559d1 (Task 2): FOUND
+- pnpm test: 65/65 tests passing
+- TypeScript build: clean (0 errors)
