@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v0.1
 milestone_name: "**Goal**: `@vidorra/sdk` package exposing `createApp"
 status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-03T03:20:08.977Z"
+stopped_at: Completed 05-built-in-apps-05-02-PLAN.md
+last_updated: "2026-04-03T05:59:24.869Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 15
-  completed_plans: 15
-  percent: 46
+  total_plans: 20
+  completed_plans: 17
+  percent: 85
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** Any web app runs as a first-class citizen inside a macOS-style browser desktop with a single SDK call.
-**Current focus:** Phase 04 — sdk-v01
+**Current focus:** Phase 05 — built-in-apps
 
 ## Current Position
 
 Phase: 5
-Plan: Not started
-Status: Ready to execute
+Plan: 02 complete (03 next)
+Status: Executing
 Last activity: 2026-04-03
 
-Progress: [████░░░░░░] ~46%
+Progress: [█████████░] ~85%
 
 ## Performance Metrics
 
@@ -53,6 +53,8 @@ Progress: [████░░░░░░] ~46%
 | Phase 03-kernelbus-bridge P04 | 4 | 2 tasks | 2 files |
 | Phase 04-sdk-v01 P01 | 5min | 2 tasks | 12 files |
 | Phase 04-sdk-v01 P02 | 10min | 2 tasks | 9 files |
+| Phase 05-built-in-apps P01 | 7min | 3 tasks | 17 files |
+| Phase 05-built-in-apps P02 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -86,6 +88,11 @@ Progress: [████░░░░░░] ~46%
 - [Phase 04-sdk-v01]: packages/types/src/kernel-bus.ts kept as backward-compat re-export from @vidorra/bus (not deleted)
 - [Phase 04-sdk-v01]: createApp() is a factory (not singleton) — one KernelBusClient per app context; Vite lib with external:[] inlines @vidorra/bus for self-contained bundle
 - [Phase 04-sdk-v01]: app.ready() returns Promise.resolve() immediately after sendReady() — unidirectional signal, no Shell ACK needed; vite-plugin-dts with insertTypesEntry:true for dist/index.d.ts generation
+- [Phase 05-built-in-apps]: Vite proxy rewrites /apps/{id}/* -> localhost:{port}/* enabling shell to load app iframes in dev without CORS
+- [Phase 05-built-in-apps]: StorageEvent cross-iframe reactivity: iframes write localStorage, shell window listens via storage event for Dock and Desktop updates
+- [Phase 05-built-in-apps]: Calculator uses zero SDK deps per D-08 — only react + react-dom + dev tooling (vitest + happy-dom)
+- [Phase 05-built-in-apps]: evaluate() uses Function() wrapper with safe character regex allowlist (not Shunting-yard) — simpler and JS natively handles operator precedence
+- [Phase 05-built-in-apps]: Calculator is always dark glass (Calculator Exception) per UI-SPEC.md — ignores prefers-color-scheme; display is 3rem/weight-200, operators use hsla(32,87%,56%,1)
 
 ### Pending Todos
 
@@ -97,6 +104,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T03:20:08.973Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-built-in-apps/05-CONTEXT.md
+Last session: 2026-04-03T05:59:24.860Z
+Stopped at: Completed 05-built-in-apps-05-02-PLAN.md
+Resume file: None

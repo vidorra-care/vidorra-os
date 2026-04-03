@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { themeEngine, kernelBusHost } from '@vidorra/kernel'
 import { useWindowStore } from './stores/useWindowStore'
+import { useThemeStore } from './stores/useThemeStore'
 import './global.css'
 import App from './App'
 
@@ -37,6 +38,14 @@ kernelBusHost.init({
   getResolvedTheme: () => {
     return themeEngine.getResolvedMode()
   },
+})
+
+// Keep useThemeStore in sync when themeEngine is called directly (e.g., from Settings iframe)
+themeEngine.subscribe((mode) => {
+  const resolved = themeEngine.getResolvedMode()
+  useThemeStore.setState({ theme: resolved })
+  // Sync body class (themeEngine.applyTheme handles CSS vars, but body.dark class may lag)
+  document.body.classList.toggle('dark', resolved === 'dark')
 })
 
 createRoot(document.getElementById('root')!).render(

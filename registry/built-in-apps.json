@@ -12,10 +12,49 @@
       "minSize": { "width": 400, "height": 300 },
       "permissions": [],
       "menubar": {
-        "Store": [
-          { "label": "关于 App Store", "action": "about" }
-        ]
+        "Store": [{ "label": "关于 App Store", "action": "about" }]
       }
+    },
+    {
+      "id": "settings",
+      "name": "Settings",
+      "version": "1.0.0",
+      "entry": "/apps/settings/index.html",
+      "icon": "/app-icons/settings.svg",
+      "category": "system",
+      "defaultSize": { "width": 700, "height": 500 },
+      "minSize": { "width": 400, "height": 300 },
+      "permissions": [],
+      "menubar": {
+        "Settings": [{ "label": "About Settings", "action": "about" }]
+      },
+      "dockBreaksBefore": true
+    },
+    {
+      "id": "calculator",
+      "name": "Calculator",
+      "version": "1.0.0",
+      "entry": "/apps/calculator/index.html",
+      "icon": "/app-icons/calculator.svg",
+      "category": "utilities",
+      "defaultSize": { "width": 320, "height": 480 },
+      "minSize": { "width": 280, "height": 400 },
+      "permissions": [],
+      "menubar": {
+        "Calculator": [{ "label": "About Calculator", "action": "about" }]
+      }
+    },
+    {
+      "id": "welcome",
+      "name": "Welcome",
+      "version": "1.0.0",
+      "entry": "/apps/welcome/index.html",
+      "icon": "/app-icons/welcome.svg",
+      "category": "system",
+      "defaultSize": { "width": 480, "height": 360 },
+      "minSize": { "width": 360, "height": 280 },
+      "permissions": [],
+      "menubar": {}
     }
   ]
 }

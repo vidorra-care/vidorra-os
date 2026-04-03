@@ -3,9 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: 3010 },
+  server: { port: 3012 },
   build: {
-    outDir: '../../packages/shell/public/apps/app-store',
+    outDir: '../../packages/shell/public/apps/calculator',
     emptyOutDir: true,
   },
 })

@@ -18,6 +18,17 @@ export function Desktop() {
     if (stored) setWallpaperUrl(stored)
   }, [])
 
+  // React to wallpaper changes written by Settings iframe (storage event from same-origin iframe)
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY && e.newValue) {
+        setWallpaperUrl(e.newValue)
+      }
+    }
+    window.addEventListener('storage', handler)
+    return () => window.removeEventListener('storage', handler)
+  }, [])
+
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     setMenu({ x: e.clientX, y: e.clientY })
