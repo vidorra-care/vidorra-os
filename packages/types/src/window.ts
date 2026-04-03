@@ -21,4 +21,5 @@ export interface WindowDescriptor {
   zIndex: number
   windowStyle?: WindowStyle
   windowBackground?: string
+  immersiveTitlebar?: boolean
 }

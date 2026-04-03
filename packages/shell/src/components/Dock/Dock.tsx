@@ -41,6 +41,7 @@ export function Dock() {
       icon: app.icon,
       windowStyle: app.windowStyle,
       windowBackground: app.windowBackground,
+      immersiveTitlebar: app.immersiveTitlebar,
       rect: {
         x: Math.round((window.innerWidth - app.defaultSize.width) / 2),
         y: Math.round((window.innerHeight - 24 - app.defaultSize.height) / 2) + 24,

@@ -21,7 +21,6 @@ export default function App() {
 
   return (
     <section className={styles.container}>
-      <header className={`app-window-drag-handle ${styles.header}`} />
       <section className={styles.showArea}>{result}</section>
       <section className={styles.buttonsContainer}>
         <button className={styles.topRowButton} onClick={() => press('AC')}>

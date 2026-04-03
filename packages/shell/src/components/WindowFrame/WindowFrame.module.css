@@ -12,6 +12,11 @@
   position: relative;
 }
 
+/* Immersive mode: single full-height row, no titlebar row */
+.immersive {
+  grid-template-rows: 1fr;
+}
+
 /* Focused window */
 .windowFrame[data-focused='true'] {
   box-shadow:
@@ -64,6 +69,29 @@
 .content {
   overflow: hidden;
   position: relative;
+}
+
+/* Full-height content area for immersive titlebar mode */
+.contentFull {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+/* Traffic lights floating over content in immersive mode */
+.immersiveControls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: center;
+  /* Wide enough to drag the window from the top area */
+  width: 100%;
+  height: 2.5rem;
+  box-sizing: border-box;
+  cursor: default;
 }
 
 .glassDark {

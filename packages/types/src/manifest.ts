@@ -13,6 +13,7 @@ export interface AppManifest {
   dockBreaksBefore?: boolean
   windowStyle?: WindowStyle
   windowBackground?: string  // custom hsla/hex override, only meaningful when windowStyle is 'glass-*'
+  immersiveTitlebar?: boolean // traffic lights float over content, no titlebar row
 }
 
 export type WindowStyle = 'solid' | 'glass-dark' | 'glass-light'

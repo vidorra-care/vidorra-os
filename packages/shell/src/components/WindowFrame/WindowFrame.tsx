@@ -85,6 +85,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
 
   const frameClasses = [
     styles.windowFrame,
+    win.immersiveTitlebar ? styles.immersive : '',
     isMaximized ? styles.maximized : '',
     isHidden ? styles.minimizedHidden : '',
     isDragging ? styles.dragging : '',
@@ -121,28 +122,55 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
         className={frameClasses}
         style={{ width: '100%', height: '100%' }}
       >
-        <div className={`${styles.titlebar} window-drag-handle`} onDoubleClick={() => toggleMaximize(win.id)}>
-          <TrafficLights windowId={win.id} focused={win.focused} />
-          <span className={styles.title}>{win.title}</span>
-        </div>
-        <div
-          className={[
-            styles.content,
-            win.windowStyle === 'glass-dark' ? styles.glassDark : '',
-            win.windowStyle === 'glass-light' ? styles.glassLight : '',
-          ].filter(Boolean).join(' ')}
-          style={win.windowBackground ? { background: win.windowBackground, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)' } : undefined}
-        >
-          {/* Overlay prevents iframe from stealing mouse events during drag */}
-          {isDragging && <div className={styles.dragOverlay} />}
-          <iframe
-            ref={iframeRef}
-            src={win.url}
-            title={win.title}
-            className={win.windowStyle && win.windowStyle !== 'solid' ? styles.transparentIframe : ''}
-            sandbox="allow-scripts allow-same-origin"
-          />
-        </div>
+        {win.immersiveTitlebar ? (
+          <>
+            {/* Immersive: traffic lights float over content, full-height iframe */}
+            <div className={`${styles.immersiveControls} window-drag-handle`} onDoubleClick={() => toggleMaximize(win.id)}>
+              <TrafficLights windowId={win.id} focused={win.focused} />
+            </div>
+            <div
+              className={[
+                styles.contentFull,
+                win.windowStyle === 'glass-dark' ? styles.glassDark : '',
+                win.windowStyle === 'glass-light' ? styles.glassLight : '',
+              ].filter(Boolean).join(' ')}
+              style={win.windowBackground ? { background: win.windowBackground, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)' } : undefined}
+            >
+              {isDragging && <div className={styles.dragOverlay} />}
+              <iframe
+                ref={iframeRef}
+                src={win.url}
+                title={win.title}
+                className={win.windowStyle && win.windowStyle !== 'solid' ? styles.transparentIframe : ''}
+                sandbox="allow-scripts allow-same-origin"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={`${styles.titlebar} window-drag-handle`} onDoubleClick={() => toggleMaximize(win.id)}>
+              <TrafficLights windowId={win.id} focused={win.focused} />
+              <span className={styles.title}>{win.title}</span>
+            </div>
+            <div
+              className={[
+                styles.content,
+                win.windowStyle === 'glass-dark' ? styles.glassDark : '',
+                win.windowStyle === 'glass-light' ? styles.glassLight : '',
+              ].filter(Boolean).join(' ')}
+              style={win.windowBackground ? { background: win.windowBackground, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)' } : undefined}
+            >
+              {isDragging && <div className={styles.dragOverlay} />}
+              <iframe
+                ref={iframeRef}
+                src={win.url}
+                title={win.title}
+                className={win.windowStyle && win.windowStyle !== 'solid' ? styles.transparentIframe : ''}
+                sandbox="allow-scripts allow-same-origin"
+              />
+            </div>
+          </>
+        )}
       </motion.div>
     </Rnd>
   )

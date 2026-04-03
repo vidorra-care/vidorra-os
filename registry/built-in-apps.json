@@ -38,6 +38,7 @@
       "icon": "/app-icons/calculator-256.png",
       "category": "utilities",
       "windowStyle": "glass-dark",
+      "immersiveTitlebar": true,
       "defaultSize": { "width": 320, "height": 480 },
       "minSize": { "width": 280, "height": 400 },
       "permissions": [],
