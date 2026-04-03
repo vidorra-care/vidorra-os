@@ -25,16 +25,24 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [isDragging, setIsDragging] = useState(false)
   const glassBgRef = useRef<HTMLDivElement>(null)
+  const rndRef = useRef<Rnd>(null)
 
-  // Sync the glass background div's transform to be the inverse of the window position.
-  // Both transforms land on the compositor in the same frame — no layout, no paint.
   const syncGlassBg = (x: number, y: number) => {
     if (glassBgRef.current) {
       glassBgRef.current.style.transform = `translate(${-x}px, ${-y}px) scale(1.05)`
     }
   }
 
-  // Initial sync and any state-driven position changes (e.g. maximize)
+  // Read the actual viewport position from the Rnd DOM node — this is always correct
+  // even during drag when controlled d.x/d.y still reflects the stale store value.
+  const syncGlassBgFromDom = () => {
+    const el = rndRef.current?.getSelfElement()
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    syncGlassBg(rect.left, rect.top)
+  }
+
+  // Initial sync and state-driven position changes (maximize, restore)
   useEffect(() => {
     syncGlassBg(win.rect.x, win.rect.y)
   })
@@ -108,6 +116,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
 
   return (
     <Rnd
+      ref={rndRef}
       position={position}
       size={size}
       bounds="parent"
@@ -118,8 +127,8 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
       minHeight={win.minHeight ?? 150}
       style={{ zIndex: win.zIndex, pointerEvents: isMinimized ? 'none' : 'auto' }}
       onDragStart={() => setIsDragging(true)}
-      onDrag={(_e, d) => {
-        syncGlassBg(d.x, d.y)
+      onDrag={() => {
+        syncGlassBgFromDom()
       }}
       onDragStop={(_e, d) => {
         setIsDragging(false)
