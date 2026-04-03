@@ -1,0 +1,88 @@
+/* Token system — must be redeclared (iframes have isolated CSS scope) */
+body,
+body[data-theme='light'] {
+  --app-color-primary: hsl(211, 100%, 50%);
+  --app-color-primary-hsl: 211, 100%, 50%;
+  --color-text: rgba(0, 0, 0, 0.85);
+  --color-text-secondary: rgba(0, 0, 0, 0.5);
+  --color-bg: rgba(255, 255, 255, 0.8);
+  --app-font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', 'Helvetica',
+    'Arial', sans-serif;
+}
+
+:global(body.dark) {
+  --color-text: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-bg: rgba(30, 30, 30, 0.85);
+}
+
+:global(body) {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--app-font-family);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Welcome layout: full-screen centered flex column (UI-SPEC: gap 24px, padding 48px) */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 48px;
+  height: 100%;
+  text-align: center;
+}
+
+/* App icon: 80x80px (UI-SPEC) */
+.icon {
+  width: 80px;
+  height: 80px;
+}
+
+/* Display headline: 28px/600 (UI-SPEC Display scale) */
+.headline {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Body text: 14px/400, max-width 320px, secondary color, line-height 1.5 */
+.body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  max-width: 320px;
+  margin: 0;
+}
+
+/* Get Started button: accent bg, white text, 44px height, 8px radius */
+.cta {
+  background: var(--app-color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 44px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--app-font-family);
+  cursor: pointer;
+  transition: filter 100ms ease;
+}
+
+.cta:hover {
+  filter: brightness(0.9);
+}
+
+.cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem hsla(var(--app-color-primary-hsl), 0.4);
+}
