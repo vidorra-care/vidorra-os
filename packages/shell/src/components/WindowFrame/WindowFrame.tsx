@@ -134,7 +134,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
                 win.windowStyle === 'glass-dark' ? styles.glassDark : '',
                 win.windowStyle === 'glass-light' ? styles.glassLight : '',
               ].filter(Boolean).join(' ')}
-              style={win.windowBackground ? { background: win.windowBackground, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)' } : undefined}
+              style={win.windowBackground ? { '--glass-tint': win.windowBackground } as React.CSSProperties : undefined}
             >
               {isDragging && <div className={styles.dragOverlay} />}
               <iframe
@@ -158,7 +158,7 @@ export function WindowFrame({ window: win }: WindowFrameProps) {
                 win.windowStyle === 'glass-dark' ? styles.glassDark : '',
                 win.windowStyle === 'glass-light' ? styles.glassLight : '',
               ].filter(Boolean).join(' ')}
-              style={win.windowBackground ? { background: win.windowBackground, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)' } : undefined}
+              style={win.windowBackground ? { '--glass-tint': win.windowBackground } as React.CSSProperties : undefined}
             >
               {isDragging && <div className={styles.dragOverlay} />}
               <iframe

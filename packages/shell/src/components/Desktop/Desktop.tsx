@@ -18,6 +18,11 @@ export function Desktop() {
     if (stored) setWallpaperUrl(stored)
   }, [])
 
+  // Sync wallpaper URL to CSS variable so WindowFrame glass pseudo-element can mirror it
+  useEffect(() => {
+    document.documentElement.style.setProperty('--wallpaper-url', `url(${wallpaperUrl})`)
+  }, [wallpaperUrl])
+
   // React to wallpaper changes written by Settings iframe (storage event from same-origin iframe)
   useEffect(() => {
     const handler = (e: StorageEvent) => {
