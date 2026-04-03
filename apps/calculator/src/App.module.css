@@ -5,8 +5,8 @@
 .container {
   height: 100%;
   width: 100%;
-  background-color: hsla(0, 0%, 27%, 0.7);
-  backdrop-filter: blur(40px);
+  /* background and backdrop-filter now provided by Shell (WindowFrame glassDark) */
+  background: transparent;
   border-radius: inherit;
   display: grid;
   grid-template-rows: auto auto 1fr;

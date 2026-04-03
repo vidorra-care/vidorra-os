@@ -1,3 +1,5 @@
+import type { WindowStyle } from './manifest'
+
 export type WindowState = 'normal' | 'minimized' | 'maximized'
 
 export interface WindowRect {
@@ -17,4 +19,6 @@ export interface WindowDescriptor {
   state: WindowState
   focused: boolean
   zIndex: number
+  windowStyle?: WindowStyle
+  windowBackground?: string
 }

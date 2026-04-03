@@ -39,6 +39,8 @@ export function Dock() {
       title: app.name,
       url: app.entry,
       icon: app.icon,
+      windowStyle: app.windowStyle,
+      windowBackground: app.windowBackground,
       rect: {
         x: Math.round((window.innerWidth - app.defaultSize.width) / 2),
         y: Math.round((window.innerHeight - 24 - app.defaultSize.height) / 2) + 24,

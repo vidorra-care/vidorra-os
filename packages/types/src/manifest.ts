@@ -11,7 +11,11 @@ export interface AppManifest {
   menubar?: Record<string, MenuItem[]>
   spotlightActions?: SpotlightAction[]
   dockBreaksBefore?: boolean
+  windowStyle?: WindowStyle
+  windowBackground?: string  // custom hsla/hex override, only meaningful when windowStyle is 'glass-*'
 }
+
+export type WindowStyle = 'solid' | 'glass-dark' | 'glass-light'
 
 export interface MenuItem {
   label: string
