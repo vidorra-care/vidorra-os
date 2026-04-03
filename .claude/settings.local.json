@@ -51,7 +51,13 @@
       "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs commit 'docs\\(04-sdk-v01\\): create phase 4 plan' --files .planning/phases/04-sdk-v01/04-01-PLAN.md .planning/phases/04-sdk-v01/04-02-PLAN.md .planning/ROADMAP.md)",
       "Bash(npx vitest:*)",
       "Bash(pnpm --filter @vidorra/bus test)",
-      "Bash(pnpm --filter @vidorra/calculator test)"
+      "Bash(pnpm --filter @vidorra/calculator test)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{url_effective}\\\\n\" http://localhost:3000/apps/app-store/index.html)",
+      "Bash(curl -s http://localhost:3000/apps/app-store/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/src/main.tsx)",
+      "Bash(curl -s http://localhost:3000/src/main.tsx)",
+      "Bash(python -c \"import sys,json; [print\\(a['id'], '->', a['icon']\\) for a in json.load\\(sys.stdin\\)['apps']]\")",
+      "Bash(xargs grep:*)"
     ]
   }
 }

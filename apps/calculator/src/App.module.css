@@ -10,23 +10,13 @@
 }
 
 .showArea {
-  min-height: 4rem;
-  padding: 2.5rem 1rem 0.5rem; /* top padding makes room for floating traffic lights */
+  min-height: 5rem;
   font-size: 3rem;
   color: white;
   text-align: end;
   font-weight: 200;
   overflow: auto;
-}
-
-.showArea {
-  min-height: 4rem;
-  font-size: 3rem;
-  color: white;
-  text-align: end;
-  font-weight: 200;
-  overflow: auto;
-  padding: 0.5rem 1rem;
+  padding: 2.5rem 1rem 0.5rem 1rem;
 }
 
 .buttonsContainer {
